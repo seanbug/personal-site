@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Sean's Portfolio!</title>
+    
+    <!-- Preload critical images for faster initial render -->
+    <link rel="preload" as="image" href="images/favicon.png">
+    <link rel="preload" as="image" href="images/sean_profile.jpg">
+    <link rel="preload" as="image" href="images/SeansPortfolio.gif">
+    <link rel="preload" as="image" href="images/AboutMe.gif">
+    <link rel="preload" as="image" href="images/Projects.gif">
+    
+    <!-- Font preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sean's Portfolio</title>
+    
     <style>
         * {
             margin: 0;
@@ -63,9 +73,29 @@
             text-align: center;
             justify-content: center;
             display: flex;
-            margin-bottom: 40px;
             font-size: 28px;
             color: #333;
+            margin-bottom: 5px;
+        }
+
+        .job-titles {
+            font-weight: 600;
+            text-align: center;
+            justify-content: center;
+            display: flex;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .roles {
+            font-weight: 300;
+            text-align: center;
+            justify-content: center;
+            display: flex;
+            margin-bottom: 40px;
+            font-size: 14px;
+            color: #474747;
         }
 
         nav ul {
@@ -128,7 +158,7 @@
             background: white;
             border: 2px ridge #333;
             padding: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 0px;
             overflow: hidden;
             position: relative;
             height: 150px;
@@ -148,7 +178,7 @@
         .section-banner {
             background: white;
             border: 2px solid #333;
-            padding: 20px;
+            padding: 0px;
             margin-bottom: 30px;
             overflow: hidden;
             height: 150px;
@@ -177,15 +207,17 @@
         .photo-collage {
             margin-top: 50px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 150px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 10px;
             padding: 0px 0;
+            grid-auto-rows: 200px;
         }
 
         .collage-item {
             text-align: center;
             opacity: 0.9;
             transition: opacity 0.3s ease;
+            position: relative;
         }
 
         .collage-item:hover {
@@ -193,18 +225,25 @@
         }
 
         .collage-item img {
-            width: 100%;
-            height: 100%;
+            width: 105%;
+            height: 105%;
             object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            
+            display: block;
         }
 
         .collage-caption {
-            margin-top: 8px;
-            font-size: 12px;
-            color: #888;
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: hsl(0, 0%, 11%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 14px;
             font-style: italic;
+            opacity: .7
         }
 
         /* Content Sections */
@@ -234,13 +273,19 @@
         }
 
         .work-image-placeholder {
-            background: #f0f0f0;
-            border-radius: 8px;
-            padding: 100px;
-            text-align: center;
-            color: #999;
-            font-size: 18px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
             margin-top: 20px;
+        }
+
+        .work-image-placeholder img {
+            width: 100%;
+            height: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         /* Coffee Cup */
@@ -331,13 +376,13 @@
             opacity: 0;
             animation: stainAppear 0.5s ease-out forwards;
             background: 
-                radial-gradient(ellipse 100px 90px at 45% 55%, rgba(101, 67, 33, 0.5) 0%, transparent 70%),
-                radial-gradient(ellipse 60px 80px at 60% 40%, rgba(101, 67, 33, 0.4) 0%, transparent 65%),
-                radial-gradient(ellipse 100px 90px at 30% 45%, rgba(101, 67, 33, 0.45) 0%, transparent 70%),
-                radial-gradient(ellipse 70px 55px at 55% 65%, rgba(101, 67, 33, 0.35) 0%, transparent 75%),
-                radial-gradient(ellipse 100px 90px at 70% 50%, rgba(101, 67, 33, 0.4) 0%, transparent 70%),
-                radial-gradient(ellipse 100px 90px at 40% 70%, rgba(101, 67, 33, 0.3) 0%, transparent 70%),
-                radial-gradient(ellipse 100px 90px at 50% 50%, rgba(101, 67, 33, 0.3) 0%, rgba(101, 67, 33, 0.15) 50%, transparent 80%);
+                radial-gradient(ellipse 100px 90px at 45% 55%, rgba(101, 67, 33, 0.5) 0%, transparent 50%),
+                radial-gradient(ellipse 60px 80px at 60% 40%, rgba(101, 67, 33, 0.4) 0%, transparent 45%),
+                radial-gradient(ellipse 100px 90px at 30% 45%, rgba(101, 67, 33, 0.45) 0%, transparent 50%),
+                radial-gradient(ellipse 70px 55px at 55% 65%, rgba(101, 67, 33, 0.35) 0%, transparent 55%),
+                radial-gradient(ellipse 100px 90px at 70% 50%, rgba(101, 67, 33, 0.4) 0%, transparent 50%),
+                radial-gradient(ellipse 100px 90px at 40% 70%, rgba(101, 67, 33, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse 100px 90px at 50% 50%, rgba(101, 67, 33, 0.3) 0%, rgba(101, 67, 33, 0.15) 50%, transparent 60%);
         }
 
         @keyframes stainAppear {
@@ -349,6 +394,20 @@
                 opacity: 1;
                 transform: scale(1.5);
             }
+        }
+
+        @keyframes stainFadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .coffee-stain.fading {
+            animation: stainFadeOut 7s ease-out forwards;
+            animation-delay: 0s;
         }
 
         /* Project Grid */
@@ -525,6 +584,55 @@
             margin-bottom: 8px;
         }
 
+        /* Project Detail Image Layouts */
+        .project-image-single {
+            width: 100%;
+            max-width: 700px;
+            margin: 20px auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .project-image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .project-image-grid img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .project-image-row {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .project-image-row img {
+            flex: 1 1 calc(50% - 10px);
+            min-width: 250px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .image-caption {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
         .project-meta {
             color: #666;
             font-size: 14px;
@@ -595,7 +703,9 @@
                 <img src="images/sean_bug.jpg" alt="Sean's profile picture">
                 <!-- Upload your photo to the 'images' folder as profile.jpg (or update the filename here) -->
             </div>
-            <div class="site-title">Sean's Personal Website & Portfolio</div>
+            <div class="site-title">Sean Berg's Portfolio</div>
+            <div class="job-titles">Junior Specialist</div>
+            <div class="roles">Behavioralist, Brain Surgeon, Engineer, and Rock Climber</div>
             <nav>
                 <ul>
                     <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
@@ -624,7 +734,7 @@
         <main class="main-content">
             <!-- Home Section -->
             <section id="home" class="content-section active">
-                <h1 class="welcome-header fade-in">Hey! <br> Welcome to:</h1>
+                <h1 class="welcome-header fade-in">Hello, and welcome to:</h1>
                 <div class="scrolling-banner fade-in">
                     <img src="images/SeansPortfolio.gif" alt="Sean's portfolio - animated welcome banner">
                     <!-- Upload your home banner gif to the 'images' folder as home-banner.gif -->
@@ -635,20 +745,20 @@
                 <!-- Photo Collage -->
                 <div class="photo-collage">
                     <div class="collage-item fade-in">
-                        <img src="images/spectrogram_example.png" alt="Photo 1">
-                        <div class="collage-caption">hiking trip</div>
+                        <img src="images/spectrogram_example.png" alt="Photo 1" loading="lazy">
+                        <div class="collage-caption">Spectrograms</div>
                     </div>
                     <div class="collage-item fade-in">
-                        <img src="images/eeg1.jpg" alt="Photo 2">
-                        <div class="collage-caption">lab work</div>
+                        <img src="images/eeg1.jpg" alt="Photo 2" loading="lazy">
+                        <div class="collage-caption">DIY EEG/BCI Project</div>
                     </div>
                     <div class="collage-item fade-in">
-                        <img src="images/kcnt1_div3.jpg" alt="Photo 3">
-                        <div class="collage-caption">coffee break</div>
+                        <img src="images/kcnt1_div3.jpg" alt="Photo 3" loading="lazy">
+                        <div class="collage-caption">Cortical Primary Neuron Cultures</div>
                     </div>
                     <div class="collage-item fade-in">
-                        <img src="images/climbing.jpg" alt="Photo 4">
-                        <div class="collage-caption">field research</div>
+                        <img src="images/climbing.jpg" alt="Photo 4" loading="lazy">
+                        <div class="collage-caption">Rock Climbing!</div>
                     </div>
                 </div>
             </section>
@@ -660,12 +770,14 @@
                     
                 </div>
                 <h2 class="fade-in">About Me</h2>
-                <p class="fade-in">Welcome! I'm Sean, a neuroscience and biotech enthusiast with a passion for understanding the brain and developing innovative biotechnologies.</p>
-                <p class="fade-in">My work spans across computational neuroscience, experimental design, and biotech applications. I'm particularly interested in [add your specific interests here].</p>
+                <p class="fade-in">Welcome! I'm Sean, a junior specialist in neuroscience and biotech enthusiast with a passion for understanding the brain and identfying behavior-associated biomarkers in EEG.</p>
+                <p class="fade-in">In my current line of work involving several mouse models of neurodevelopmental disorders, I'm heavily involved in experimental design, behavioral experiments, craniotomy and brain surgery procedures, <em>in vivo</em>/<em>in vitro</em> neurophysiology classification, data processing, and manuscript preparation, though I'm mostly known by my lab coworkers as the "computer wizard guy".</p>
+                <p class="fade-in">I'm also working on a personal project where I'm self-collecting my own personal EEG dataset from an RC circuit EEG device I developed from scratch for the purposes of building a DIY brain-computer interface.</p>
+                <p class="fade-in">Outside of work, it's easiest to find me at the mountains hiking/rock climbing, or at the beach surfing/fortifying my sand castle.</p>
+                <p class="fade-in">Read more about my various projects in the projects section!</p>
                 <div class="work-image-placeholder fade-in">
-                    <img src="images/sean_crab.jpg" width="auto" height="250" alt="about me image">
-                    <div class="work-image-placeholder fade-in">
-                    <img src="images/yosemite.jpg" width="auto" height="250" alt="about me image2">
+                    <img src="images/sean_crab.jpg" alt="Sean with crab">
+                    <img src="images/yosemite.jpg" alt="Yosemite trip with Luuk">
                 </div>
             </section>
 
@@ -1125,11 +1237,16 @@
                 }, index * 100);
             });
 
-            // Add coffee stain (permanent until page refresh)
+            // Add coffee stain with fade-out after 3 seconds
             setTimeout(() => {
                 const stain = document.createElement('div');
-                stain.className = 'coffee-stain';
+                stain.className = 'coffee-stain fading';
                 document.body.appendChild(stain);
+                
+                // Remove stain after fade-out completes (3s delay + 1s animation)
+                setTimeout(() => {
+                    stain.remove();
+                }, 4000);
                 
                 // Clean up cups after stain appears
                 setTimeout(() => {
