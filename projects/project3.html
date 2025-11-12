@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 3 - Sean's Portfolio</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../images/favicon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: #f5f5f5;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Back Navigation */
+        .back-nav {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-link {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #0052a3;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Project Header */
+        .project-header {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .project-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .project-meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tag {
+            background: #e9ecef;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #495057;
+        }
+
+        /* Project Content */
+        .project-section {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .project-section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .project-section h3 {
+            font-size: 20px;
+            margin: 20px 0 10px 0;
+            color: #444;
+        }
+
+        .project-section p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .project-section ul, .project-section ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .project-section li {
+            margin-bottom: 8px;
+        }
+
+        /* Featured Image */
+        .featured-image {
+            width: 100%;
+            max-width: 700px;
+            margin: 20px auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .image-caption {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* Gallery Grid */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .image-grid img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Quick Facts Box */
+        .quick-facts {
+            background: #fff3cd;
+            border-left: 4px solid #856404;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .quick-facts h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #856404;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .project-title {
+                font-size: 28px;
+            }
+
+            .project-section {
+                padding: 25px;
+            }
+
+            .container {
+                padding: 20px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Navigation -->
+    <nav class="back-nav">
+        <a href="../index.html" class="back-link">
+            ← Back to Portfolio
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Project Header -->
+        <div class="project-header">
+            <h1 class="project-title">Project Title 3</h1>
+            <div class="project-meta">
+                <strong>Completed:</strong> July 2024<br>
+                <strong>Type:</strong> Side Project / Personal Research
+            </div>
+            <p>
+                A concise overview of this project. What did you build or explore? What was the main idea? 
+                Keep this brief and engaging - just 1-2 sentences explaining what this is about.
+            </p>
+            <div class="project-tags">
+                <span class="tag">Experimental</span>
+                <span class="tag">Biotech</span>
+                <span class="tag">Field Work</span>
+            </div>
+        </div>
+
+        <!-- Main Image -->
+        <img src="../images/project3-main.jpg" alt="Project 3 main image" class="featured-image">
+        <div class="image-caption">Main project image or result visualization</div>
+
+        <!-- Overview -->
+        <div class="project-section">
+            <h2>Overview</h2>
+            <p>
+                Describe the project in more detail. What inspired you to work on this? What were you 
+                trying to learn or achieve?
+            </p>
+
+            <div class="quick-facts">
+                <h3>Quick Facts</h3>
+                <ul>
+                    <li><strong>Duration:</strong> 2 weeks</li>
+                    <li><strong>Team Size:</strong> Solo project</li>
+                    <li><strong>Tools Used:</strong> List of main tools or methods</li>
+                    <li><strong>Outcome:</strong> Brief result statement</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- What I Did -->
+        <div class="project-section">
+            <h2>What I Did</h2>
+            <p>
+                Walk through the main steps or activities of the project:
+            </p>
+            <ol>
+                <li>First major step or phase</li>
+                <li>Second step or activity</li>
+                <li>Third step or milestone</li>
+                <li>Final steps and wrap-up</li>
+            </ol>
+
+            <p>
+                Add more details about the process. What was interesting? What challenges did you face? 
+                What surprised you?
+            </p>
+        </div>
+
+        <!-- Results & Learnings -->
+        <div class="project-section">
+            <h2>Results & What I Learned</h2>
+            
+            <h3>Key Outcomes</h3>
+            <ul>
+                <li>Main result or finding from the project</li>
+                <li>Secondary outcome or observation</li>
+                <li>Unexpected discovery or insight</li>
+            </ul>
+
+            <h3>Skills & Knowledge Gained</h3>
+            <ul>
+                <li>New technique or skill you developed</li>
+                <li>Concept or theory you now understand better</li>
+                <li>Practical experience with a tool or method</li>
+            </ul>
+
+            <h3>Personal Reflections</h3>
+            <p>
+                What did this project mean to you? How did it influence your thinking or future work? 
+                What would you do differently next time?
+            </p>
+        </div>
+
+        <!-- Gallery (Optional) -->
+        <div class="project-section">
+            <h2>Project Gallery</h2>
+            <p>Additional images from the project:</p>
+            
+            <div class="image-grid">
+                <img src="../images/project3-img1.jpg" alt="Gallery image 1">
+                <img src="../images/project3-img2.jpg" alt="Gallery image 2">
+                <img src="../images/project3-img3.jpg" alt="Gallery image 3">
+                <img src="../images/project3-img4.jpg" alt="Gallery image 4">
+            </div>
+        </div>
+
+        <!-- Final Thoughts -->
+        <div class="project-section">
+            <h2>Final Thoughts</h2>
+            <p>
+                Wrap up with any concluding thoughts. What's next? How does this project fit into your 
+                broader interests or research goals?
+            </p>
+        </div>
+    </div>
+</body>
+</html>

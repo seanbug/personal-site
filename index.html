@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sean's Portfolio</title>
@@ -12,10 +15,10 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f5f5f5;
-            overflow-x: hidden;
-        }
+        font-family: Georgia, 'Times New Roman', serif;
+        background: #f5f5f5;
+        overflow-x: hidden;
+}
 
         .container {
             display: flex;
@@ -27,7 +30,7 @@
             width: 280px;
             background: white;
             padding: 40px 30px;
-            border-right: 2px solid #e0e0e0;
+            border-right: 5px ridge #333;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
@@ -45,6 +48,7 @@
             font-size: 14px;
             color: #666;
             overflow: hidden;
+            border: 10px ridge hsl(0, 87%, 34%);
         }
 
         .profile-pic img {
@@ -52,11 +56,15 @@
             height: 100%;
             object-fit: cover;
         }
-
+        
+        /*title section*/
         .site-title {
+            font-weight: 800;
             text-align: center;
+            justify-content: center;
+            display: flex;
             margin-bottom: 40px;
-            font-size: 16px;
+            font-size: 28px;
             color: #333;
         }
 
@@ -71,7 +79,7 @@
         nav a {
             text-decoration: none;
             color: #333;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 500;
             display: block;
             padding: 8px 0;
@@ -80,7 +88,8 @@
 
         nav a:hover,
         nav a.active {
-            color: #0066cc;
+            font-weight: 1000;
+            color: hsl(0, 87%, 34%);
         }
 
         /* Main Content */
@@ -89,15 +98,16 @@
             flex: 1;
             padding: 40px 60px;
         }
-
+        /*home page background box*/
         .welcome-section, #home {
             background: white;
-            padding: 30px;
+            padding: 30px 30px 60px 30px; /* Extended bottom padding */
             border-radius: 8px;
             margin-bottom: 40px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             overflow: hidden;
+            min-height: 80vh; /* Makes the white box extend down more */
         }
 
         #home.content-section {
@@ -113,23 +123,24 @@
             font-weight: 600;
             margin-bottom: 20px;
         }
-
+        /*bounding box for the eeg welcome gif*/
         .scrolling-banner {
             background: white;
-            border: 2px solid #333;
-            padding: 20px;
+            border: 2px ridge #333;
+            padding: 10px;
             margin-bottom: 20px;
             overflow: hidden;
             position: relative;
-            height: 100px;
+            height: 150px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 8px;
         }
 
         .scrolling-banner img {
             max-width: 100%;
-            max-height: 100%;
+            max-height: 200%;
             object-fit: contain;
         }
 
@@ -140,7 +151,7 @@
             padding: 20px;
             margin-bottom: 30px;
             overflow: hidden;
-            height: 100px;
+            height: 150px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -149,7 +160,7 @@
 
         .section-banner img {
             max-width: 100%;
-            max-height: 100%;
+            max-height: 200%;
             object-fit: contain;
         }
 
@@ -160,6 +171,40 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+        }
+
+        /* Photo Collage Section */
+        .photo-collage {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 150px;
+            padding: 0px 0;
+        }
+
+        .collage-item {
+            text-align: center;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .collage-item:hover {
+            opacity: 1;
+        }
+
+        .collage-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .collage-caption {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
         }
 
         /* Content Sections */
@@ -220,25 +265,25 @@
             position: fixed;
             pointer-events: none;
             z-index: 1000;
-            animation: flyToCorner 1s ease-in-out forwards;
+            animation: flyToCorner .5s ease-in-out forwards;
         }
 
         @keyframes flyToCorner {
-            0% {
+            100% {
                 transform: translate(0, 0) rotate(0deg);
             }
-            50% {
+            100% {
                 transform: translate(25vw, -10vh) rotate(180deg);
             }
             100% {
-                transform: translate(var(--target-x), var(--target-y)) rotate(360deg);
+                transform: translate(var(--target-x), var(--target-y)) rotate(0deg);
             }
         }
 
         .cup-corner {
             position: fixed;
             bottom: 20px;
-            right: 20px;
+            right: 5px;
             z-index: 999;
         }
 
@@ -248,9 +293,9 @@
             bottom: 0;
             right: 0;
             opacity: 0;
-            transition: bottom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+            transition: bottom 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
                         opacity 0.3s ease, 
-                        transform 0.6s ease;
+                        transform 0.8s ease;
         }
 
         .stacked-cup.visible {
@@ -258,7 +303,7 @@
         }
 
         .toppling {
-            animation: topple 0.8s ease-out forwards;
+            animation: topple .5s ease-out forwards;
         }
 
         @keyframes topple {
@@ -266,11 +311,11 @@
                 transform: rotate(0deg);
                 opacity: 1;
             }
-            50% {
-                transform: rotate(90deg) translateX(50px);
+            100% {
+                transform: rotate(-90deg) translateX(0px);
             }
             100% {
-                transform: rotate(180deg) translateX(100px) translateY(50px);
+                transform: rotate(-90deg) translateX(-10px) translateY(100px);
                 opacity: 0;
             }
         }
@@ -286,12 +331,12 @@
             opacity: 0;
             animation: stainAppear 0.5s ease-out forwards;
             background: 
-                radial-gradient(ellipse 80px 60px at 45% 55%, rgba(101, 67, 33, 0.5) 0%, transparent 70%),
+                radial-gradient(ellipse 100px 90px at 45% 55%, rgba(101, 67, 33, 0.5) 0%, transparent 70%),
                 radial-gradient(ellipse 60px 80px at 60% 40%, rgba(101, 67, 33, 0.4) 0%, transparent 65%),
-                radial-gradient(ellipse 50px 50px at 30% 45%, rgba(101, 67, 33, 0.45) 0%, transparent 70%),
+                radial-gradient(ellipse 100px 90px at 30% 45%, rgba(101, 67, 33, 0.45) 0%, transparent 70%),
                 radial-gradient(ellipse 70px 55px at 55% 65%, rgba(101, 67, 33, 0.35) 0%, transparent 75%),
-                radial-gradient(ellipse 40px 45px at 70% 50%, rgba(101, 67, 33, 0.4) 0%, transparent 70%),
-                radial-gradient(ellipse 35px 40px at 40% 70%, rgba(101, 67, 33, 0.3) 0%, transparent 70%),
+                radial-gradient(ellipse 100px 90px at 70% 50%, rgba(101, 67, 33, 0.4) 0%, transparent 70%),
+                radial-gradient(ellipse 100px 90px at 40% 70%, rgba(101, 67, 33, 0.3) 0%, transparent 70%),
                 radial-gradient(ellipse 100px 90px at 50% 50%, rgba(101, 67, 33, 0.3) 0%, rgba(101, 67, 33, 0.15) 50%, transparent 80%);
         }
 
@@ -302,7 +347,7 @@
             }
             100% {
                 opacity: 1;
-                transform: scale(1);
+                transform: scale(1.5);
             }
         }
 
@@ -319,11 +364,28 @@
             padding: 20px;
             border-radius: 8px;
             border: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .project-card:hover {
+            background: #ffffff;
+            border-color: hsl(0, 87%, 34%);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
         }
 
         .project-card h3 {
             margin-bottom: 10px;
             color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .project-card:hover h3 {
+            color: hsl(0, 87%, 34%);
         }
 
         .project-card p {
@@ -353,6 +415,160 @@
             font-style: italic;
         }
 
+        /* Social Media Links */
+        .social-links {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: hsl(0, 87%, 34%);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .social-link svg {
+            width: 24px;
+            height: 24px;
+            fill: #333;
+            transition: fill 0.3s ease;
+        }
+
+        .social-link:hover svg {
+            fill: white;
+        }
+
+        /* Project Detail View */
+        .project-detail {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .project-detail.active {
+            display: block;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0f0f0;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .back-button:hover {
+            background: hsl(0, 87%, 34%);
+            color: white;
+        }
+
+        .project-detail h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .project-detail h2 {
+            font-size: 24px;
+            margin: 30px 0 15px 0;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .project-detail h3 {
+            font-size: 20px;
+            margin: 20px 0 10px 0;
+            color: #444;
+        }
+
+        .project-detail p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .project-detail ul, .project-detail ol {
+            margin: 15px 0 15px 30px;
+            color: #666;
+        }
+
+        .project-detail li {
+            margin-bottom: 8px;
+        }
+
+        .project-meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .tag {
+            background: #e9ecef;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #495057;
+        }
+
+        /* Fade-in Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger animations for multiple elements */
+        .fade-in:nth-child(1) { transition-delay: 0.1s; }
+        .fade-in:nth-child(2) { transition-delay: 0.2s; }
+        .fade-in:nth-child(3) { transition-delay: 0.3s; }
+        .fade-in:nth-child(4) { transition-delay: 0.4s; }
+        .fade-in:nth-child(5) { transition-delay: 0.5s; }
+        .fade-in:nth-child(6) { transition-delay: 0.6s; }
+
         /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
@@ -367,16 +583,19 @@
             }
         }
     </style>
+    <!-- Favicon - the icon that appears in the browser tab -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <!-- You can also use .ico format: <link rel="icon" type="image/x-icon" href="images/favicon.ico"> -->
 </head>
 <body>
     <div class="container">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="profile-pic">
-                <img src="images/profile.jpg" alt="Sean's profile picture">
+                <img src="images/sean_bug.jpg" alt="Sean's profile picture">
                 <!-- Upload your photo to the 'images' folder as profile.jpg (or update the filename here) -->
             </div>
-            <div class="site-title">Sean's personal website/portfolio</div>
+            <div class="site-title">Sean's Personal Website & Portfolio</div>
             <nav>
                 <ul>
                     <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
@@ -385,53 +604,97 @@
                     <li><a href="#publications" class="nav-link" data-section="publications">Publications</a></li>
                 </ul>
             </nav>
+            
+            <!-- Social Media Links -->
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/seanwberg/" target="_blank" class="social-link" title="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                </a>
+                <a href="https://github.com/seanbug" target="_blank" class="social-link" title="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+            </div>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
             <!-- Home Section -->
             <section id="home" class="content-section active">
-                <h1 class="welcome-header">Hi, and welcome to</h1>
-                <div class="scrolling-banner">
+                <h1 class="welcome-header fade-in">Hey! <br> Welcome to:</h1>
+                <div class="scrolling-banner fade-in">
                     <img src="images/SeansPortfolio.gif" alt="Sean's portfolio - animated welcome banner">
                     <!-- Upload your home banner gif to the 'images' folder as home-banner.gif -->
                 </div>
-                <p class="help-text">Help yourself and enjoy your stay! <span class="coffee-cup" id="coffeeCup">☕</span></p>
+                <p class="help-text fade-in">Click the cup to help yourself and enjoy your stay!<span class="coffee-cup" id="coffeeCup">☕</span></p>
+                <p class="cautionary-blurb fade-in"><small>Don't take too many, they might spill</small></p>
+                
+                <!-- Photo Collage -->
+                <div class="photo-collage">
+                    <div class="collage-item fade-in">
+                        <img src="images/spectrogram_example.png" alt="Photo 1">
+                        <div class="collage-caption">hiking trip</div>
+                    </div>
+                    <div class="collage-item fade-in">
+                        <img src="images/eeg1.jpg" alt="Photo 2">
+                        <div class="collage-caption">lab work</div>
+                    </div>
+                    <div class="collage-item fade-in">
+                        <img src="images/kcnt1_div3.jpg" alt="Photo 3">
+                        <div class="collage-caption">coffee break</div>
+                    </div>
+                    <div class="collage-item fade-in">
+                        <img src="images/climbing.jpg" alt="Photo 4">
+                        <div class="collage-caption">field research</div>
+                    </div>
+                </div>
             </section>
 
             <!-- About Me Section -->
             <section id="about" class="content-section">
-                <div class="section-banner">
+                <div class="section-banner fade-in">
                     <img src="images/AboutMe.gif" alt="About Me section banner">
-                    <!-- Upload your About Me banner gif to the 'images' folder as about-banner.gif -->
+                    
                 </div>
-                <h2>About Me</h2>
-                <p>Welcome! I'm Sean, a neuroscience and biotech enthusiast with a passion for understanding the brain and developing innovative biotechnologies.</p>
-                <p>My work spans across computational neuroscience, experimental design, and biotech applications. I'm particularly interested in [add your specific interests here].</p>
-                <div class="work-image-placeholder">
-                    work related image
-                    <!-- Replace with actual image: <img src="your-work-image.jpg" alt="Description"> -->
+                <h2 class="fade-in">About Me</h2>
+                <p class="fade-in">Welcome! I'm Sean, a neuroscience and biotech enthusiast with a passion for understanding the brain and developing innovative biotechnologies.</p>
+                <p class="fade-in">My work spans across computational neuroscience, experimental design, and biotech applications. I'm particularly interested in [add your specific interests here].</p>
+                <div class="work-image-placeholder fade-in">
+                    <img src="images/sean_crab.jpg" width="auto" height="250" alt="about me image">
+                    <div class="work-image-placeholder fade-in">
+                    <img src="images/yosemite.jpg" width="auto" height="250" alt="about me image2">
                 </div>
             </section>
 
             <!-- Projects Section -->
             <section id="projects" class="content-section">
-                <div class="section-banner">
+                <div class="section-banner fade-in">
                     <img src="images/Projects.gif" alt="Projects section banner">
-                    <!-- Upload your Projects banner gif to the 'images' folder as projects-banner.gif -->
+                    
                 </div>
-                <h2>Projects</h2>
+                <h2 class="fade-in">Projects</h2>
                 <div class="project-grid">
-                    <div class="project-card">
+                    <div class="project-card fade-in" data-project="project1">
                         <h3>Project Title 1</h3>
                         <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
                     </div>
-                    <div class="project-card">
+                    <div class="project-card fade-in" data-project="project2">
                         <h3>Project Title 2</h3>
                         <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
                     </div>
-                    <div class="project-card">
+                    <div class="project-card fade-in" data-project="project3">
                         <h3>Project Title 3</h3>
+                        <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
+                    </div>
+                    <div class="project-card fade-in" data-project="project4">
+                        <h3>Project Title 4</h3>
+                        <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
+                    </div>
+                    <div class="project-card fade-in" data-project="project5">
+                        <h3>Project Title 5</h3>
                         <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
                     </div>
                 </div>
@@ -439,21 +702,250 @@
 
             <!-- Publications Section -->
             <section id="publications" class="content-section">
-                <div class="section-banner">
+                <div class="section-banner fade-in">
                     <img src="images/publications-banner.gif" alt="Publications section banner">
-                    <!-- Upload your Publications banner gif to the 'images' folder as publications-banner.gif -->
+
                 </div>
-                <h2>Publications</h2>
-                <div class="publication-item">
+                <h2 class="fade-in">Publications</h2>
+                <div class="publication-item fade-in">
                     <h3>Publication Title 1</h3>
                     <p class="authors">Author Names. Journal Name, Year.</p>
                     <p>Brief description or abstract excerpt.</p>
                 </div>
-                <div class="publication-item">
+                <div class="publication-item fade-in">
                     <h3>Publication Title 2</h3>
                     <p class="authors">Author Names. Journal Name, Year.</p>
                     <p>Brief description or abstract excerpt.</p>
                 </div>
+                <div class="publication-item fade-in">
+                    <h3>Publication Title 3</h3>
+                    <p class="authors">Author Names. Journal Name, Year.</p>
+                    <p>Brief description or abstract excerpt.</p>
+                </div>
+                <div class="publication-item fade-in">
+                    <h3>Publication Title 4</h3>
+                    <p class="authors">Author Names. Journal Name, Year.</p>
+                    <p>Brief description or abstract excerpt.</p>
+                </div>
+                <div class="publication-item fade-in">
+                    <h3>Publication Title 5</h3>
+                    <p class="authors">Author Names. Journal Name, Year.</p>
+                    <p>Brief description or abstract excerpt.</p>
+                </div>
+                <div class="publication-item fade-in">
+                    <h3>Publication Title 6</h3>
+                    <p class="authors">Author Names. Journal Name, Year.</p>
+                    <p>Brief description or abstract excerpt.</p>
+                </div>
+                <div class="publication-item fade-in">
+                    <h3>Publication Title 7</h3>
+                    <p class="authors">Author Names. Journal Name, Year.</p>
+                    <p>Brief description or abstract excerpt.</p>
+                </div>
+            </section>
+
+            <!-- Project Detail Sections (Hidden by default) -->
+            
+            <!-- Project 1 Detail -->
+            <section id="project1" class="project-detail">
+                <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
+                
+                <h1>Project Title 1</h1>
+                
+                <div class="project-meta">
+                    <strong>Date:</strong> January 2024 - March 2024<br>
+                    <strong>Role:</strong> Lead Researcher
+                </div>
+
+                <div class="project-tags">
+                    <span class="tag">Neuroscience</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">Data Analysis</span>
+                </div>
+
+                <p>
+                    Detailed overview of the project goes here. Replace this with your actual project description.
+                    What was the main goal? What problem were you solving?
+                </p>
+
+                <h2>Background & Motivation</h2>
+                <p>
+                    Explain the context of this project. Why was this work important? What gap in knowledge 
+                    or technology were you addressing?
+                </p>
+
+                <h2>Approach & Methods</h2>
+                <p>
+                    Describe how you approached the project. What methodologies did you use?
+                </p>
+                <ul>
+                    <li>Key method or technique 1</li>
+                    <li>Key method or technique 2</li>
+                    <li>Key method or technique 3</li>
+                </ul>
+
+                <h2>Results & Findings</h2>
+                <p>
+                    What did you discover or achieve? Include specific metrics or outcomes.
+                </p>
+
+                <h2>Impact & Conclusions</h2>
+                <p>
+                    What was the significance of this work? What did you learn?
+                </p>
+            </section>
+
+            <!-- Project 2 Detail -->
+            <section id="project2" class="project-detail">
+                <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
+                
+                <h1>Project Title 2</h1>
+                
+                <div class="project-meta">
+                    <strong>Date:</strong> April 2024 - June 2024<br>
+                    <strong>Role:</strong> Developer & Data Scientist
+                </div>
+
+                <div class="project-tags">
+                    <span class="tag">Machine Learning</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">TensorFlow</span>
+                </div>
+
+                <p>
+                    Detailed overview of project 2. Replace with your actual content.
+                </p>
+
+                <h2>Problem Statement</h2>
+                <p>
+                    What technical challenge were you addressing?
+                </p>
+
+                <h2>Technical Implementation</h2>
+                <p>
+                    How did you build the solution?
+                </p>
+
+                <h2>Results & Performance</h2>
+                <p>
+                    What were the outcomes? Include metrics and comparisons.
+                </p>
+
+                <h2>Learnings & Future Work</h2>
+                <p>
+                    What did you learn? What are the next steps?
+                </p>
+            </section>
+
+            <!-- Project 3 Detail -->
+            <section id="project3" class="project-detail">
+                <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
+                
+                <h1>Project Title 3</h1>
+                
+                <div class="project-meta">
+                    <strong>Completed:</strong> July 2024<br>
+                    <strong>Type:</strong> Side Project / Personal Research
+                </div>
+
+                <div class="project-tags">
+                    <span class="tag">Experimental</span>
+                    <span class="tag">Biotech</span>
+                    <span class="tag">Field Work</span>
+                </div>
+
+                <p>
+                    Overview of project 3. Replace with your content.
+                </p>
+
+                <h2>Overview</h2>
+                <p>
+                    What was this project about?
+                </p>
+
+                <h2>What I Did</h2>
+                <p>
+                    Walk through the main steps or activities.
+                </p>
+
+                <h2>Results & Learnings</h2>
+                <p>
+                    What did you discover? What skills did you develop?
+                </p>
+            </section>
+
+            <!-- Project 4 Detail -->
+            <section id="project4" class="project-detail">
+                <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
+                
+                <h1>Project Title 4</h1>
+                
+                <div class="project-meta">
+                    <strong>Date:</strong> August 2024 - October 2024<br>
+                    <strong>Role:</strong> Researcher
+                </div>
+
+                <div class="project-tags">
+                    <span class="tag">Add</span>
+                    <span class="tag">Your</span>
+                    <span class="tag">Tags</span>
+                </div>
+
+                <p>
+                    Detailed overview of project 4. Replace with your actual content.
+                </p>
+
+                <h2>Section 1</h2>
+                <p>
+                    Add your content here.
+                </p>
+
+                <h2>Section 2</h2>
+                <p>
+                    Add more details about your project.
+                </p>
+
+                <h2>Section 3</h2>
+                <p>
+                    Continue describing your work and findings.
+                </p>
+            </section>
+
+            <!-- Project 5 Detail -->
+            <section id="project5" class="project-detail">
+                <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
+                
+                <h1>Project Title 5</h1>
+                
+                <div class="project-meta">
+                    <strong>Date:</strong> November 2024 - Present<br>
+                    <strong>Role:</strong> Your Role
+                </div>
+
+                <div class="project-tags">
+                    <span class="tag">Add</span>
+                    <span class="tag">Your</span>
+                    <span class="tag">Tags</span>
+                </div>
+
+                <p>
+                    Detailed overview of project 5. Replace with your actual content.
+                </p>
+
+                <h2>Section 1</h2>
+                <p>
+                    Add your content here.
+                </p>
+
+                <h2>Section 2</h2>
+                <p>
+                    Add more details about your project.
+                </p>
+
+                <h2>Section 3</h2>
+                <p>
+                    Continue describing your work and findings.
+                </p>
             </section>
         </main>
     </div>
@@ -471,19 +963,91 @@
                 navLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
                 
-                // Show corresponding section
+                // Get the section being navigated to
                 const sectionId = link.dataset.section;
+                const targetSection = document.getElementById(sectionId);
+                
+                // Hide all sections and reset their animations
                 sections.forEach(section => {
                     section.classList.remove('active');
+                    // Reset all fade-in elements in this section
+                    section.querySelectorAll('.fade-in').forEach(el => {
+                        el.classList.remove('visible');
+                    });
                 });
-                document.getElementById(sectionId).classList.add('active');
+                
+                // Show the target section
+                targetSection.classList.add('active');
+                
+                // Re-trigger animations for the new section after a short delay
+                setTimeout(() => {
+                    targetSection.querySelectorAll('.fade-in').forEach(el => {
+                        el.classList.add('visible');
+                    });
+                }, 50);
             });
         });
+
+        // Project Card Click Handlers
+        const projectCards = document.querySelectorAll('.project-card');
+        const projectDetails = document.querySelectorAll('.project-detail');
+
+        projectCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const projectId = this.dataset.project;
+                showProjectDetail(projectId);
+            });
+        });
+
+        function showProjectDetail(projectId) {
+            // Hide all main content sections
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Hide all project details
+            projectDetails.forEach(detail => {
+                detail.classList.remove('active');
+            });
+
+            // Show the selected project detail
+            const selectedProject = document.getElementById(projectId);
+            if (selectedProject) {
+                selectedProject.classList.add('active');
+            }
+
+            // Update nav to show projects as active
+            navLinks.forEach(l => l.classList.remove('active'));
+            document.querySelector('[data-section="projects"]').classList.add('active');
+        }
+
+        function backToProjects() {
+            // Hide all project details
+            projectDetails.forEach(detail => {
+                detail.classList.remove('active');
+            });
+
+            // Show projects section
+            const projectsSection = document.getElementById('projects');
+            projectsSection.classList.add('active');
+
+            // Re-trigger animations
+            setTimeout(() => {
+                projectsSection.querySelectorAll('.fade-in').forEach(el => {
+                    el.classList.remove('visible');
+                });
+                setTimeout(() => {
+                    projectsSection.querySelectorAll('.fade-in').forEach(el => {
+                        el.classList.add('visible');
+                    });
+                }, 50);
+            }, 50);
+        }
 
         // Coffee Cup Stacking System
         const coffeeCup = document.getElementById('coffeeCup');
         let cupCount = 0;
-        const maxCups = 8; // Cups will topple after this many
+        const maxCups = 4; // Cups will topple after this many
         let cupCorner = null;
         let hasToppled = false;
 
@@ -529,7 +1093,7 @@
             stackedCup.className = 'stacked-cup';
             // Start at bottom
             stackedCup.style.bottom = '0px';
-            stackedCup.style.transform = `rotate(${(Math.random() - 0.5) * 10}deg)`; // Slight random tilt
+            stackedCup.style.transform = `rotate(${(Math.random() - 0.5) * 20}deg)`; // Slight random tilt
             cupCorner.appendChild(stackedCup);
             
             // Trigger reflow to ensure transition works
@@ -539,7 +1103,7 @@
             setTimeout(() => {
                 stackedCup.style.bottom = (cupCount * 35) + 'px';
                 stackedCup.classList.add('visible');
-            }, 50);
+            }, 1);
             
             cupCount++;
 
@@ -556,8 +1120,9 @@
             // Topple all cups with slight delays
             cups.forEach((cup, index) => {
                 setTimeout(() => {
+                    cup.style.transform = `rotate(${(Math.random() - 0.5) * 50}deg)`;
                     cup.classList.add('toppling');
-                }, index * 50);
+                }, index * 100);
             });
 
             // Add coffee stain (permanent until page refresh)
@@ -575,6 +1140,20 @@
                 }, 800);
             }, 400);
         }
+
+        // Fade-in Animation on Page Load
+        function initFadeInAnimations() {
+            // Only animate elements in the active section on initial load
+            const activeSection = document.querySelector('.content-section.active');
+            if (activeSection) {
+                activeSection.querySelectorAll('.fade-in').forEach(el => {
+                    el.classList.add('visible');
+                });
+            }
+        }
+
+        // Initialize animations when page loads
+        window.addEventListener('load', initFadeInAnimations);
     </script>
 </body>
 </html>
