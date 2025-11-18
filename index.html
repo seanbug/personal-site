@@ -126,7 +126,7 @@
     .backdrop.visible{ opacity: 1; pointer-events: auto; }
 
     /* =================== Main Content =================== */
-    .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 40px 60px; }
+    .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 40px 0px; }
 
     /* home page background box */
     .welcome-section, #home {
@@ -143,9 +143,9 @@
 
     /* =================== Banners: responsive, proportional =================== */
     .scrolling-banner,
-    .section-banner {
+    {
       background: white;
-      border: 2px ridge #333;
+      border: 2px ridge #333333;
       padding: 10px;
       margin-bottom: 0px;
       overflow: hidden;
@@ -206,12 +206,14 @@
       background: white;
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      outline: 0px solid transparent;
       transition: transform 0.3s ease, box-shadow 0.3s ease, outline-color 0.3s ease;
       /* natural flow size: grow to fill, but prefer around 320px width */
       flex: 1 1 320px;
       max-width: 520px; /* prevents overly wide images on huge screens */
+      cursor: pointer;
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+
     }
 
     .collage-item:hover {
@@ -227,7 +229,18 @@
       object-fit: contain; /* never crop */
       background: #fff;
     }
-
+    
+    .projectThumbnail img{
+      flex-basis: 260px;
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      /* natural flow size: grow to fill, but prefer around 320px width */
+      max-width: 300px; /* prevents overly wide images on huge screens */
+      cursor: pointer;
+      transform: translateY(-4px);
+            padding: 8px 14px;
+    }
     /* Centered caption overlay: hidden by default, smooth fade-in */
     .collage-caption {
       position: absolute;
@@ -282,7 +295,7 @@
     .about-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-      outline: 2px solid var(--brand);
+
     }
     .about-card img {
       width: 100%; height: auto; object-fit: contain;
@@ -503,7 +516,7 @@
     <main class="main-content">
       <!-- =================== Home Section =================== -->
       <section id="home" class="content-section active">
-        <h1 class="welcome-header fade-in">Hello, and welcome to:</h1>
+        
         <div class="scrolling-banner fade-in">
           <!-- Critical banner: eager + high priority -->
           <!-- NOTE: CSS cannot slow a GIF; see VIDEO alternative below -->
@@ -514,19 +527,21 @@
             <source src="videos/SeansPortfolio.mp4" type="video/mp4">
           </video>
           -->
+          <div class=""><img src="images/waveform_sectioner.png" alt="Sean's portfolio - animated welcome banner" loading="eager" decoding="sync" fetchpriority="high"></div>
+          <h1 class="welcome-header fade-in">Hello and welcome!</h1>
         </div>
-        <p class="help-text fade-in">Click the cup to help yourself and enjoy your stay!<span class="coffee-cup" id="coffeeCup">☕</span></p>
-        <p class="cautionary-blurb fade-in">Don't take too many, they might spill!</p>
+        <p class="help-text fade-in">Help yourself and enjoy your stay!<span class="coffee-cup" id="coffeeCup">☕</span></p>
+        <p class="cautionary-blurb fade-in">Don't spill it!</p>
 
         <!-- =================== Portfolio Preview Section (Horizontal Flow) =================== -->
-        <h2 class="section-subheader fade-in">Portfolio Preview</h2>
+        <h2 class="section-subheader fade-in">Portfolio Preview <br>Click a project to learn more<br></h2>
         <div class="photo-collage">
           <div class="collage-item fade-in">
             <img src="images/spectrogram_example.png" alt="Spectrograms" loading="lazy" decoding="async" fetchpriority="low">
             <div class="collage-caption"><span>Spectrograms</span></div>
           </div>
           <div class="collage-item fade-in">
-            <img src="images/eeg1.jpg" alt="DIY EEG/BCI Project" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="images/eeg1.jpg" alt="Personal DIY EEG/BCI Project" loading="lazy" decoding="async" fetchpriority="low">
             <div class="collage-caption"><span>DIY EEG/BCI Project</span></div>
           </div>
           <div class="collage-item fade-in">
@@ -534,11 +549,7 @@
             <div class="collage-caption"><span>Cortical Primary Neuron Cultures</span></div>
           </div>
           <div class="collage-item fade-in">
-            <img src="images/climbing.jpg" alt="Rock Climbing!" loading="lazy" decoding="async" fetchpriority="low">
-            <div class="collage-caption"><span>Rock Climbing!</span></div>
-          </div>
-          <div class="collage-item fade-in">
-            <img src="images/wireframe_dxf.jpg" alt="Wireframe .dxf of Abet II Touchscreen Platforms in Acrylic" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="images/sean_design.png" alt="Wireframe .dxf of Abet II Touchscreen Platforms in Acrylic" loading="lazy" decoding="async" fetchpriority="low">
             <div class="collage-caption"><span>Wireframe .dxf of Abet II Touchscreen Platforms in Acrylic</span></div>
           </div>
           <div class="collage-item fade-in">
@@ -572,8 +583,8 @@
         <p class="fade-in">Read more about my various projects in the projects section!</p>
         <!-- About Me images (JS will wrap into .about-card for overlay/caption) -->
         <div class="work-image-placeholder fade-in">
-          <img src="images/sean_crab.jpg" alt="Sean with crab" loading="lazy" decoding="async" fetchpriority="low">
-          <img src="images/yosemite.jpg" alt="Yosemite trip with Luuk" loading="lazy" decoding="async" fetchpriority="low">
+          <img src="images/sean_crab.jpg" alt="Sean with a crab he found at Stinson Beach" loading="lazy" decoding="async" fetchpriority="low">
+          <img src="images/yosemite.jpg" alt="Yosemite trip with friends" loading="lazy" decoding="async" fetchpriority="low">
         </div>
       </section>
 
@@ -591,29 +602,38 @@
         <div class="project-grid">
           <!-- Add data-preview="images/your_thumb.jpg" to show a preview -->
           <div class="project-card fade-in" data-project="project1" data-preview="">
-            <h3>Project Title 1</h3>
-            <div class="project-preview"></div>
-            <p>Brief project description</p>
+            <h3>Multitaper Spectrogram Implementation</h3>
+            <div div class="projectThumbnail img">
+              <img src="images/spectrogram.png" alt="spectrogram" loading="lazy" decoding="async" fetchpriority="low"></div>
+            <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
           </div>
           <div class="project-card fade-in" data-project="project2" data-preview="">
-            <h3>Project Title 2</h3>
+            <h3>Personal 'DIY' EEG and BCI</h3>
             <div class="project-preview"></div>
-            <p>Brief project description</p>
+            <div div class="projectThumbnail img">
+              <img src="images/eeg1.jpg" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
+            <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
           </div>
           <div class="project-card fade-in" data-project="project3" data-preview="">
             <h3>Project Title 3</h3>
             <div class="project-preview"></div>
-            <p>Brief project description</p>
+            <div div class="projectThumbnail img">
+              <img src="images/eeg1.jpg" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
+            <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
           </div>
           <div class="project-card fade-in" data-project="project4" data-preview="">
             <h3>Project Title 4</h3>
             <div class="project-preview"></div>
-            <p>Brief project description</p>
+            <div div class="projectThumbnail img">
+              <img src="images/eeg1.jpg" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
+            <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
           </div>
           <div class="project-card fade-in" data-project="project5" data-preview="">
             <h3>Project Title 5</h3>
             <div class="project-preview"></div>
-            <p>Brief project description</p>
+            <div div class="projectThumbnail img">
+              <img src="images/eeg1.jpg" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
+            <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
           </div>
         </div>
       </section>
@@ -621,9 +641,9 @@
       <!-- =================== Publications Section =================== -->
       <section id="publications" class="content-section">
         <div class="section-banner fade-in">
-          <img src="images/publication.gif" alt="Publications section banner" loading="lazy" decoding="async" fetchpriority="low">
+          <img src="images/publicationbanner.gif" alt="Publications section banner" loading="lazy" decoding="async" fetchpriority="low">
         </div>
-        <h2 class="fade-in">Publications</h2>
+        <h2 class="fade-in">Publications</h2> 
         <div class="publication-item fade-in">
           <h3>Translational Outcomes in a Novel Variant Mouse Model G288S of KCNT1-Related Epilepsy. Brain, In Review (2025)</h3>
           <p class="authors">Olguin SL, Davis D, <strong>Berg SW</strong>, Rehman A, Sahagun E, Oswalt. PS, Patil M, Sullivan PDM, Zhang B, Bryda E, Ben-Shalom R, Silverman JL.</p>
@@ -660,30 +680,32 @@
       <!-- Project 1 Detail -->
       <section id="project1" class="project-detail">
         <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
-        <h1>Project  1</h1>
+        <h1>Multitaper Spectrogram Implementation</h1>
         <div class="project-meta">
-          <strong>Date:</strong> date range<br>
-          <strong>Role:</strong>
+          <strong>Date:</strong> January 2024 - March 2024<br>
+          <strong>Role:</strong> Lead Researcher
         </div>
         <div class="project-tags">
-          <span class="tag"></span>
-          <span class="tag"></span>
-          <span class="tag"></span>
+          <span class="tag">Neuroscience</span>
+          <span class="tag">Python</span>
+          <span class="tag">Data Analysis</span>
         </div>
-        <p></p>
-        <h2>n</h2>
-        <p></p>
-        <h2></h2>
-        <p></p>
+        <p>Detailed overview of the project goes here. Replace this with your actual project description.
+          What was the main goal? What problem were you solving?</p>
+        <h2>Background & Motivation</h2>
+        <p>Explain the context of this project. Why was this work important? What gap in knowledge 
+          or technology were you addressing?</p>
+        <h2>Approach & Methods</h2>
+        <p>Describe how you approached the project. What methodologies did you use?</p>
         <ul>
           <li>Key method or technique 1</li>
           <li>Key method or technique 2</li>
           <li>Key method or technique 3</li>
         </ul>
-        <h2></h2>
-        <p></p>
-        <h2></h2>
-        <p></p>
+        <h2>Results & Findings</h2>
+        <p>What did you discover or achieve? Include specific metrics or outcomes.</p>
+        <h2>Impact & Conclusions</h2>
+        <p>What was the significance of this work? What did you learn?</p>
         <!-- Embedded gallery (optional) -->
         <div class="project-gallery"></div>
       </section>
@@ -691,92 +713,94 @@
       <!-- Project 2 Detail -->
       <section id="project2" class="project-detail">
         <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
-        <h1>proj 2</h1>
+        <h1>Project Title 2</h1>
         <div class="project-meta">
-          <strong>Date:</strong> date range<br>
-          <strong>Role:</strong>
+          <strong>Date:</strong> April 2024 - June 2024<br>
+          <strong>Role:</strong> Developer & Data Scientist
         </div>
         <div class="project-tags">
-          <span class="tag"></span>
-          <span class="tag"></span>
-          <span class="tag"></span>
+          <span class="tag">Machine Learning</span>
+          <span class="tag">Python</span>
+          <span class="tag">TensorFlow</span>
         </div>
-        <p>proj 2 details section</p>
-        <h2>Section 1</h2>
-        <p></p>
-        <h2>Section 2</h2>
-        <p></p>
-        <h2>Section 3</h2>
-        <p></p>
+        <p>Detailed overview of project 2. Replace with your actual content.</p>
+        <h2>Problem Statement</h2>
+        <p>What technical challenge were you addressing?</p>
+        <h2>Technical Implementation</h2>
+        <p>How did you build the solution?</p>
+        <h2>Results & Performance</h2>
+        <p>What were the outcomes? Include metrics and comparisons.</p>
+        <h2>Learnings & Future Work</h2>
+        <p>What did you learn? What are the next steps?</p>
         <div class="project-gallery"></div>
       </section>
 
       <!-- Project 3 Detail -->
       <section id="project3" class="project-detail">
         <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
-        <h1>proj 3</h1>
+        <h1>Project Title 3</h1>
         <div class="project-meta">
-          <strong>Date:</strong> date range<br>
-          <strong>Role:</strong>
+          <strong>Completed:</strong> July 2024<br>
+          <strong>Type:</strong> Side Project / Personal Research
         </div>
         <div class="project-tags">
-          <span class="tag"></span>
-          <span class="tag"></span>
-          <span class="tag"></span>
+          <span class="tag">Experimental</span>
+          <span class="tag">Biotech</span>
+          <span class="tag">Field Work</span>
         </div>
-        <p>proj 3 details section</p>
-        <h2>Section 1</h2>
-        <p></p>
-        <h2>Section 2</h2>
-        <p></p>
-        <h2>Section 3</h2>
-        <p></p>
+        <p>Overview of project 3. Replace with your content.</p>
+        <h2>Overview</h2>
+        <p>What was this project about?</p>
+        <h2>What I Did</h2>
+        <p>Walk through the main steps or activities.</p>
+        <h2>Results & Learnings</h2>
+        <p>What did you discover? What skills did you develop?</p>
         <div class="project-gallery"></div>
       </section>
 
       <!-- Project 4 Detail -->
       <section id="project4" class="project-detail">
         <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
-        <h1>proj 4</h1>
+        <h1>Project Title 4</h1>
         <div class="project-meta">
-          <strong>Date:</strong> date range<br>
-          <strong>Role:</strong>
+          <strong>Date:</strong> August 2024 - October 2024<br>
+          <strong>Role:</strong> Researcher
         </div>
         <div class="project-tags">
-          <span class="tag"></span>
-          <span class="tag"></span>
-          <span class="tag"></span>
+          <span class="tag">Add</span>
+          <span class="tag">Your</span>
+          <span class="tag">Tags</span>
         </div>
-        <p>proj 4 details section</p>
+        <p>Detailed overview of project 4. Replace with your actual content.</p>
         <h2>Section 1</h2>
-        <p></p>
+        <p>Add your content here.</p>
         <h2>Section 2</h2>
-        <p></p>
+        <p>Add more details about your project.</p>
         <h2>Section 3</h2>
-        <p></p>
+        <p>Continue describing your work and findings.</p>
         <div class="project-gallery"></div>
       </section>
 
       <!-- Project 5 Detail -->
       <section id="project5" class="project-detail">
         <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
-        <h1>proj 5</h1>
+        <h1>Project Title 5</h1>
         <div class="project-meta">
-          <strong>Date:</strong> date range<br>
-          <strong>Role:</strong>
+          <strong>Date:</strong> November 2024 - Present<br>
+          <strong>Role:</strong> Your Role
         </div>
         <div class="project-tags">
-          <span class="tag"></span>
-          <span class="tag"></span>
-          <span class="tag"></span>
+          <span class="tag">Add</span>
+          <span class="tag">Your</span>
+          <span class="tag">Tags</span>
         </div>
-        <p>proj 5 details section</p>
+        <p>Detailed overview of project 5. Replace with your actual content.</p>
         <h2>Section 1</h2>
-        <p></p>
+        <p>Add your content here.</p>
         <h2>Section 2</h2>
-        <p></p>
+        <p>Add more details about your project.</p>
         <h2>Section 3</h2>
-        <p></p>
+        <p>Continue describing your work and findings.</p>
         <div class="project-gallery"></div>
       </section>
     </main>
@@ -835,7 +859,28 @@
       }
     });
 
-    function showProjectDetail(projectId) {
+    
+    // fix: allow collage items to open project details
+    const collageItems = document.querySelectorAll('.collage-item');
+    // fix: array for user-defined mapping
+
+    //collage item to project mapping
+    const collageToProject = [
+      'project1',
+      'project2',
+      'project3',
+      'project4',
+      'project5',
+      'project5',
+      null
+    ];
+    collageItems.forEach((item, i) => {
+      item.addEventListener('click', () => {
+        const pid = collageToProject[i];
+        if (pid) showProjectDetail(pid);
+      });
+    });
+function showProjectDetail(projectId) {
       // Hide all main content sections
       sections.forEach(section => section.classList.remove('active'));
       // Hide all project details
@@ -993,6 +1038,7 @@
         wrapper.appendChild(overlay);
       });
     });
+
   </script>
 </body>
 </html>
