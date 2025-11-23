@@ -5,14 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome to Sean's Portfolio!</title>
 
-  <!-- Preload critical images for faster initial render -->
   <link rel="preload" as="image" href="images/favicon.png">
   <link rel="preload" as="image" href="images/sean_profile.jpg">
   <link rel="preload" as="image" href="images/SeansPortfolio.gif">
   <link rel="preload" as="image" href="images/AboutMe.gif">
   <link rel="preload" as="image" href="images/Projects.gif">
-
-  <!-- Font preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,13 +18,12 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      /* Tunables for responsive banners and sidebar overlay */
       --sidebar-width: 280px;
       --banner-max-h: clamp(120px, 22vw, 220px);
-      --banner-aspect: 16/5; /* Adjust if your GIFs are taller/wider */
+      --banner-aspect: 16/5;
       --overlay-bg: rgba(0,0,0,.38);
       --brand: hsl(0, 87%, 34%);
-      --gap: 16px; /* moderate gaps for collage */
+      --gap: 16px;
     }
 
     html, body { height: 100%; }
@@ -39,7 +35,6 @@
 
     .container { display: flex; min-height: 100vh; }
 
-    /* =================== Sidebar (critical) =================== */
     .sidebar {
       width: var(--sidebar-width);
       background: white;
@@ -70,7 +65,6 @@
     }
     .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
 
-    /* title section */
     .site-title {
       font-weight: 800; text-align: center; justify-content: center; display: flex;
       font-size: 28px; color: #333; margin-bottom: 5px;
@@ -92,7 +86,6 @@
     }
     nav a:hover, nav a.active { font-weight: 1000; color: var(--brand); }
 
-    /* =================== Overlay hamburger (mobile/tablet) =================== */
     .hamburger {
       display: none;
       position: fixed;
@@ -125,10 +118,8 @@
     }
     .backdrop.visible{ opacity: 1; pointer-events: auto; }
 
-    /* =================== Main Content =================== */
     .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 0 0 40px; }
 
-    /* home page background box */
     .welcome-section, #home {
       background: white; padding: 30px 30px 60px 30px;
       border-radius: 8px; margin-bottom: 40px; text-align: center;
@@ -141,7 +132,6 @@
 
     .welcome-header { font-size: 32px; font-weight: 600;}
 
-    /* =================== Banners: responsive, proportional =================== */
     .scrolling-banner
     {
       background: white;
@@ -197,27 +187,22 @@
       font-size: 12px; color: #a7a7a7 !important; display: flex;
       align-items: center; justify-content: center; ; margin-top: -30px;
     }
-    /* =================== Portfolio Preview Header =================== */
-    /* -- Added per user request: simple text header with slight separation */
+
     .section-subheader {
       font-size: 28px;
       color: #333;
       font-weight: 600;
-      margin: 36px 0 18px 0; /* slight separation */
+      margin: 36px 0 18px 0;
       text-align: center;
     }
 
-    /* =================== HORIZONTAL Collage (natural flow) =================== */
-    /* -- Replaces previous column-based vertical flow with flex-wrap rows
-          Keeps images at natural heights, moderate gaps, no clipping.
-          Includes safe internal padding so edge images never get cut. */
     .photo-collage {
       display: flex;
       flex-wrap: wrap;
       gap: var(--gap);
-      padding: 8px; /* safe inset to avoid edge clipping */
+      padding: 8px;
       justify-content: flex-start;
-      align-items: flex-start; /* natural heights per row */
+      align-items: flex-start;
       content-visibility: auto;
       contain-intrinsic-size: 600px 600px;
       border-radius: 10px;
@@ -229,9 +214,9 @@
       border-radius: 10px;
       overflow: hidden;
       transition: transform 0.3s ease, box-shadow 0.3s ease, outline-color 0.3s ease;
-      /* natural flow size: grow to fill, but prefer around 320px width */
+
       flex: 1 1 320px;
-      max-width: 520px; /* prevents overly wide images on huge screens */
+      max-width: 520px;
       cursor: pointer;
       transform: translateY(-4px);
       box-shadow: 0 6px 16px rgba(0,0,0,0.15);
@@ -248,7 +233,7 @@
       display: block;
       width: 100%;
       height: auto;
-      object-fit: contain; /* never crop */
+      object-fit: contain;
       background: #fff;
     }
 
@@ -257,8 +242,7 @@
       position: relative;
       border-radius: 10px;
       overflow: hidden;
-      /* natural flow size: grow to fill, but prefer around 320px width */
-      max-width: 500px; /* prevents overly wide images on huge screens */
+      max-width: 500px;
       cursor: pointer;
       transform: translateY(-4px);
             padding: 8px 14px;
@@ -269,13 +253,12 @@
       position: relative;
       border-radius: 10px;
       overflow: hidden;
-      /* natural flow size: grow to fill, but prefer around 320px width */
-      max-width: 300px; /* prevents overly wide images on huge screens */
+      max-width: 300px;
       cursor: pointer;
       transform: translateY(-4px);
             padding: 8px 14px;
     }
-    /* Centered caption overlay: hidden by default, smooth fade-in */
+
     .collage-caption {
       position: absolute;
       inset: 0;
@@ -286,11 +269,12 @@
       transition: opacity .3s ease;
       pointer-events: none;
     }
+
     .collage-caption span {
       display: inline-block;
       padding: 8px 14px;
       border-radius: 12px;
-      background: hsla(0, 87%, 34%, 0.80); /* brand with translucence */
+      background: hsla(0, 87%, 34%, 0.80);
       color: #fff;
       font-size: 14px;
       font-weight: 700;
@@ -299,20 +283,22 @@
     }
     .collage-item:hover .collage-caption { opacity: 1; }
 
-    /* =================== Content Sections =================== */
     .content-section {
       display: none; background: white; padding: 40px; border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 40px;
       content-visibility: auto;
       contain-intrinsic-size: 900px 800px;
     }
-    .content-section.active { display: block; contain-intrinsic-size: auto; }
+    .content-section.active {
+      display: block; contain-intrinsic-size: auto;
+    }
+    .content-section h2 {
+      font-size: 28px; margin-bottom: 20px; color: #333;
+    }
+    .content-section p {
+      line-height: 1.6; color: #666; margin-bottom: 15px;
+    }
 
-    .content-section h2 { font-size: 28px; margin-bottom: 20px; color: #333; }
-    .content-section p { line-height: 1.6; color: #666; margin-bottom: 15px; }
-
-    /* =================== About Me images (match collage hover) =================== */
-    /* -- We will wrap these images in JS to create overlay captions from alt text. */
     .work-image-placeholder {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: var(--gap); margin-top: 20px;
@@ -326,16 +312,19 @@
       outline: 0px solid transparent;
       transition: transform 0.3s ease, box-shadow 0.3s ease, outline-color 0.3s ease;
     }
+
     .about-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 6px 16px rgba(0,0,0,0.15);
 
     }
+
     .about-card img {
       width: 100%; height: auto; object-fit: contain;
       display: block;
       background: #fff;
     }
+
     .about-card .overlay {
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
@@ -657,7 +646,7 @@
             <h3>Multitaper Spectrogram Implementation in EEG Analysis</h3>
             <div div class="projectThumbnail img">
               <img src="images/spectrogram.png" alt="spectrogram" loading="lazy" decoding="async" fetchpriority="low"></div>
-            <p>Integrated a novel mathematical approach in processing largescale data sets in telemeter implanted mouse models to identify therapeutic targets in EEG trends for the Silverman lab...</p>
+            <p>Developed a user friendly, memory efficient pipeline for analyzing our 3 day EEG recordings in mouse models using spectral analysis. Implemented a chunking feature to process recordings because my system kept crashing when I tried loading our longer EEG recordings via a wrapper for Prerau lab's multitaper spectrogram python script. I also enabled batch processing capabilities because manually analyzing files is never fun.</p>
           </div>
           <div class="project-card fade-in" data-project="project2" data-preview="">
             <h3>Personal 'DIY' EEG and BCI Passion Project</h3>
@@ -737,40 +726,32 @@
           <strong>Role:</strong> Sole Developer
         </div>
         <div class="project-tags">
-          <span class="tag">Neuroscience</span>
           <span class="tag">Python</span>
           <span class="tag">Signal Processing</span>
           <span class="tag">EEG Analysis</span>
         </div>
-        <p>Developed a user friendly, memory-efficient pipeline for analyzing multi-day EEG recordings in mouse models using spectral analysis. Implemented temporal chunking to process recordings that exceeded available memory, enabling automated batch processing of complete experimental datasets.</p>
+        <p>Developed a user friendly, memory efficient pipeline for analyzing our 3 day EEG recordings in mouse models using spectral analysis. Implemented a chunking feature to process recordings because my system kept crashing when I tried loading our longer EEG recordings via a wrapper for Prerau lab's multitaper spectrogram python script. I also enabled batch processing capabilities because manually analyzing files is never fun.</p>
         
         <h2>Background & Motivation</h2>
-        <p>Long-duration EEG recordings from telemetry-implanted mice are essential for tracking epileptic progression and sleep-stage classification in the Silverman Lab. I implemented a wrapper for the Prerau lab's multitaper implementation (<a href="https://prerau.bwh.harvard.edu/" target="_blank">prerau.bwh.harvard.edu</a>), but I ran into difficulties processing larger 72 hour recordings due to memory constraints on my system, limiting analysis to shorter EEG recordings we collected in other behavioral experiments.
-          <br><br>
-          The Prerau lab's multitaper implementation offered superior spectral resolution for identifying subtle oscillatory changes, but needed modification to handle large-scale datasets.</p>
-        
+        <p>Long-duration EEG recordings from telemetry-implanted mice are important for tracking baseline spiking dynamics and sleep-stage classification in the Silverman Lab. I implemented a wrapper for the Prerau lab's multitaper implementation (<a href="https://prerau.bwh.harvard.edu/" target="_blank">prerau.bwh.harvard.edu</a>), but I ran into difficulties processing larger 72 hour recordings due to memory constraints on my system, limiting analysis to shorter EEG recordings we collected in other behavioral experiments. It was still handy for visualizing epileptic progression in our seizure prone lines, but much of the Prerau's lab highlighted use case was in human sleep assessment, so I wanted to be able to at least also replicate the functional capabilities in our longer recordings we perform.
+
         <h2>Approach & Methods</h2>
-        <p>Extended the Prerau lab's multitaper spectrogram engine with three key optimizations:</p>
+        <p>The bulk of the analysis work still lies in the Prerau lab's multitaper spectrogram engine, though I made three key changes in the "pipeline":</p>
         <ul>
-          <li><strong>Chunked processing architecture:</strong> Processes recordings in 1-hour temporal segments using lazy file loading (metadata only), enabling analysis of arbitrarily long recordings within memory constraints.</li>
-          <li><strong>Dual-mode power normalization:</strong> Added relative power conversion (percentage of total) alongside absolute power, enabling consistent comparisons across recording sessions despite amplification differences.</li>
-          <li><strong>Automated batch processing:</strong> Recursive file discovery, error recovery, and reporting .txts for processing entire experimental cohorts unattended.</li>
+          <li><strong>Chunked processing bins:</strong> Instead of trying to preload the entire file, I opted to load 1 hour segments using lazy file loading which I would then "stitch" back together. So far, this implementation has worked, evident by the drastic reduction in crashes my computer experieces while I analyze files (100% -> 0%!)</li>
+          <li><strong>Power normalization feature:</strong> I also added a relative power conversion (calculated as a percentage of total power) alongside Prerau's absolute power, something I hope to use later down the line for standardizing a cross-subject comparison of total spectral power. I should note though that a limitation with this approach is that higher frequencies tend to wash out a lot as they tend to have lower power contributions than the lower frequencies in the same animal.</li>
+          <li><strong>Batch processing and customizable parameters via a GUI:</strong> I also like conveniece, and a big goal was to make the platform usable by all the members of our lab. So, I allowed easy user input for the various mutlitaper parameters Prerau and co. highlight in their paper. I also added simple file discovery and error logging.</li>
         </ul>
         
         <h2>Results & Findings</h2>
-        <p>The pipeline successfully processes multi-day recordings that previously failed, primarily utilizing aggressive garbage collection after binned chunks to maintain manageable memory usage. Automated batch processing handles complete experimental cohorts with detailed error logs for quality control. The enhanced spectral resolution revealed subtle frequency dynamics during sleep stage events that were obscured in traditional EEG waveform visualizers, allowing for cursory identification of waveform regions for downstream spiking analysis and PSD.</p>
-        
-        <h2>Impact & Conclusions</h2>
-        <p>This work removed barriers to large-scale EEG analysis in our lab, enabling routine examination of multi-day recordings. The enhanced spectral detail provides quantifiable metrics for assessing therapeutic efficacy in our animal models. Most importantly, though, is the user-friendly GUI that allows less technical peers to populate the customizable features of Prerau's multitaper spectrograms, allowing everyone the opportunity to look at the EEG data we've collected.</p>
-        
-        <h2>To Do</h2>
-        <p>Fix scaling of selected second generated EDF channel. <br> Add AEP/fVEP ERP analysis scripts as additional tabs at the top of the GUI <br> Allow for Event Related Spectral Perturbation figure generation for the evoked potentials experiments.</p>
-        <!-- Embedded gallery (optional) -->
+        <p>The new pipeline successfully processes multi-day recordings that previously gave my computer a headache, primarily via aggressive garbage collection after chunks were finished with analysis to maintain manageable memory usage. The results seem pretty promising, as Prerau's higher resolution spectrograms reveal frequency dynamics during sleep stage events that are hard to notice in traditional EEG waveform. I'm currently working on rediving into literature to find any other documented trends in mouse EEG for easy sleep stage identification and any other behaviors I can pair with EEG.</p>
         <div class="projectThumbnail img">
           <img src="images/gui_main.png">
           <img src="images/gui_params.png">
           <img src="images/spectrogram.png">
         </div>
+        <h2>To Do</h2>
+        <p>Fix scaling of selected second generated EDF channel. <br> Add AEP/fVEP ERP analysis scripts as additional tabs at the top of the GUI <br> Allow for Event Related Spectral Perturbation figure generation for the evoked potentials experiments.</p>
       </section>
 
       <!-- Project 2 Detail -->
@@ -791,12 +772,13 @@
         <p>I am currently in the early-mid stages of a passion project where I'm building a real-time brain-computer interface to detect motor imagery (imagined muscle clenching) from single-channel EEG recordings on myself to translate my EEG signals into keyboard commands in real time.</p>
 
         <h2>Background & Motivation</h2>
-        <p><a href="https://shop.openbci.com/products/all-in-one-eeg-electrode-cap-bundle" target="_blank">Hobbyist BCI toolkits can be costly</a>, especially for someone with my current budget, limiting my accessibility for personal education and experimentation. I found that there was some online documentation (<a href="https://www.instructables.com/DIY-EEG-and-ECG-Circuit/" target="_blank">found here</a>) for RC circuit enthusiasts that illustrated the necessary components needed to make your own homemade EEG setup off of a breadboard, resistors/capacitors, and some select ICs, running me about $40 total in raw supply costs. I particularly liked this approach as it additionally included instructions for several critical analogue noise filtering stages at 60Hz notch filtering, 31Hz LFP, 1HZ HPF while also utilizing the computer's mic-in port and soundcard as a final-stage ADC. The ultimate goal was to utilize this as a recording data acquisition platform to allow me to self-experiment functional motor imagery detection tasks, akin to the sensory evoked potentials experiments we conduct in the Silverman Lab!</p>
-        <br><p>Most of all, I've had a long-standing interest in prosthetic devices and body/brain/machine interfaces, and I thought it'd be fulfilling to begin personal work in this domain as a passion project.</p>
+        <p><a href="https://shop.openbci.com/products/all-in-one-eeg-electrode-cap-bundle" target="_blank">Hobbyist BCI toolkits can be costly</a>, especially for someone with my current budget, limiting my accessibility for personal education and experimentation. I found that there was some online documentation (<a href="https://www.instructables.com/DIY-EEG-and-ECG-Circuit/" target="_blank">found here</a>) for RC circuit enthusiasts that illustrated the necessary components needed to make your own homemade EEG setup off of a breadboard, resistors/capacitors, and some select ICs, running me about $40 total in raw supply costs. I particularly liked this approach as it additionally included instructions for several critical analogue noise filtering stages at 60Hz notch filtering, 31Hz LFP, 1HZ HPF while also cleverly utilizing the computer's mic-in port and soundcard as a final-stage ADC. There were some problems I found with the guide, notably that the visual pinout of the breadboard was incorrect so I had to refer to the circuit logic layout. In fact, the op-amp diagrams on the raw circuit weren't fully labeled, either, so I had to go to the datasheets to figure out the full pin layouts and specificiations, though both hurdles were fun obstacles that didn't prove to be too challenging. The ultimate goal was to utilize this as a recording data acquisition platform to allow me to self-experiment functional motor imagery detection tasks, akin to the sensory evoked potentials experiments we conduct in the Silverman Lab!</p>
+        <br><p>Most of all, I've had a long-standing interest in prosthetic devices and body/brain/machine interfaces, and I thought it'd be fulfilling to begin personal work in this domain as a passion project. Plus, I think it'd be pretty fun to beat my friends in games we play together while hooked up to my whole device.</p>
         <h2>Technical Implementation</h2>
-        <p>Utilizing the medical grade instrumentation amplifier AD620 as per the enthusiast guide, I take in the two inputs from 2 electrodes and compute the difference between them, amplified by a controllable gain multiplier dependent on the resistence between pins 1 and 8. The next 6 main stages are comrpised of the 60Hz notch filter (to reduce electrical noise), a 7Hz high pass filter, a 31Hz low pass filter, a 1Hz high pass filter, a necessary gain stage to improve signal to noise ratio, and one last 60Hz notch filter. It's not described in the guide, but I did some further digging on how this phenomenom arose, and it was really interesting. Since capacitors are capable of storing a charge (the degree of which is dependent on it's specifications), wiring either end of the capacitor in the same circuit allows for interesting oscilitory activity of the signal, which, when the correct parameters are selected, allows you to selectively wash out (or amplify!) specific frequencies of interest. From there, in order to standardize electrode placement during the experiment, I built my own 1 channel 2 electrode EEG cap with some hot glue, electric tape, and a ski mask :&#41;<br><br>Hardware aside, I then developed four simple Python modules to make a complete BCI pipeline, namely a validation real-time visualization (of the activity and time-domain + FFT) using circular buffering of the mic in EEG data to verify circuit quality. I produced my own psychology behavioral task using PsychoPy (on an unfortunately older Python version) to present pseudo-randomized visual cues to myself (trials such as "CLENCH" vs "REST") with synchronized 3-second EEG recordings, collecting 80 trials per session with variable inter-trial intervals.
+        <p>As per the enthusiast guide, I utilized the medical grade instrumentation amplifier AD620 where I take in the two inputs from 2 electrodes and compute the difference between them, amplified by a controllable gain multiplier dependent on the resistence between pins 1 and 8. The next 6 main stages are comrpised of the 60Hz notch filter (to reduce electrical noise), a 7Hz high pass filter, a 31Hz low pass filter, a 1Hz high pass filter, a necessary gain stage to improve signal to noise ratio, and one last 60Hz notch filter via operational amplifiers (TL0884CN). It's not described in the guide, but I did some further digging on how this phenomenom arose, and it was actually really interesting. Since capacitors are capable of storing a charge (the degree of which is dependent on it's specifications), wiring either end of the capacitor in the same circuit allows for interesting oscilitory activity of the signal, which, when the correct parameters are selected, allows you to selectively wash out (or amplify!) specific frequencies of interest. From there, in order to standardize electrode placement during the experiment, I built my own 1 channel 2 electrode EEG cap with some hot glue, electric tape, and a ski mask :&#41;
+          <br><br>Hardware aside, I then developed four simple Python modules to make a complete BCI pipeline, namely a validation real-time visualization (of the activity and time-domain + FFT) using circular buffering of the mic in EEG data to verify circuit quality. I produced my own psychology behavioral task using PsychoPy (on an unfortunately older Python version) to present pseudo-randomized visual cues to myself (trials such as "CLENCH" vs "REST") with synchronized 3-second EEG recordings, collecting 80 trials per session with variable inter-trial intervals.
         <br><br>
-        Then, I preprocess my collected data: I downsample from 48 kHz (mic in sampling rate) to 250 Hz, apply fourth-order Butterworth bandpass (8-30 Hz) to isolate alpha through beta frequencies, extract log-transformed bandpower features using Welch's method, and then I'm able to train a logistic regression ML model with 5-fold stratified cross-validation. Lastly, it's just a matter of screening my live-data feed from my mic continuously at 1 second EEG windows at 4 before triggering my selected keyboard output.</p>
+        Then, I preprocess my collected data: I downsample from 48 kHz (mic in sampling rate) to 250 Hz, apply a bandpass within 8-30 Hz to further scrub the noise in parallel with the analogue filtering stages, and then feed my dataset to train a logistic regression ML model in scikit learn. Lastly, it's just a matter of screening my live-data feed from my mic continuously at 1 second EEG windows before triggering my selected keyboard output based on my motor imagery state.</p>
           <div class="projectThumbnail img">
           <img src="images/eeg_breadboard.jpg">
           <img src="images/cap.jpg">
@@ -804,62 +786,96 @@
         </div>
         <br><br>
         <h2>Results & Performance</h2>
-        <p>Successfully demonstrated the complete pipeline from signal acquisition through real-time actuation. The modular architecture enables independent optimization of hardware (circuit design), software (feature engineering), and user factors (motor imagery technique). Real-time classification achieves ~4 Hz update rate with 0.75-second total latency including debouncing—suitable for discrete control tasks. Cross-validation framework is implemented to evaluate classifier generalization, with accuracy dependent on signal-to-noise ratio from the DIY circuit. The PsychoPy interface provides millisecond-precision stimulus timing for building clean labeled datasets.</p>
-
-        <h2>Learnings & Future Work</h2>
-        <p>The primary challenge has been achieving consistent signal quality from DIY hardware—EEG amplitudes are only 10-100 µV, requiring high gain while minimizing 60 Hz line noise and motion artifacts. This provided hands-on experience with differential amplification, electrode impedance, and grounding strategies. Feature engineering proved critical: while simple bandpower works as a baseline, incorporating spatial information (multi-channel), temporal dynamics, or advanced spectral features could improve robustness.
+        <p>With some iniial success, I've begun ML model training from signal acquisition through real-time signal screening. It seems my current approach is able to distinguish my MI with approximately 65% confidence, which isn't a whole lot better than a coinflip, but it's a start! The current main next-step problems to tackle is signal to noise ratio and undertrained models. The system as a whole obviously has a lot of limitations, but I'm in the middle of ironing the issues out. Notably, it seems like the ski mask, while not a bad idea on paper, could use some tweaks to be more effective in seating the electrodes to my head. I cut windows alongside the electrode sites to more easily move my long flowing locks of hair out of the way, and seat the electrodes with conductive electrode gel, but the electrodes are still somewhat prone to dislodging and introduce noise. It's additionally hard to verify the signal's waveform during experimentation, as I want minimal disturbances in my field of vision to not distract me from my behavioral task, so I can't display my waveform visualizer on my second monitor, either. I'm thinking of adding an adjustable (non-conductive) strap along the same plane that the 2 electrodes are in to ensure both electrodes are good tight fits.</p>
         <br><br>
-        The project highlighted BCI's interdisciplinary nature—spanning neuroscience (event-related desynchronization), signal processing (filtering, spectral estimation), machine learning (classification, validation), and experimental design (randomization, timing control). Future extensions include multi-class classification (left/right hand discrimination), continuous control (variable speed output), adaptive calibration for baseline drift, and hybrid paradigms combining motor imagery with P300 or SSVEP.</p>
-
+        <p>I also want to revisit the analogue filtering stages to validate that the math is good on the chosen capacitors/resistors and would result in ideal frequency washout. Lastly, then it's just a matter of confirming a binary clench / non-clench motor imagery differentiation can occur in real-time, then I can proceed with individual finger MI tasks for finer keyboard input control.</p>
         <h2>To Do</h2>
-        <p>Continuing signal acquisition optimization with circuit redesign for improved common-mode rejection. Beginning systematic behavioral data collection across multiple sessions to build larger training datasets for more robust cross-session generalization. Exploring multi-channel acquisition (C3/C4 electrodes) to leverage spatial features and implement lateralization decoding.</p>
+        <p>Main item is to improve current signal to noise ratio in my 1 recording electrode set up and distinguish binary MI states on my left hand.</p>
+        <p>Next, I'd like to implement more electrodes. I have an additional AD620 chip which would double(!) the amount of recording electrodes I can read from. On a more serious note, they are pretty cheap compared to a commercially available EEG headset and don't take long to ship. Having more recording electrodes would definitely improve the robustness of my ML training sessions, improving confidence metrics and likely allowing for further specificity in the MI tasks I can train for/decode.</p>
+        <p>A lot of this project is seeing how far I can get despite the resource limitations I have working against myself. A big player in my signal to noise problems could also my sound card, so working around it via analogue to USB via my own ADC setup could be an avenue, though it's a "push comes to shove" solution if possible.</p>
         <div class="project-gallery"></div>
       </section>
 
-      <!-- Project 3 Detail -->
       <section id="project3" class="project-detail">
         <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
-        <h1>Project Title 3</h1>
+        <h1>Behavioral Coupling of EEG and Positive Operant Conditioning Task</h1>
         <div class="project-meta">
-          <strong>Completed:</strong> July 2024<br>
-          <strong>Type:</strong> Side Project / Personal Research
+          <strong>Completed:</strong> September 2025<br>
+          <strong>Type:</strong> Work Project
         </div>
         <div class="project-tags">
-          <span class="tag">Experimental</span>
-          <span class="tag">Biotech</span>
-          <span class="tag">Field Work</span>
+          <span class="tag">Prototyping</span>
+          <span class="tag">Signal Acquisition</span>
+          <span class="tag">Electrical Fundamentals</span>
         </div>
-        <p>Overview of project 3. Replace with your content.</p>
-        <h2>Overview</h2>
-        <p>What was this project about?</p>
-        <h2>What I Did</h2>
-        <p>Walk through the main steps or activities.</p>
-        <h2>Results & Learnings</h2>
-        <p>What did you discover? What skills did you develop?</p>
-        <div class="project-gallery"></div>
+        <p>All about a Silverman lab work project overcoming historical hurdles for implementing wireless EEG behavioral assays in a touchscreen learning task. Here I prototyped and produced a non-shielding behavioral experiment platform, identified ideal wiring layouts for our touchscreen and EEG system interaction, and I'll go over some next-step directions for an upcoming near-future experimental plans.</p>
+        <h2>Overview and Problem Items</h2>
+        <p>In our lab, we utilize <a href="https://shop.openbci.com/products/all-in-one-eeg-electrode-cap-bundle" target="_blank">Lafayette Instrument's Bussey-Saksida Touch Screen Chambers</a> (or the ABET II touchscreen chambers) for highly customizable positive operant conditioning tasks in our mouse models, though there have been historical difficulties prior to my enrollment in the Silverman lab in successfully integrating our main EEG acquisition platforms in DSI with the third party touch screen system for three primary reasons:</p>
+        <ul>
+          <li><strong>Shielding Experimental Environment:</strong> The ABET II behavioral chambers were machined from metal, serving as large shielding factors that denied signal transmission from our wireless EEG telemer in the mice with the external receiver, washing out the signal entirely.</li>
+          <li><strong>Digital IO Setup Conditions:</strong> The experimental chambers are highly customizable and designed to be easily programmable, though require an additional PCI card to be installed correctly for the Lafayette system to be able to digitally output experiment items of interest in real time.</li>
+
+          <li><strong>Wiring Layout with Correct Grounding:</strong> The last and most important hurdle is wiring the digital output lines from the PCI card to the DSI EEG system.</li>
+        </ul>
+        <h2>Results and Learnings</h2>
+        <p>I produced effective workarounds to all three problem items:</p>
+        <ul>
+          <li><strong>Shielding Experimental Environment:</strong> Replace metal experiment platforms with acrylic, allowing signal to transfer across the material with low signal impedance. An additional benefit to this is they now match our other behavioral chambers in material and are easy to reproduce. For this stage, I shadowed my father who is a prototype engineer and got experience in designing/manufacturing parts material parts. Main parts were designed in SolidWorks via .STEP file, and seperated into individual parts for CNC machining in .dxf file format with accomanying gcode for fabrication. Then, I handled CNC machining operations, part preperation (deburring, scoring attachment points), and assembled final product with Acrylic Weld On (solvent bonding of material) at 90 deg. Final parts match factory metal platforms and fit in behavioral chambers with the added benefit of low EEG impedence and easier cleaning!</li>
+          <div class="projectThumbnail img">
+          <img src="images/wireframe_dxf.jpg">
+          <img src="images/cnc.jpg">
+          <img src="images/cnc_done.jpg">
+          <img src="images/deburring.jpg">
+          <img src="images/fab_setup.jpg">
+          <img src="images/acrylic_platforms.jpg">
+        </div>
+          <li><strong>Digital IO Setup Conditions:</strong> The highly customizable Abet II system allowed me to modify our behavioral task to include an additional digital output line depending on the animal's performance in the chamber. To reduce the amount of wired connections (and therefore troubleshooting) between our Touchscreen and EEG systems, I instead chose to have each behavioral measure of interest produce a stereotyped TTL pulse. For example, correct animal trials produced one square TTL pulse of 500ms duration, whereas incorrect trials would be accompanied by 3 shorter pulses. Animal reward collection would produce 2 TTL pulses. The result would be an additional "touchscreen metrics" channel in our EEG system, where EEG signatures could be assessed alongside performance and behavioral metrics, akin to our evoked potentials experiments we perform.</li>
+
+          <li><strong>Wiring Layout with Correct Grounding:</strong> The last hurdle was successfully resolved by stripping a BNC coaxial wire to uncover the positive signal wire and grounding wires. Lafayette provides a TTL breakbox connector to our PCI card for digital output lines, though lacks any additional manual or guidance without a rather hefty price tag. Funnily enough, it was my work in my DIY EEG and BCI I've been developing on the side as a passion project that provided the necessary insights for resolving the wiring issue. It was simply a matter of correctly programming the digital output line to go to an individual breakbox channel for a given chamber, and then routing the positive signal and ground wires to that. There, the other BNC end routes into the DSI system painlessly.</li>
+        <div class="projectThumbnail img">
+          <img src="images/bnc_apart.jpg">
+          <img src="images/example_pinout.jpg">
+          <img src="images/platform_test.jpg">
+        </div>
+        </ul>
+        <h2>Next Steps</h2>
+        <p>After resolving all the issues and getting this behavioral avenue up and running, we have plans in early 2026 to begin a touchscreen EEG cohort. Just like our evoked potentials metrics, I propose a new behavioral measure called "Behavioral Evoked Potentials", which would identify the event related EEG waveform potential with respect to a behavioral metric of interest (e.g. if the animal gets the trial correct, trial incorrect, collects the strawberry milkshake reward, etc.), allowing us to oberserve the evolution in the waveform trends over time as the animal learns the task.</p>
+        
       </section>
 
-      <!-- Project 4 Detail -->
       <section id="project4" class="project-detail">
         <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
-        <h1>Project Title 4</h1>
+        <h1>EEG Waveform Lettering GUI</h1>
         <div class="project-meta">
-          <strong>Date:</strong> August 2024 - October 2024<br>
-          <strong>Role:</strong> Researcher
+          <strong>Date:</strong> October 2025 - November 2025<br>
+          <strong>Role:</strong> Personal Project Developer
         </div>
         <div class="project-tags">
-          <span class="tag">Add</span>
-          <span class="tag">Your</span>
-          <span class="tag">Tags</span>
+          <span class="tag">Python</span>
+          <span class="tag">Graphical Design</span>
+          <span class="tag">MatplotLib</span>
+          <span class="tag">WIP</span>
         </div>
-        <p>Detailed overview of project 4. Replace with your actual content.</p>
-        <h2>Section 1</h2>
-        <p>Add your content here.</p>
-        <h2>Section 2</h2>
-        <p>Add more details about your project.</p>
-        <h2>Section 3</h2>
-        <p>Continue describing your work and findings.</p>
-        <div class="project-gallery"></div>
+        <p>A fun side project and tool that I made to make all the section headers on each page that hopefully caught your attention! The current approach works by sectioning a word into 3 rows/"channels" to mock-imitate an EEG channel layout. Initially, I was considering automating the generated output based on a user text input, and then using an edge detection algorithm such as OpenCV to segment letters to identify when each respective channel would need to "contribute" erratic wave activity to produce the illusion of a complete letter, but I was on a time-crunch with my other projects and work, so I opted instead a workaround that let me manually draw the respective channel's letter "contributions" and then stitch all the channels together in a final output. It's a bit messy and took some getting used to, but if it works, it works!</p>
+        <h2>How It Works</h2>
+      <p>The tool presents three independent drawing canvases representing mock EEG channels. I added options for toggling drawing mode with hotkeys to go between a "baseline" EEG recording and "activity" based EEG signaling. The tool makes the waveform from sinusoidal oscillations with adjustable frequencies and amplitudes. It's a silly workaround, but the trick is really trying to strategically place the high-amplitude oscillations in each channel at the right horizontal positions so that when all three are vertically stacked, the combined waveforms visually spell out letters. To help with this, I added a crosshair that shows across all three channels to help align them. For example, to draw an "M", the top and bottom channels contribute the outer peaks while the middle channel fills the central "V" shapped valley.</p>
+
+        <h2>Technical Implementation</h2>
+        <p>Built entirely with Matplotlib's interactive widgets and mouse event callbacks (<code>button_press_event</code>, <code>motion_notify_event</code>) to capture freehand drawing. Points are stored as coordinate tuples with a boolean flag indicating letter and baseline modes. I also added an interpolation engine to help smooth my bad mouse handwriting input into continuous paths.
+        <br><br>
+        The preview panel aggregates all three channels in real-time, offsetting each by 1 unit vertically to allow the different channels to stich together as seemlessly as I could. I impleented export functions to make PNGs and animated GIFs using Matplotlib's PillowWriter module.</p>
+          <div class="projectThumbnail img">
+          <img src="images/waveform_text_writer.png">
+          <img src="images/Projects.gif">
+        </div>
+        <h2>Design Challenges & Workarounds</h2>
+        <p>The original vision involved OpenCV edge detection to automatically decompose letters into channel contributions, though time constraints derailed this, but manual drawing proved way more effective once muscle memory developed for common letter patterns. The trickiest part was honestly figuring out how I can stitch together vertical letter elements without there being sloppy gaps (as it's all just generated with a waveform). I found that it's most effective to have a "rectangular" waveform region where the wave quickly jumps between the tops and bottoms of the vertical letter element with pulldowns to baseline activity that flank either space to cleanly represent the letter column.
+        <br><br>
+        There is also a save/load system using JSON to preserve design sessions that stores all points and oscillation parameters for later adjustment.</p>
+
+        <h2>Future Improvements</h2>
+        <p>The automated edge detection in OpenCV approach remains appealing for a future version, so I might revisit this at a later point, as I feel the letter waveforms are a novel graphical element I hadn't seen elsewhere.</p>
+        
       </section>
 
       <!-- Project 5 Detail -->
@@ -867,21 +883,21 @@
         <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
         <h1>Project Title 5</h1>
         <div class="project-meta">
-          <strong>Date:</strong> November 2024 - Present<br>
-          <strong>Role:</strong> Your Role
+          <strong>Date:</strong> Date<br>
+          <strong>Role:</strong> Role
         </div>
         <div class="project-tags">
-          <span class="tag">Add</span>
-          <span class="tag">Your</span>
-          <span class="tag">Tags</span>
+          <span class="tag">Tags go here</span>
+          <span class="tag">Tags go here</span>
+          <span class="tag">Tags go here</span>
         </div>
-        <p>Detailed overview of project 5. Replace with your actual content.</p>
+        <p>Detailed overview of project 5. Replace with the actual content.</p>
         <h2>Section 1</h2>
         <p>Add your content here.</p>
         <h2>Section 2</h2>
-        <p>Add more details about your project.</p>
+        <p>Add more details about the project.</p>
         <h2>Section 3</h2>
-        <p>Continue describing your work and findings.</p>
+        <p>Continue describing work and findings.</p>
         <div class="project-gallery"></div>
       </section>
     </main>
