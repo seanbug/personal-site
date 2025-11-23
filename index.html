@@ -126,7 +126,7 @@
     .backdrop.visible{ opacity: 1; pointer-events: auto; }
 
     /* =================== Main Content =================== */
-    .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 40px 0px; }
+    .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 0 0 40px; }
 
     /* home page background box */
     .welcome-section, #home {
@@ -139,15 +139,15 @@
     #home.content-section { display: none; }
     #home.content-section.active { display: block; }
 
-    .welcome-header { font-size: 32px; font-weight: 600; margin-bottom: 20px; }
+    .welcome-header { font-size: 32px; font-weight: 600;}
 
     /* =================== Banners: responsive, proportional =================== */
-    .scrolling-banner,
+    .scrolling-banner
     {
       background: white;
-      border: 2px ridge #333333;
+      border: none;
       padding: 10px;
-      margin-bottom: 0px;
+      margin: 0 0 8px 0;
       overflow: hidden;
       position: relative;
       display: flex;
@@ -155,9 +155,36 @@
       justify-content: center;
       border-radius: 8px;
       width: 100%;
-      max-height: var(--banner-max-h);
-      aspect-ratio: var(--banner-aspect);
+      height: 20vh;
+      max-height: none;
+      aspect-ratio: auto;
     }
+
+    .scrolling-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .waveform-divider {
+      margin: 0 0 24px 0;
+      width: 100%;
+    }
+    .waveform-divider img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .welcome-header {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .help-text { font-size: 18px; text-align: center; margin-top:-20px; }
+    
     .section-banner { margin-bottom: 30px; }
     .scrolling-banner img,
     .section-banner img {
@@ -166,14 +193,9 @@
       object-fit: contain;
     }
 
-    .help-text {
-      font-size: 18px; color: #666; display: flex; align-items: center;
-      justify-content: center; gap: 10px;
-    }
-
     .cautionary-blurb {
       font-size: 12px; color: #a7a7a7 !important; display: flex;
-      align-items: center; justify-content: center; gap: 10px; margin-top: -30px;
+      align-items: center; justify-content: center; ; margin-top: -30px;
     }
     /* =================== Portfolio Preview Header =================== */
     /* -- Added per user request: simple text header with slight separation */
@@ -228,6 +250,18 @@
       height: auto;
       object-fit: contain; /* never crop */
       background: #fff;
+    }
+
+    .project-img {
+      flex-basis: 260px;
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      /* natural flow size: grow to fill, but prefer around 320px width */
+      max-width: 500px; /* prevents overly wide images on huge screens */
+      cursor: pointer;
+      transform: translateY(-4px);
+            padding: 8px 14px;
     }
     
     .projectThumbnail img{
@@ -516,50 +550,58 @@
     <main class="main-content">
       <!-- =================== Home Section =================== -->
       <section id="home" class="content-section active">
-        
-        <div class="scrolling-banner fade-in">
-          <!-- Critical banner: eager + high priority -->
-          <!-- NOTE: CSS cannot slow a GIF; see VIDEO alternative below -->
-          <img src="images/SeansPortfolio.gif" alt="Sean's portfolio - animated welcome banner" loading="eager" decoding="sync" fetchpriority="high">
-          <!--
-          Alternative (for slower playback via <video>):
-          <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain" playbackRate="0.6">
-            <source src="videos/SeansPortfolio.mp4" type="video/mp4">
-          </video>
-          -->
-          <div class=""><img src="images/waveform_sectioner.png" alt="Sean's portfolio - animated welcome banner" loading="eager" decoding="sync" fetchpriority="high"></div>
-          <h1 class="welcome-header fade-in">Hello and welcome!</h1>
+
+        <div class="section-banner fade-in">
+          <img src="images/SeansPortfolio.gif"
+              alt="Sean's portfolio - animated welcome banner"
+              loading="eager" decoding="sync" fetchpriority="high">
         </div>
-        <p class="help-text fade-in">Help yourself and enjoy your stay!<span class="coffee-cup" id="coffeeCup">☕</span></p>
+
+        <!-- waveform divider directly under banner -->
+        <div class="waveform-divider fade-in">
+          <img src="images/waveform_sectioner.png"
+              alt="EEG waveform section divider"
+              loading="eager" decoding="sync" fetchpriority="high">
+        </div>
+
+        <!-- heading under waveform -->
+        <h1 class="welcome-header fade-in">Welcome!</h1>
+
+        <p class="help-text fade-in">
+          Help yourself and enjoy your stay!
+          <span class="coffee-cup" id="coffeeCup">☕</span>
+        </p>
         <p class="cautionary-blurb fade-in">Don't spill it!</p>
+        <hr>
 
         <!-- =================== Portfolio Preview Section (Horizontal Flow) =================== -->
-        <h2 class="section-subheader fade-in">Portfolio Preview <br>Click a project to learn more<br></h2>
-        <div class="photo-collage">
-          <div class="collage-item fade-in">
-            <img src="images/spectrogram_example.png" alt="Spectrograms" loading="lazy" decoding="async" fetchpriority="low">
-            <div class="collage-caption"><span>Spectrograms</span></div>
+        <h3 class="section-subheader fade-in">Click on a project to quickly learn more</h3>
+        <p class="fade-in">Or alternatively, go to the 'Projects' tab on the left side pannel to see a detailed overview!</p>
+        <div class="project-grid">
+          <!-- Add data-preview="images/your_thumb.jpg" to show a preview -->
+          <div class="project-card fade-in" data-project="project1" data-preview="">
+            <h4>Multitaper Spectrogram Implementation in EEG Analysis</h4>
+            <div div class="projectThumbnail img">
+              <img src="images/spectrogram.png" alt="spectrogram" loading="lazy" decoding="async" fetchpriority="low"></div>
           </div>
-          <div class="collage-item fade-in">
-            <img src="images/eeg1.jpg" alt="Personal DIY EEG/BCI Project" loading="lazy" decoding="async" fetchpriority="low">
-            <div class="collage-caption"><span>DIY EEG/BCI Project</span></div>
+          <div class="project-card fade-in" data-project="project2" data-preview="">
+            <h4>Personal 'DIY' EEG and BCI Passion Project</h4>
+            <div class="project-preview"></div>
+            <div div class="projectThumbnail img">
+              <img src="images/eeg1.jpg" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
           </div>
-          <div class="collage-item fade-in">
-            <img src="images/kcnt1_div3.jpg" alt="Cortical Primary Neuron Cultures" loading="lazy" decoding="async" fetchpriority="low">
-            <div class="collage-caption"><span>Cortical Primary Neuron Cultures</span></div>
+          <div class="project-card fade-in" data-project="project3" data-preview="">
+            <h4>Behavioral Coupling of EEG and Positive Operant Conditioning Task</h4>
+            <div class="project-preview"></div>
+            <div div class="projectThumbnail img">
+              <img src="images/sean_design.png" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
           </div>
-          <div class="collage-item fade-in">
-            <img src="images/sean_design.png" alt="Wireframe .dxf of Abet II Touchscreen Platforms in Acrylic" loading="lazy" decoding="async" fetchpriority="low">
-            <div class="collage-caption"><span>Wireframe .dxf of Abet II Touchscreen Platforms in Acrylic</span></div>
+          <div class="project-card fade-in" data-project="project4" data-preview="">
+            <h4>EEG Waveform Lettering GUI</h4>
+            <div class="project-preview"></div>
+            <div div class="projectThumbnail img">
+              <img src="images/waveform_text_writer.png" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
           </div>
-          <div class="collage-item fade-in">
-            <img src="images/acrylic_platforms.jpg" alt="Showcase of Abet II Touchscreen Platforms in Acrylic" loading="lazy" decoding="async" fetchpriority="low">
-            <div class="collage-caption"><span>Showcase of Abet II Touchscreen Platforms in Acrylic</span></div>
-          </div>
-          <div class="collage-item fade-in">
-            <img src="images/rat_CA3_neurons.jpg" alt="Histology of a transverse section of the Rat Hippocampus (CA3) with Fluoro Ruby NTT" loading="lazy" decoding="async" fetchpriority="low">
-            <div class="collage-caption"><span>Histology of a transverse section of the Rat Hippocampus (CA3) with Fluoro Ruby NTT</span></div>
-          </div>                         
         </div>
         <!-- =================== /Portfolio Preview Section =================== -->
       </section>
@@ -574,12 +616,17 @@
             <source src="videos/AboutMe.mp4" type="video/mp4">
           </video>
           -->
+        <div class="waveform-divider fade-in">
+          <img src="images/waveform_sectioner.png"
+              alt="EEG waveform section divider"
+              loading="eager" decoding="sync" fetchpriority="high">
+        </div>  
         </div>
         <h2 class="fade-in">About Me</h2>
         <p class="fade-in">Welcome! I'm Sean, a junior specialist in neuroscience and biotech enthusiast with a passion for understanding the brain and identfying behavior-associated biomarkers in EEG.</p>
-        <p class="fade-in">In my current line of work involving several mouse models of neurodevelopmental disorders. I'm heavily involved in experimental design, behavioral experiments, craniotomy and brain surgery procedures, <em>in vivo</em>/<em>in vitro</em> neurophysiology classification, data processing, and manuscript preparation, though I'm mostly known by my lab coworkers as the "computer wizard guy".</p>
+        <p class="fade-in">In my current line of work involving several mouse models of neurodevelopmental disorders. I'm heavily involved in experimental design, behavioral experiments, craniotomy and brain surgery procedures, <em>in vivo</em>/<em>in vitro</em> neurophysiology classification, data processing, and manuscript preparation, though I'm mostly known by my lab coworkers as the "computer wizard guy" <small>¯\_(ツ)_/¯</small>.</p>
         <p class="fade-in">I'm also working on a personal project where I'm self-collecting my own personal EEG dataset from an RC circuit EEG device I developed from scratch for the purposes of building a DIY brain-computer interface.</p>
-        <p class="fade-in">Outside of work, it's easiest to find me at the mountains hiking/rock climbing, or at the beach surfing/fortifying my sand castle.</p>
+        <p class="fade-in">Outside of work, it's easiest to find me at the mountains hiking/rock climbing, or at the beach surfing/fortifying my sand castle. Unless I'm tired, in which case I'm usually at my computer.</p>
         <p class="fade-in">Read more about my various projects in the projects section!</p>
         <!-- About Me images (JS will wrap into .about-card for overlay/caption) -->
         <div class="work-image-placeholder fade-in">
@@ -597,43 +644,41 @@
             <source src="videos/Projects.mp4" type="video/mp4">
           </video>
           -->
+        <div class="waveform-divider fade-in">
+          <img src="images/waveform_sectioner.png"
+              alt="EEG waveform section divider"
+              loading="eager" decoding="sync" fetchpriority="high">
+        </div>
         </div>
         <h2 class="fade-in">Projects</h2>
         <div class="project-grid">
           <!-- Add data-preview="images/your_thumb.jpg" to show a preview -->
           <div class="project-card fade-in" data-project="project1" data-preview="">
-            <h3>Multitaper Spectrogram Implementation</h3>
+            <h3>Multitaper Spectrogram Implementation in EEG Analysis</h3>
             <div div class="projectThumbnail img">
               <img src="images/spectrogram.png" alt="spectrogram" loading="lazy" decoding="async" fetchpriority="low"></div>
-            <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
+            <p>Integrated a novel mathematical approach in processing largescale data sets in telemeter implanted mouse models to identify therapeutic targets in EEG trends for the Silverman lab...</p>
           </div>
           <div class="project-card fade-in" data-project="project2" data-preview="">
-            <h3>Personal 'DIY' EEG and BCI</h3>
+            <h3>Personal 'DIY' EEG and BCI Passion Project</h3>
             <div class="project-preview"></div>
             <div div class="projectThumbnail img">
               <img src="images/eeg1.jpg" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
-            <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
+            <p>All about my personal homemade EEG and BCI device! Following online documentation, I built and troubleshooted/began improving an analogue wet-electrode wearable EEG prototype to enable myself to begin collecting my own data sets frombehavioral training sessions. Currently, I'm in the late stages of validating signal acquisition in analogue and optimizing signal to noise ratio and beginning data set collection.</p>
           </div>
           <div class="project-card fade-in" data-project="project3" data-preview="">
-            <h3>Project Title 3</h3>
+            <h3>Behavioral Coupling of EEG and Positive Operant Conditioning Task</h3>
             <div class="project-preview"></div>
             <div div class="projectThumbnail img">
-              <img src="images/eeg1.jpg" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
-            <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
+              <img src="images/sean_design.png" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
+            <p>All about a Silverman lab work project overcoming historical hurdles for implementing wireless EEG behavioral assays in a touchscreen learning task. Includes information spanning from my prototyping and production of a non-shielding behavioral enclosure, identification of ideal wiring layouts for cross-system interaction, and directions for near-future experimental plans.</p>
           </div>
           <div class="project-card fade-in" data-project="project4" data-preview="">
-            <h3>Project Title 4</h3>
+            <h3>EEG Waveform Lettering GUI</h3>
             <div class="project-preview"></div>
             <div div class="projectThumbnail img">
-              <img src="images/eeg1.jpg" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
-            <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
-          </div>
-          <div class="project-card fade-in" data-project="project5" data-preview="">
-            <h3>Project Title 5</h3>
-            <div class="project-preview"></div>
-            <div div class="projectThumbnail img">
-              <img src="images/eeg1.jpg" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
-            <p>Brief description of your project. What did you do? What were the results? What did you learn?</p>
+              <img src="images/waveform_text_writer.png" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
+            <p>A fun side project that was used to make all the section headers on each page! The current approach has 3 rows/"channels" to mock-imitate an EEG channel layout. A semi-optimal approach I found was to divide letters into a 3 row system and manually draw the respective channel's letter "contributions" to give the illusion of lettering.</p>
           </div>
         </div>
       </section>
@@ -643,35 +688,41 @@
         <div class="section-banner fade-in">
           <img src="images/publicationbanner.gif" alt="Publications section banner" loading="lazy" decoding="async" fetchpriority="low">
         </div>
+        <div class="waveform-divider fade-in">
+          <img src="images/waveform_sectioner.png"
+              alt="EEG waveform section divider"
+              loading="eager" decoding="sync" fetchpriority="high">
+        </div>
         <h2 class="fade-in">Publications</h2> 
+        <p class="publication-item fade-in">The following publications list were drafting by my PI, Dr. Jill Silverman, and I regarding the various projects I've been involved in during my time working at the lab! Many are currently in their mid to late stages of completion, though we envision publications within the next year.</p>
         <div class="publication-item fade-in">
-          <h3>Translational Outcomes in a Novel Variant Mouse Model G288S of KCNT1-Related Epilepsy. Brain, In Review (2025)</h3>
-          <p class="authors">Olguin SL, Davis D, <strong>Berg SW</strong>, Rehman A, Sahagun E, Oswalt. PS, Patil M, Sullivan PDM, Zhang B, Bryda E, Ben-Shalom R, Silverman JL.</p>
+          <h3>Translational Outcomes in a Novel Variant Mouse Model G288S of KCNT1-Related Epilepsy.</h3>
+          <p class="authors">Olguin SL, Davis D, <strong>Berg SW</strong>, Rehman A, Sahagun E, Oswalt. PS, Patil M, Sullivan PDM, Zhang B, Bryda E, Ben-Shalom R, Silverman JL. | Brain, In Review (2025)</p>
           <p>BioRxiv https://doi.org/10.1101/2025.07.22.666003</p>
         </div>
         <div class="publication-item fade-in">
-          <h3>Aberrant <em>in vivo</em> neurophysiological outcomes and <em>in vitro</em> electrophysiological neuronal indices in preclinical models of KCNT1-Related Epilepsy. Journal of Neuroscience, In prep. (2025)</h3>
-          <p class="authors"><strong>Berg SW</strong>, Roy, D, Monsen ER, Haouchine OY, Olguin, SL, Patil M, Ben Shalom R, and Silverman JL.</p>
+          <h3>Aberrant <em>in vivo</em> neurophysiological outcomes and <em>in vitro</em> electrophysiological neuronal indices in preclinical models of KCNT1-Related Epilepsy.</h3>
+          <p class="authors"><strong>Berg SW</strong>, Roy, D, Monsen ER, Haouchine OY, Olguin, SL, Patil M, Ben Shalom R, and Silverman JL. | Journal of Neuroscience, In prep. (2025)</p>
         </div>
         <div class="publication-item fade-in">
-          <h3>Electrophysiological Biomarkers during Positive Operant Behavioral Assessment in preclinical models of KCNT1-Related Epilepsy. Journal of Neuroscience, In prep. (2025)</h3>
-          <p class="authors"><strong>Berg SW</strong>, Vaughan N, Silverman JL</p>
+          <h3>Electrophysiological Biomarkers during Positive Operant Behavioral Assessment in preclinical models of KCNT1-Related Epilepsy.</h3>
+          <p class="authors"><strong>Berg SW</strong>, Vaughan N, Silverman JL | Journal of Neuroscience, In prep. (2026)</p>
         </div>
         <div class="publication-item fade-in">
-          <h3>Leveraging Sensory Evoked Potentials as a Translational Biomarker in Preclinical Genetic Models of Neurodevelopmental Disorders. Molecular Autism, In Preparation. (2025)</h3>
-          <p class="authors">Monsen ER, Haouchine OY, <strong>Berg SW</strong>, Olguin SL and Silverman JL.</p>
+          <h3>Leveraging Sensory Evoked Potentials as a Translational Biomarker in Preclinical Genetic Models of Neurodevelopmental Disorders.</h3>
+          <p class="authors">Monsen ER, Haouchine OY, <strong>Berg SW</strong>, Olguin SL and Silverman JL. | Molecular Autism, In Preparation. (2025)</p>
         </div>
         <div class="publication-item fade-in">
-          <h3>Journal of Clinical Investigation, In preparation. (2025)</h3>
-          <p class="authors">Haouchine OY, Monsen ER, <strong>Berg SW</strong> and Silverman JL. </p>
+          <h3>Loss of CDKL5 produces hyperexcitable neurophysiological signatures, dysfunctional quality and quantity of sleep and aberrant imagining by magnetic resonance.</h3>
+          <p class="authors">Haouchine OY, Monsen ER, <strong>Berg SW</strong> and Silverman JL. | Journal of Clinical Investigation, In preparation. (2026).</p>
         </div>
         <div class="publication-item fade-in">
-          <h3>Neurophysiological biomarkers of aberrant gait dimensions:  Leveraging time synchronous cortical EEG and function dimensions to cortical inform platform provide translational biomarkers in genetic neurodevelopmental disorders. Molecular Autism, In preparation. (2025)</h3>
-          <p class="authors">Monsen ER, Haouchine OY, <strong>Berg SW</strong>, Olguin SL and Silverman JL.</p>
+          <h3>Neurophysiological biomarkers of aberrant gait dimensions:  Leveraging time synchronous cortical EEG and function dimensions to cortical inform platform provide translational biomarkers in genetic neurodevelopmental disorders.</h3>
+          <p class="authors">Monsen ER, Haouchine OY, <strong>Berg SW</strong>, Olguin SL and Silverman JL. | Molecular Autism, In preparation. (2026)</p>
         </div>
         <div class="publication-item fade-in">
-          <h3>A novel model of Ube3a overexpression provides interstitial and isodicentric preclinical models of Dup15q Syndrome by disease relevant behavior and neurophysiological phenotypes: An essential tool for Dup15q Syndrome Therapeutic Development. Molecular Psychiatry. In preparation. (2025)</h3>
-          <p class="authors">Monsen ER, Haouchune OY, Yotova AY, <strong>Berg SW</strong>,Olguin SL, Huie, EZ, Petkova SP, Yasui D, LaSalle JM and Silverman JL.</p>
+          <h3>A novel model of Ube3a overexpression provides interstitial and isodicentric preclinical models of Dup15q Syndrome by disease relevant behavior and neurophysiological phenotypes: An essential tool for Dup15q Syndrome Therapeutic Development.</h3>
+          <p class="authors">Monsen ER, Haouchune OY, Yotova AY, <strong>Berg SW</strong>,Olguin SL, Huie, EZ, Petkova SP, Yasui D, LaSalle JM and Silverman JL. | Molecular Psychiatry. In preparation. (2026)</p>
         </div>
       </section>
 
@@ -682,56 +733,86 @@
         <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
         <h1>Multitaper Spectrogram Implementation</h1>
         <div class="project-meta">
-          <strong>Date:</strong> January 2024 - March 2024<br>
-          <strong>Role:</strong> Lead Researcher
+          <strong>Date:</strong> June 2025 - August 2025<br>
+          <strong>Role:</strong> Sole Developer
         </div>
         <div class="project-tags">
           <span class="tag">Neuroscience</span>
           <span class="tag">Python</span>
-          <span class="tag">Data Analysis</span>
+          <span class="tag">Signal Processing</span>
+          <span class="tag">EEG Analysis</span>
         </div>
-        <p>Detailed overview of the project goes here. Replace this with your actual project description.
-          What was the main goal? What problem were you solving?</p>
+        <p>Developed a user friendly, memory-efficient pipeline for analyzing multi-day EEG recordings in mouse models using spectral analysis. Implemented temporal chunking to process recordings that exceeded available memory, enabling automated batch processing of complete experimental datasets.</p>
+        
         <h2>Background & Motivation</h2>
-        <p>Explain the context of this project. Why was this work important? What gap in knowledge 
-          or technology were you addressing?</p>
+        <p>Long-duration EEG recordings from telemetry-implanted mice are essential for tracking epileptic progression and sleep-stage classification in the Silverman Lab. I implemented a wrapper for the Prerau lab's multitaper implementation (<a href="https://prerau.bwh.harvard.edu/" target="_blank">prerau.bwh.harvard.edu</a>), but I ran into difficulties processing larger 72 hour recordings due to memory constraints on my system, limiting analysis to shorter EEG recordings we collected in other behavioral experiments.
+          <br><br>
+          The Prerau lab's multitaper implementation offered superior spectral resolution for identifying subtle oscillatory changes, but needed modification to handle large-scale datasets.</p>
+        
         <h2>Approach & Methods</h2>
-        <p>Describe how you approached the project. What methodologies did you use?</p>
+        <p>Extended the Prerau lab's multitaper spectrogram engine with three key optimizations:</p>
         <ul>
-          <li>Key method or technique 1</li>
-          <li>Key method or technique 2</li>
-          <li>Key method or technique 3</li>
+          <li><strong>Chunked processing architecture:</strong> Processes recordings in 1-hour temporal segments using lazy file loading (metadata only), enabling analysis of arbitrarily long recordings within memory constraints.</li>
+          <li><strong>Dual-mode power normalization:</strong> Added relative power conversion (percentage of total) alongside absolute power, enabling consistent comparisons across recording sessions despite amplification differences.</li>
+          <li><strong>Automated batch processing:</strong> Recursive file discovery, error recovery, and reporting .txts for processing entire experimental cohorts unattended.</li>
         </ul>
+        
         <h2>Results & Findings</h2>
-        <p>What did you discover or achieve? Include specific metrics or outcomes.</p>
+        <p>The pipeline successfully processes multi-day recordings that previously failed, primarily utilizing aggressive garbage collection after binned chunks to maintain manageable memory usage. Automated batch processing handles complete experimental cohorts with detailed error logs for quality control. The enhanced spectral resolution revealed subtle frequency dynamics during sleep stage events that were obscured in traditional EEG waveform visualizers, allowing for cursory identification of waveform regions for downstream spiking analysis and PSD.</p>
+        
         <h2>Impact & Conclusions</h2>
-        <p>What was the significance of this work? What did you learn?</p>
+        <p>This work removed barriers to large-scale EEG analysis in our lab, enabling routine examination of multi-day recordings. The enhanced spectral detail provides quantifiable metrics for assessing therapeutic efficacy in our animal models. Most importantly, though, is the user-friendly GUI that allows less technical peers to populate the customizable features of Prerau's multitaper spectrograms, allowing everyone the opportunity to look at the EEG data we've collected.</p>
+        
+        <h2>To Do</h2>
+        <p>Fix scaling of selected second generated EDF channel. <br> Add AEP/fVEP ERP analysis scripts as additional tabs at the top of the GUI <br> Allow for Event Related Spectral Perturbation figure generation for the evoked potentials experiments.</p>
         <!-- Embedded gallery (optional) -->
-        <div class="project-gallery"></div>
+        <div class="projectThumbnail img">
+          <img src="images/gui_main.png">
+          <img src="images/gui_params.png">
+          <img src="images/spectrogram.png">
+        </div>
       </section>
 
       <!-- Project 2 Detail -->
       <section id="project2" class="project-detail">
         <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
-        <h1>Project Title 2</h1>
+        <h1>Homemade EEG and BCI Personal Project</h1>
         <div class="project-meta">
-          <strong>Date:</strong> April 2024 - June 2024<br>
-          <strong>Role:</strong> Developer & Data Scientist
+          <strong>Date:</strong> August 2025 - Present<br>
+          <strong>Role:</strong> Personal Project Lead :&#41;
         </div>
         <div class="project-tags">
+          <span class="tag">BCI</span>
           <span class="tag">Machine Learning</span>
+          <span class="tag">Signal Processing</span>
           <span class="tag">Python</span>
-          <span class="tag">TensorFlow</span>
         </div>
-        <p>Detailed overview of project 2. Replace with your actual content.</p>
-        <h2>Problem Statement</h2>
-        <p>What technical challenge were you addressing?</p>
+
+        <p>I am currently in the early-mid stages of a passion project where I'm building a real-time brain-computer interface to detect motor imagery (imagined muscle clenching) from single-channel EEG recordings on myself to translate my EEG signals into keyboard commands in real time.</p>
+
+        <h2>Background & Motivation</h2>
+        <p><a href="https://shop.openbci.com/products/all-in-one-eeg-electrode-cap-bundle" target="_blank">Hobbyist BCI toolkits can be costly</a>, especially for someone with my current budget, limiting my accessibility for personal education and experimentation. I found that there was some online documentation (<a href="https://www.instructables.com/DIY-EEG-and-ECG-Circuit/" target="_blank">found here</a>) for RC circuit enthusiasts that illustrated the necessary components needed to make your own homemade EEG setup off of a breadboard, resistors/capacitors, and some select ICs, running me about $40 total in raw supply costs. I particularly liked this approach as it additionally included instructions for several critical analogue noise filtering stages at 60Hz notch filtering, 31Hz LFP, 1HZ HPF while also utilizing the computer's mic-in port and soundcard as a final-stage ADC. The ultimate goal was to utilize this as a recording data acquisition platform to allow me to self-experiment functional motor imagery detection tasks, akin to the sensory evoked potentials experiments we conduct in the Silverman Lab!</p>
+        <br><p>Most of all, I've had a long-standing interest in prosthetic devices and body/brain/machine interfaces, and I thought it'd be fulfilling to begin personal work in this domain as a passion project.</p>
         <h2>Technical Implementation</h2>
-        <p>How did you build the solution?</p>
+        <p>Utilizing the medical grade instrumentation amplifier AD620 as per the enthusiast guide, I take in the two inputs from 2 electrodes and compute the difference between them, amplified by a controllable gain multiplier dependent on the resistence between pins 1 and 8. The next 6 main stages are comrpised of the 60Hz notch filter (to reduce electrical noise), a 7Hz high pass filter, a 31Hz low pass filter, a 1Hz high pass filter, a necessary gain stage to improve signal to noise ratio, and one last 60Hz notch filter. It's not described in the guide, but I did some further digging on how this phenomenom arose, and it was really interesting. Since capacitors are capable of storing a charge (the degree of which is dependent on it's specifications), wiring either end of the capacitor in the same circuit allows for interesting oscilitory activity of the signal, which, when the correct parameters are selected, allows you to selectively wash out (or amplify!) specific frequencies of interest. From there, in order to standardize electrode placement during the experiment, I built my own 1 channel 2 electrode EEG cap with some hot glue, electric tape, and a ski mask :&#41;<br><br>Hardware aside, I then developed four simple Python modules to make a complete BCI pipeline, namely a validation real-time visualization (of the activity and time-domain + FFT) using circular buffering of the mic in EEG data to verify circuit quality. I produced my own psychology behavioral task using PsychoPy (on an unfortunately older Python version) to present pseudo-randomized visual cues to myself (trials such as "CLENCH" vs "REST") with synchronized 3-second EEG recordings, collecting 80 trials per session with variable inter-trial intervals.
+        <br><br>
+        Then, I preprocess my collected data: I downsample from 48 kHz (mic in sampling rate) to 250 Hz, apply fourth-order Butterworth bandpass (8-30 Hz) to isolate alpha through beta frequencies, extract log-transformed bandpower features using Welch's method, and then I'm able to train a logistic regression ML model with 5-fold stratified cross-validation. Lastly, it's just a matter of screening my live-data feed from my mic continuously at 1 second EEG windows at 4 before triggering my selected keyboard output.</p>
+          <div class="projectThumbnail img">
+          <img src="images/eeg_breadboard.jpg">
+          <img src="images/cap.jpg">
+          <img src="images/training.jpg">
+        </div>
+        <br><br>
         <h2>Results & Performance</h2>
-        <p>What were the outcomes? Include metrics and comparisons.</p>
+        <p>Successfully demonstrated the complete pipeline from signal acquisition through real-time actuation. The modular architecture enables independent optimization of hardware (circuit design), software (feature engineering), and user factors (motor imagery technique). Real-time classification achieves ~4 Hz update rate with 0.75-second total latency including debouncing—suitable for discrete control tasks. Cross-validation framework is implemented to evaluate classifier generalization, with accuracy dependent on signal-to-noise ratio from the DIY circuit. The PsychoPy interface provides millisecond-precision stimulus timing for building clean labeled datasets.</p>
+
         <h2>Learnings & Future Work</h2>
-        <p>What did you learn? What are the next steps?</p>
+        <p>The primary challenge has been achieving consistent signal quality from DIY hardware—EEG amplitudes are only 10-100 µV, requiring high gain while minimizing 60 Hz line noise and motion artifacts. This provided hands-on experience with differential amplification, electrode impedance, and grounding strategies. Feature engineering proved critical: while simple bandpower works as a baseline, incorporating spatial information (multi-channel), temporal dynamics, or advanced spectral features could improve robustness.
+        <br><br>
+        The project highlighted BCI's interdisciplinary nature—spanning neuroscience (event-related desynchronization), signal processing (filtering, spectral estimation), machine learning (classification, validation), and experimental design (randomization, timing control). Future extensions include multi-class classification (left/right hand discrimination), continuous control (variable speed output), adaptive calibration for baseline drift, and hybrid paradigms combining motor imagery with P300 or SSVEP.</p>
+
+        <h2>To Do</h2>
+        <p>Continuing signal acquisition optimization with circuit redesign for improved common-mode rejection. Beginning systematic behavioral data collection across multiple sessions to build larger training datasets for more robust cross-session generalization. Exploring multi-channel acquisition (C3/C4 electrodes) to leverage spatial features and implement lateralization decoding.</p>
         <div class="project-gallery"></div>
       </section>
 
