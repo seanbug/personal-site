@@ -601,6 +601,11 @@
       </nav>
 
       <div class="social-links">
+        <a href="Berg_Sean_Resume_Nov.pdf" target="_blank" class="social-link" title="Resume">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm2-8h8v2H8v-2zm0 4h8v2H8v-2zm0-8h5v2H8V8z"/>
+          </svg>
+        </a>
         <a href="https://www.linkedin.com/in/seanwberg/" target="_blank" class="social-link" title="LinkedIn">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
@@ -640,11 +645,6 @@
         <h3 class="section-subheader fade-in">Click on a project to quickly learn more</h3>
         <p class="fade-in">Or alternatively, go to the 'Projects' tab on the left side pannel to see a detailed overview!</p>
         <div class="project-grid">
-          <div class="project-card fade-in" data-project="project1" data-preview="">
-            <h4>Multitaper Spectrogram Implementation in EEG Analysis</h4>
-            <div div class="projectThumbnail img">
-              <img src="images/spectrogram.png" alt="spectrogram" loading="lazy" decoding="async" fetchpriority="low"></div>
-          </div>
           <div class="project-card fade-in" data-project="project2" data-preview="">
             <h4>Personal 'DIY' EEG and BCI Passion Project</h4>
             <div class="project-preview"></div>
@@ -663,6 +663,11 @@
             <div div class="projectThumbnail img">
               <img src="images/waveform_text_writer.png" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
           </div>
+          <div class="project-card fade-in" data-project="project1" data-preview="">
+            <h4>Multitaper Spectrogram Implementation in EEG Analysis</h4>
+            <div div class="projectThumbnail img">
+              <img src="images/spectrogram.png" alt="spectrogram" loading="lazy" decoding="async" fetchpriority="low"></div>
+          </div>
         </div>
 
       </section>
@@ -679,8 +684,8 @@
         </div>
         <h2 class="fade-in">About Me</h2>
         <p class="fade-in">Welcome! I'm Sean, a junior specialist in neuroscience and biotech enthusiast with a passion for understanding the brain and identfying behavior-associated biomarkers in EEG.</p>
-        <p class="fade-in">In my current line of work involving several mouse models of neurodevelopmental disorders. I'm heavily involved in experimental design, behavioral experiments, craniotomy and brain surgery procedures, <em>in vivo</em>/<em>in vitro</em> neurophysiology classification, data processing, and manuscript preparation, though I'm mostly known by my lab coworkers as the "computer wizard guy" <small>¯\_(ツ)_/¯</small>.</p>
-        <p class="fade-in">I'm also working on a personal project where I'm self-collecting my own personal EEG dataset from an RC circuit EEG device I developed from scratch for the purposes of building a DIY brain-computer interface.</p>
+        <p class="fade-in">After acquiring my Associates degree in Natural Science at 18 in high school, I continued my education at UC Davis where I earned my B.S. at 20 years of age in Neurobiology, Physiology, and Behavior. Now, at Dr. Jill Silverman's lab at UC Davis Health, my work investigates mouse models of neurodevelopmental disorders and characterizes electrophysioligcal trends in EEG with respect to measurable behavior metrics. I'm heavily involved in experimental design, behavioral experiments, craniotomy and brain surgery procedures, <em>in vivo</em>/<em>in vitro</em> neurophysiology classification, data processing, and manuscript preparation, though I'm mostly known by my lab coworkers as the "computer wizard guy".</p>
+        <p class="fade-in">I'm also working on a personal project where I'm self-collecting my own personal EEG dataset from an RC circuit EEG device I built from scratch for the purposes of developing a DIY brain-computer interface.</p>
         <p class="fade-in">Outside of work, it's easiest to find me at the mountains hiking/rock climbing, or at the beach surfing/fortifying my sand castle. Unless I'm tired, in which case I'm usually at my computer.</p>
         <p class="fade-in">Read more about my various projects in the projects section!</p>
 
@@ -702,12 +707,6 @@
         </div>
         <h2 class="fade-in">Projects</h2>
         <div class="project-grid">
-          <div class="project-card fade-in" data-project="project1" data-preview="">
-            <h3>Multitaper Spectrogram Implementation in EEG Analysis</h3>
-            <div div class="projectThumbnail img">
-              <img src="images/spectrogram.png" alt="spectrogram" loading="lazy" decoding="async" fetchpriority="low"></div>
-            <p>Developed a user friendly, memory efficient pipeline for analyzing our 3 day EEG recordings in mouse models using spectral analysis. Implemented a chunking feature to process recordings because my system kept crashing when I tried loading our longer EEG recordings via a wrapper for Prerau lab's multitaper spectrogram python script. I also enabled batch processing capabilities because manually analyzing files is never fun.</p>
-          </div>
           <div class="project-card fade-in" data-project="project2" data-preview="">
             <h3>Personal 'DIY' EEG and BCI Passion Project</h3>
             <div class="project-preview"></div>
@@ -728,6 +727,12 @@
             <div div class="projectThumbnail img">
               <img src="images/waveform_text_writer.png" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
             <p>A fun side project that was used to make all the section headers on each page! The current approach has 3 rows/"channels" to mock-imitate an EEG channel layout. A semi-optimal approach I found was to divide letters into a 3 row system and manually draw the respective channel's letter "contributions" to give the illusion of lettering.</p>
+          </div>
+          <div class="project-card fade-in" data-project="project1" data-preview="">
+            <h3>Multitaper Spectrogram Implementation in EEG Analysis</h3>
+            <div div class="projectThumbnail img">
+              <img src="images/spectrogram.png" alt="spectrogram" loading="lazy" decoding="async" fetchpriority="low"></div>
+            <p>Developed a user friendly, memory efficient pipeline for analyzing our 3 day EEG recordings in mouse models using spectral analysis. Implemented a chunking feature to process recordings because my system kept crashing when I tried loading our longer EEG recordings via a wrapper for Prerau lab's multitaper spectrogram python script. I also enabled batch processing capabilities because manually analyzing files is never fun.</p>
           </div>
         </div>
       </section>
@@ -833,7 +838,7 @@
         <p>As per the enthusiast guide, I utilized the medical grade instrumentation amplifier AD620 where I take in the two inputs from 2 electrodes and compute the difference between them, amplified by a controllable gain multiplier dependent on the resistence between pins 1 and 8. The next 6 main stages are comrpised of the 60Hz notch filter (to reduce electrical noise), a 7Hz high pass filter, a 31Hz low pass filter, a 1Hz high pass filter, a necessary gain stage to improve signal to noise ratio, and one last 60Hz notch filter via operational amplifiers (TL0884CN). It's not described in the guide, but I did some further digging on how this phenomenom arose, and it was actually really interesting. Since capacitors are capable of storing a charge (the degree of which is dependent on it's specifications), wiring either end of the capacitor in the same circuit allows for interesting oscilitory activity of the signal, which, when the correct parameters are selected, allows you to selectively wash out (or amplify!) specific frequencies of interest. From there, in order to standardize electrode placement during the experiment, I built my own 1 channel 2 electrode EEG cap with some hot glue, electric tape, and a ski mask :&#41;
           <br><br>Hardware aside, I then developed four simple Python modules to make a complete BCI pipeline, namely a validation real-time visualization (of the activity and time-domain + FFT) using circular buffering of the mic in EEG data to verify circuit quality. I produced my own psychology behavioral task using PsychoPy (on an unfortunately older Python version) to present pseudo-randomized visual cues to myself (trials such as "CLENCH" vs "REST") with synchronized 3-second EEG recordings, collecting 80 trials per session with variable inter-trial intervals.
         <br><br>
-        Then, I preprocess my collected data: I downsample from 48 kHz (mic in sampling rate) to 250 Hz, apply a bandpass within 8-30 Hz to further scrub the noise in parallel with the analogue filtering stages, and then feed my dataset to train a logistic regression ML model in scikit learn. Lastly, it's just a matter of screening my live-data feed from my mic continuously at 1 second EEG windows before triggering my selected keyboard output based on my motor imagery state.</p>
+        Then, I preprocess my collected data: I downsample from 48 kHz (mic in sampling rate) to 250 Hz, apply a bandpass within 8-30 Hz to further scrub the noise in parallel with the analogue filtering stages, and then feed my dataset to train a Stratifiedkfold logistic regression ML model in scikit learn with my tagged datasets. Lastly, it's just a matter of screening my live-data feed from my mic continuously at 1 second EEG windows before triggering my selected keyboard output based on my motor imagery state.</p>
           <div class="projectThumbnail img">
           <img src="images/eeg_breadboard.jpg">
           <img src="images/cap.jpg">
@@ -841,7 +846,7 @@
         </div>
         <br><br>
         <h2>Results & Performance</h2>
-        <p>With some iniial success, I've begun ML model training from signal acquisition through real-time signal screening. It seems my current approach is able to distinguish my MI with approximately 65% confidence, which isn't a whole lot better than a coinflip, but it's a start! The current main next-step problems to tackle is signal to noise ratio and undertrained models. The system as a whole obviously has a lot of limitations, but I'm in the middle of ironing the issues out. Notably, it seems like the ski mask, while not a bad idea on paper, could use some tweaks to be more effective in seating the electrodes to my head. I cut windows alongside the electrode sites to more easily move my long flowing locks of hair out of the way, and seat the electrodes with conductive electrode gel, but the electrodes are still somewhat prone to dislodging and introduce noise. It's additionally hard to verify the signal's waveform during experimentation, as I want minimal disturbances in my field of vision to not distract me from my behavioral task, so I can't display my waveform visualizer on my second monitor, either. I'm thinking of adding an adjustable (non-conductive) strap along the same plane that the 2 electrodes are in to ensure both electrodes are good tight fits.</p>
+        <p>With some initial success, I've begun ML model training from signal acquisition through real-time signal screening. I was able to successfully validate signal acquisition, though had hardware reliability issues during live data collection stages, but it's a start! The current main next-step problems to tackle is signal to noise ratio and undertrained models. The system as a whole obviously has a lot of limitations, but I'm in the middle of ironing the issues out. Notably, it seems like the ski mask, while not a bad idea on paper, could use some tweaks to be more effective in seating the electrodes to my head. I cut windows alongside the electrode sites to more easily move my long flowing locks of hair out of the way, and seat the electrodes with conductive electrode gel, but the electrodes are still somewhat prone to dislodging and introduce noise. It's additionally hard to verify the signal's waveform during experimentation, as I want minimal disturbances in my field of vision to not distract me from my behavioral task, so I can't display my waveform visualizer on my second monitor, either. I'm thinking of adding an adjustable (non-conductive) strap along the same plane that the 2 electrodes are in to ensure both electrodes are good tight fits.</p>
         <br><br>
         <p>I also want to revisit the analogue filtering stages to validate that the math is good on the chosen capacitors/resistors and would result in ideal frequency washout. Lastly, then it's just a matter of confirming a binary clench / non-clench motor imagery differentiation can occur in real-time, then I can proceed with individual finger MI tasks for finer keyboard input control.</p>
         <h2>To Do</h2>
