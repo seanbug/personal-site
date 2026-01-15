@@ -7,7 +7,7 @@
 
   <link rel="preload" as="image" href="images/favicon.png">
   <link rel="preload" as="image" href="images/sean_profile.jpg">
-  <link rel="preload" as="image" href="images/SeansPortfolio.gif">
+  <link rel="preload" as="image" href="images/welcome_banner.gif">
   <link rel="preload" as="image" href="images/AboutMe.gif">
   <link rel="preload" as="image" href="images/Projects.gif">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
     html, body { height: 100%; }
     body {
       font-family: Georgia, 'Times New Roman', serif;
-      background: #f5f5f5;
+      background: #1f1f1fe3;
       overflow-x: hidden;
     }
 
@@ -37,9 +37,9 @@
 
     .sidebar {
       width: var(--sidebar-width);
-      background: white;
+      background: rgb(172, 172, 172);
       padding: 40px 30px;
-      border-right: 5px ridge #333;
+      border-right: 5px ridge #4b4b4b;
       position: fixed;
       height: 100vh;
       overflow-y: auto;
@@ -601,7 +601,7 @@
       </nav>
 
       <div class="social-links">
-        <a href="Berg_Sean_Resume_Nov.pdf" target="_blank" class="social-link" title="Resume">
+        <a href="Berg_Sean_Resume_Jan2026.pdf" target="_blank" class="social-link" title="Resume">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm2-8h8v2H8v-2zm0 4h8v2H8v-2zm0-8h5v2H8V8z"/>
           </svg>
@@ -623,7 +623,7 @@
       <section id="home" class="content-section active">
 
         <div class="section-banner fade-in">
-          <img src="images/SeansPortfolio.gif"
+          <img src="images/welcome_banner.gif"
               alt="Sean's portfolio - animated welcome banner"
               loading="eager" decoding="sync" fetchpriority="high">
         </div>
@@ -632,18 +632,7 @@
               alt="EEG waveform section divider"
               loading="eager" decoding="sync" fetchpriority="high">
         </div>
-
-        <h1 class="welcome-header fade-in">Welcome!</h1>
-
-        <p class="help-text fade-in">
-          Help yourself and enjoy your stay!
-          <span class="coffee-cup" id="coffeeCup">☕</span>
-        </p>
-        <p class="cautionary-blurb fade-in">Don't spill it!</p>
-        <hr>
-
-        <h3 class="section-subheader fade-in">Click on a project to quickly learn more</h3>
-        <p class="fade-in">Or alternatively, go to the 'Projects' tab on the left side pannel to see a detailed overview!</p>
+        <h3 class="section-subheader fade-in">Click on a project to learn more</h3>
         <div class="project-grid">
           <div class="project-card fade-in" data-project="project2" data-preview="">
             <h4>Personal 'DIY' EEG and BCI Passion Project</h4>
@@ -668,7 +657,13 @@
             <div div class="projectThumbnail img">
               <img src="images/spectrogram.png" alt="spectrogram" loading="lazy" decoding="async" fetchpriority="low"></div>
           </div>
+          <br><br>
         </div>
+        <p class="help-text fade-in">
+          Help yourself and enjoy your stay!
+          <span class="coffee-cup" id="coffeeCup">☕</span>
+        </p>
+        <p class="cautionary-blurb fade-in">Don't spill it!</p>
 
       </section>
 
@@ -712,7 +707,7 @@
             <div class="project-preview"></div>
             <div div class="projectThumbnail img">
               <img src="images/eeg1.jpg" alt="RC Circuit of EEG analog signal processing component" loading="lazy" decoding="async" fetchpriority="low"></div>
-            <p>All about my personal homemade EEG and BCI device! Following online documentation, I built and troubleshooted/began improving an analogue wet-electrode wearable EEG prototype to enable myself to begin collecting my own data sets frombehavioral training sessions. Currently, I'm in the late stages of validating signal acquisition in analogue and optimizing signal to noise ratio and beginning data set collection.</p>
+            <p>All about my personal homemade EEG and BCI device! I built and troubleshooted an analogue wet-electrode wearable EEG prototype to enable myself to begin collecting my own data sets from training sessions. Currently, I'm in the late stages of validating analogue signal acquisition and optimizing signal to noise ratio while beginning data set collection.</p>
           </div>
           <div class="project-card fade-in" data-project="project3" data-preview="">
             <h3>Behavioral Coupling of EEG and Positive Operant Conditioning Task</h3>
@@ -801,7 +796,7 @@
         <ul>
           <li><strong>Chunked processing bins:</strong> Instead of trying to preload the entire file, I opted to load 1 hour segments using lazy file loading which I would then "stitch" back together. So far, this implementation has worked, evident by the drastic reduction in crashes my computer experieces while I analyze files (100% -> 0%!)</li>
           <li><strong>Power normalization feature:</strong> I also added a relative power conversion (calculated as a percentage of total power) alongside Prerau's absolute power, something I hope to use later down the line for standardizing a cross-subject comparison of total spectral power. I should note though that a limitation with this approach is that higher frequencies tend to wash out a lot as they tend to have lower power contributions than the lower frequencies in the same animal.</li>
-          <li><strong>Batch processing and customizable parameters via a GUI:</strong> I also like conveniece, and a big goal was to make the platform usable by all the members of our lab. So, I allowed easy user input for the various mutlitaper parameters Prerau and co. highlight in their paper. I also added simple file discovery and error logging.</li>
+          <li><strong>Batch processing and customizable parameters via a GUI:</strong> A big goal was to make the platform usable by all the members of our lab. So, I allowed easy user input for the various mutlitaper parameters Prerau and co. highlight in their paper. I also added simple file discovery and error logging.</li>
         </ul>
         
         <h2>Results & Findings</h2>
@@ -819,8 +814,8 @@
         <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
         <h1>Homemade EEG and BCI Personal Project</h1>
         <div class="project-meta">
-          <strong>Date:</strong> August 2025 - Present<br>
-          <strong>Role:</strong> Personal Project Lead :&#41;
+          <strong>Date:</strong> July 2025 - Present<br>
+          <strong>Role:</strong> Personal Project Lead
         </div>
         <div class="project-tags">
           <span class="tag">BCI</span>
@@ -829,16 +824,15 @@
           <span class="tag">Python</span>
         </div>
 
-        <p>I am currently in the early-mid stages of a passion project where I'm building a real-time brain-computer interface to detect motor imagery (imagined muscle clenching) from single-channel EEG recordings on myself to translate my EEG signals into keyboard commands in real time.</p>
+        <p>I am currently in the early-mid stages of a passion project where I'm building a real-time brain-computer interface to detect motor imagery (imagined muscle clenching) from self-recorded EEG data on myself to translate my EEG signals into keyboard commands in real time.</p>
 
         <h2>Background & Motivation</h2>
-        <p><a href="https://shop.openbci.com/products/all-in-one-eeg-electrode-cap-bundle" target="_blank">Hobbyist BCI toolkits can be costly</a>, especially for someone with my current budget, limiting my accessibility for personal education and experimentation. I found that there was some online documentation (<a href="https://www.instructables.com/DIY-EEG-and-ECG-Circuit/" target="_blank">found here</a>) for RC circuit enthusiasts that illustrated the necessary components needed to make your own homemade EEG setup off of a breadboard, resistors/capacitors, and some select ICs, running me about $40 total in raw supply costs. I particularly liked this approach as it additionally included instructions for several critical analogue noise filtering stages at 60Hz notch filtering, 31Hz LFP, 1HZ HPF while also cleverly utilizing the computer's mic-in port and soundcard as a final-stage ADC. There were some problems I found with the guide, notably that the visual pinout of the breadboard was incorrect so I had to refer to the circuit logic layout. In fact, the op-amp diagrams on the raw circuit weren't fully labeled, either, so I had to go to the datasheets to figure out the full pin layouts and specificiations, though both hurdles were fun obstacles that didn't prove to be too challenging. The ultimate goal was to utilize this as a recording data acquisition platform to allow me to self-experiment functional motor imagery detection tasks, akin to the sensory evoked potentials experiments we conduct in the Silverman Lab!</p>
-        <br><p>Most of all, I've had a long-standing interest in prosthetic devices and body/brain/machine interfaces, and I thought it'd be fulfilling to begin personal work in this domain as a passion project. Plus, I think it'd be pretty fun to beat my friends in games we play together while hooked up to my whole device.</p>
+        <p><a href="https://shop.openbci.com/products/all-in-one-eeg-electrode-cap-bundle" target="_blank">Hobbyist BCI toolkits can be costly</a>, especially for someone with my current budget limitations, hindering my accessibility for personal education and experimentation within BCI developmnt. I opted instead to build my own EEG recording RC device for it's lower entry of cost and educational opportunity to hone circuit theory fundamentals. The ultimate goal was to utilize this as a recording data acquisition platform to allow me to conduct self-experimentation regarding functional motor imagery detection tasks, akin to the sensory evoked potentials experiments we conduct in the Silverman Lab.</p>
         <h2>Technical Implementation</h2>
-        <p>As per the enthusiast guide, I utilized the medical grade instrumentation amplifier AD620 where I take in the two inputs from 2 electrodes and compute the difference between them, amplified by a controllable gain multiplier dependent on the resistence between pins 1 and 8. The next 6 main stages are comrpised of the 60Hz notch filter (to reduce electrical noise), a 7Hz high pass filter, a 31Hz low pass filter, a 1Hz high pass filter, a necessary gain stage to improve signal to noise ratio, and one last 60Hz notch filter via operational amplifiers (TL0884CN). It's not described in the guide, but I did some further digging on how this phenomenom arose, and it was actually really interesting. Since capacitors are capable of storing a charge (the degree of which is dependent on it's specifications), wiring either end of the capacitor in the same circuit allows for interesting oscilitory activity of the signal, which, when the correct parameters are selected, allows you to selectively wash out (or amplify!) specific frequencies of interest. From there, in order to standardize electrode placement during the experiment, I built my own 1 channel 2 electrode EEG cap with some hot glue, electric tape, and a ski mask :&#41;
-          <br><br>Hardware aside, I then developed four simple Python modules to make a complete BCI pipeline, namely a validation real-time visualization (of the activity and time-domain + FFT) using circular buffering of the mic in EEG data to verify circuit quality. I produced my own psychology behavioral task using PsychoPy (on an unfortunately older Python version) to present pseudo-randomized visual cues to myself (trials such as "CLENCH" vs "REST") with synchronized 3-second EEG recordings, collecting 80 trials per session with variable inter-trial intervals.
+        <p>I utilized the medical grade instrumentation amplifier AD620 where I take in the two inputs from 2 electrodes and compute the difference between them, amplified by a controllable gain multiplier dependent on the resistence between pins 1 and 8. The next 6 main stages are comrpised of the 60Hz notch filter (to reduce electrical noise), a 7Hz high pass filter, a 31Hz low pass filter, a 1Hz high pass filter, a necessary gain stage to improve signal to noise ratio, and one last 60Hz notch filter via operational amplifiers (TL0884CN). Since capacitors are capable of storing a charge (the degree of which is dependent on it's specifications), wiring either end of the capacitor in the same circuit allows for interesting oscilitory activity of the signal, which, when the correct parameters are selected, allows you to selectively wash out specific frequencies of interest. From there, in order to standardize electrode placement during the experiment, I built my own 1 recording channel EEG cap comprised of 2 electrodes (1 mastoid reference, 1 active site) with hot glue, electric tape, and a ski mask to standardize inter-session electrode placemet.
+          <br><br>I then developed four simple Python modules to make a complete BCI pipeline, namely a validation real-time visualization (of the activity and time-domain + FFT) using circular buffering of the mic in EEG data to verify circuit quality. I produced my own psychology behavioral task using PsychoPy to present pseudo-randomized visual cues to myself (trials such as "CLENCH" vs "REST") with synchronized 3-second EEG recordings, collecting 80 trials per session with variable inter-trial intervals.
         <br><br>
-        Then, I preprocess my collected data: I downsample from 48 kHz (mic in sampling rate) to 250 Hz, apply a bandpass within 8-30 Hz to further scrub the noise in parallel with the analogue filtering stages, and then feed my dataset to train a Stratifiedkfold logistic regression ML model in scikit learn with my tagged datasets. Lastly, it's just a matter of screening my live-data feed from my mic continuously at 1 second EEG windows before triggering my selected keyboard output based on my motor imagery state.</p>
+        Then, I preprocess my collected data: I downsample from 48 kHz (MIC-IN sampling rate) to 250 Hz, apply a bandpass within 8-30 Hz to further scrub the noise in parallel with the analogue filtering stages, and then feed my dataset to train a Stratified k-fold (k=5) verified logistic regression model from scikit-learn with my tagged datasets. Lastly, it's just a matter of screening my live-data feed from my mic continuously at 1 second EEG windows before triggering my selected keyboard output based on my motor imagery state.</p>
           <div class="projectThumbnail img">
           <img src="images/eeg_breadboard.jpg">
           <img src="images/cap.jpg">
@@ -846,19 +840,16 @@
         </div>
         <br><br>
         <h2>Results & Performance</h2>
-        <p>With some initial success, I've begun ML model training from signal acquisition through real-time signal screening. I was able to successfully validate signal acquisition, though had hardware reliability issues during live data collection stages, but it's a start! The current main next-step problems to tackle is signal to noise ratio and undertrained models. The system as a whole obviously has a lot of limitations, but I'm in the middle of ironing the issues out. Notably, it seems like the ski mask, while not a bad idea on paper, could use some tweaks to be more effective in seating the electrodes to my head. I cut windows alongside the electrode sites to more easily move my long flowing locks of hair out of the way, and seat the electrodes with conductive electrode gel, but the electrodes are still somewhat prone to dislodging and introduce noise. It's additionally hard to verify the signal's waveform during experimentation, as I want minimal disturbances in my field of vision to not distract me from my behavioral task, so I can't display my waveform visualizer on my second monitor, either. I'm thinking of adding an adjustable (non-conductive) strap along the same plane that the 2 electrodes are in to ensure both electrodes are good tight fits.</p>
-        <br><br>
-        <p>I also want to revisit the analogue filtering stages to validate that the math is good on the chosen capacitors/resistors and would result in ideal frequency washout. Lastly, then it's just a matter of confirming a binary clench / non-clench motor imagery differentiation can occur in real-time, then I can proceed with individual finger MI tasks for finer keyboard input control.</p>
+            <p>With some initial success, I've begun ML model training from signal acquisition through real-time signal screening. I was able to successfully validate signal acquisition. Initial verification confusion matrices possessed scores that suggested the logistic regression model was able to adequately identify true pos./neg. cases more often than erroneous false pos./neg. cases (F1 = .512), though larger datasets and/or an increase in recording electrodes from relevant sites would undoubtably improve classification capabilities.</p>
+            <br><p> As such, the live-decoder successfully outputs my designated test keyboard input "a", which I observed in most cases when I imagined my left fist clenching, though given the models current prediction ratio in a controlled experimental environment, further attention is needed for improving the brain decoder's robust cross-transfer capabilities aross varied environmental/brain states.</p>
         <h2>To Do</h2>
-        <p>Main item is to improve current signal to noise ratio in my 1 recording electrode set up and distinguish binary MI states on my left hand.</p>
-        <p>Next, I'd like to implement more electrodes. I have an additional AD620 chip which would double(!) the amount of recording electrodes I can read from. On a more serious note, they are pretty cheap compared to a commercially available EEG headset and don't take long to ship. Having more recording electrodes would definitely improve the robustness of my ML training sessions, improving confidence metrics and likely allowing for further specificity in the MI tasks I can train for/decode.</p>
-        <p>A lot of this project is seeing how far I can get despite the resource limitations I have working against myself. A big player in my signal to noise problems could also my sound card, so working around it via analogue to USB via my own ADC setup could be an avenue, though it's a "push comes to shove" solution if possible.</p>
+        <p>The current main next-step problems to tackle is undertrained models - resolved as I collect more data sets on myself - and electrode count, which can be addressed once my shipment of additional AD620s arrives. Compacting analogue filtration to individual op. amp. chips would additionally help, accompanied by transfering the set up to through-hole soldering on a protoboard instead of its temporary bread board layout. Further, logistic regression is an acceptable machine learning algorithm for the present validation stages of the project (as I only have binary descrimination between a clench and rest state in MI), though I aim to incorporate SKlearn's support vector machine algorithm instead for its more robust classification capabilities as I continue to scale the project. Lastly, I'm additionally considering adding an adjustable (non-conductive) strap along the same plane that the electrodes are in to ensure the electrodes are good fits to my scalp.</p>
         <div class="project-gallery"></div>
       </section>
 
       <section id="project3" class="project-detail">
         <button class="back-button" onclick="backToProjects()">← Back to Projects</button>
-        <h1>Behavioral Coupling of EEG and Positive Operant Conditioning Task</h1>
+        <h1>Behavioral Coupling of EEG and Touchscreen Operant Conditioning Task</h1>
         <div class="project-meta">
           <strong>Completed:</strong> September 2025<br>
           <strong>Type:</strong> Work Project
@@ -873,14 +864,14 @@
         <p>In our lab, we utilize <a href="https://shop.openbci.com/products/all-in-one-eeg-electrode-cap-bundle" target="_blank">Lafayette Instrument's Bussey-Saksida Touch Screen Chambers</a> (or the ABET II touchscreen chambers) for highly customizable positive operant conditioning tasks in our mouse models, though there have been historical difficulties prior to my enrollment in the Silverman lab in successfully integrating our main EEG acquisition platforms in DSI with the third party touch screen system for three primary reasons:</p>
         <ul>
           <li><strong>Shielding Experimental Environment:</strong> The ABET II behavioral chambers were machined from metal, serving as large shielding factors that denied signal transmission from our wireless EEG telemer in the mice with the external receiver, washing out the signal entirely.</li>
-          <li><strong>Digital IO Setup Conditions:</strong> The experimental chambers are highly customizable and designed to be easily programmable, though require an additional PCI card to be installed correctly for the Lafayette system to be able to digitally output experiment items of interest in real time.</li>
+          <li><strong>Digital IO Setup Conditions:</strong> The experimental chambers are highly customizable, though require an additional PCI card to be installed correctly for the Lafayette system to be able to digitally output experiment items of interest in real time.</li>
 
-          <li><strong>Wiring Layout with Correct Grounding:</strong> The last and most important hurdle is wiring the digital output lines from the PCI card to the DSI EEG system.</li>
+          <li><strong>Wiring Layout with Correct Grounding:</strong> The last hurdle is wiring the digital output lines from the PCI card to the DSI EEG system.</li>
         </ul>
         <h2>Results and Learnings</h2>
         <p>I produced effective workarounds to all three problem items:</p>
         <ul>
-          <li><strong>Shielding Experimental Environment:</strong> Replace metal experiment platforms with acrylic, allowing signal to transfer across the material with low signal impedance. An additional benefit to this is they now match our other behavioral chambers in material and are easy to reproduce. For this stage, I shadowed my father who is a prototype engineer and I got experience in designing/manufacturing material parts. Main parts were designed in SolidWorks via .STEP file, and seperated into individual parts for CNC machining in .dxf file format with accomanying gcode for fabrication. Then, I handled CNC machining operations, part preperation (deburring, scoring attachment points), and assembled final product with Acrylic Weld On (solvent bonding of material) at 90 deg. Final parts match factory metal platforms and fit in behavioral chambers with the added benefit of low EEG impedence and easier cleaning!</li>
+          <li><strong>Shielding Experimental Environment:</strong> Replaced metal experiment platforms with acrylic, allowing signal to transfer across the material with low signal impedance. An additional benefit to this is they now match our other behavioral chambers in material, are easy to reproduce, and are more sanitary for inter-experimental cleaning. For this stage, I designed material parts in SolidWorks and seperated into individual parts for CNC machining in .dxf file formats with accomanying gcode for fabrication. Then, I handled CNC machining operations with my father and I's home CNC workshop involving part preperation (deburring, scoring attachment points), and assembled final product with Acrylic Weld On to solvent bond the material. Final parts match factory metal platforms and fit in behavioral chambers with the added benefit of low EEG impedence and easier cleaning!</li>
           <div class="projectThumbnail img">
           <img src="images/wireframe_dxf.jpg">
           <img src="images/cnc.jpg">
@@ -888,9 +879,12 @@
           <img src="images/deburring.jpg">
           <img src="images/fab_setup.jpg">
           <img src="images/acrylic_platforms.jpg">
+          <img src="images/before.jpg">
+          <img src="images/after.jpg">
         </div>
-          <li><strong>Digital IO Setup Conditions:</strong> The highly customizable Abet II system allowed me to modify our behavioral task to include an additional digital output line depending on the animal's performance in the chamber. To reduce the amount of wired connections (and therefore troubleshooting) between our Touchscreen and EEG systems, I instead chose to have each behavioral measure of interest produce a stereotyped TTL pulse. For example, correct animal trials produced one square TTL pulse of 500ms duration, whereas incorrect trials would be accompanied by 3 shorter pulses. Animal reward collection would produce 2 TTL pulses. The result would be an additional "touchscreen metrics" channel in our EEG system, where EEG signatures could be assessed alongside performance and behavioral metrics, akin to our evoked potentials experiments we perform.</li>
-
+          <li><strong>Digital IO Setup Conditions:</strong> The highly customizable Abet II system allowed me to modify our behavioral task to include an additional digital output line depending on the animal's performance in the chamber. To reduce the amount of wired connections (and therefore troubleshooting) between our Touchscreen and EEG systems, I instead chose to have each behavioral measure of interest produce a stereotyped TTL pulse. For example - seen within the green channel in the image below - correct animal trials produced 2 square TTL pulse of 500ms duration, whereas incorrect trials would be identified by 3 shorter pulses. Animal reward collection would produce 5 TTL pulses. The result would be an additional "touchscreen metrics" channel in our EEG system, where EEG signatures could be assessed alongside performance and behavioral metrics, akin to our evoked potentials experiments we perform.</li>
+          <div class="projectThumbnail img">
+          <img src="images/eeg_paired.jpg">
           <li><strong>Wiring Layout with Correct Grounding:</strong> The last hurdle was successfully resolved by stripping a BNC coaxial wire to uncover the positive signal wire and grounding wires. Lafayette provides a TTL breakbox connector to our PCI card for digital output lines, though lacks any additional manual or guidance without a rather hefty price tag. Funnily enough, it was my work in my DIY EEG and BCI I've been developing on the side as a passion project that provided the necessary insights for resolving the wiring issue. It was simply a matter of correctly programming the digital output line to go to an individual breakbox channel for a given chamber, and then routing the positive signal and ground wires to that. There, the other BNC end routes into the DSI system painlessly.</li>
         <div class="projectThumbnail img">
           <img src="images/bnc_apart.jpg">
@@ -899,7 +893,7 @@
         </div>
         </ul>
         <h2>Next Steps</h2>
-        <p>After resolving all the issues and getting this behavioral avenue up and running, we have plans in early 2026 to begin a touchscreen EEG cohort. Just like our evoked potentials metrics, I propose a new behavioral measure called "Behavioral Evoked Potentials", which would identify the event related EEG waveform potential with respect to a behavioral metric of interest (e.g. if the animal gets the trial correct, trial incorrect, collects the strawberry milkshake reward, etc.), allowing us to oberserve the evolution in the waveform trends over time as the animal learns the task.</p>
+        <p>We are currently in the early stages of a touchscreen EEG cohort. Just like our evoked potentials metrics, I propose a new behavioral measure called "Behavioral Evoked Potentials", which would identify the event related EEG waveform potential with respect to a behavioral metric of interest (e.g. if the animal gets the trial correct, trial incorrect, collects the strawberry milkshake reward, etc.), allowing us to oberserve the evolution in the waveform trends over time as the animal learns the task. Since this novel experiment would combine important preclinical FDA metrics such as EEG trends, ERPs, and cognitive metric tasks, we believe this study will serve to establish an important translational baseline for future EEG studies and cognitive assays.</p>
         
       </section>
 
@@ -916,12 +910,12 @@
           <span class="tag">MatplotLib</span>
           <span class="tag">WIP</span>
         </div>
-        <p>A fun side project and tool that I made to make all the section headers on each page that hopefully caught your attention! The current approach works by sectioning a word into 3 rows/"channels" to mock-imitate an EEG channel layout. Initially, I was considering automating the generated output based on a user text input, and then using an edge detection algorithm such as OpenCV to segment letters to identify when each respective channel would need to "contribute" erratic wave activity to produce the illusion of a complete letter, but I was on a time-crunch with my other projects and work, so I opted instead a workaround that let me manually draw the respective channel's letter "contributions" and then stitch all the channels together in a final output. It's a bit messy and took some getting used to, but if it works, it works!</p>
+        <p>A fun side project and tool that I made to make all the section headers on each page! The current approach works by sectioning a word into 3 rows/"channels" to mock-imitate an EEG channel layout. Initially, I was considering automating the generated output based on a user text input, and then using an edge detection algorithm such as OpenCV to segment letters to identify when each respective channel would need to "contribute" erratic wave activity to produce the illusion of a complete letter, but I was on a time-crunch with my other projects and work, so I opted instead a workaround that let me manually draw the respective channel's letter "contributions" and then stitch all the channels together in a final output.</p>
         <h2>How It Works</h2>
       <p>The tool presents three independent drawing canvases representing mock EEG channels. I added options for toggling drawing mode with hotkeys to go between a "baseline" EEG recording and "activity" based EEG signaling. The tool makes the waveform from sinusoidal oscillations with adjustable frequencies and amplitudes. It's a silly workaround, but the trick is really trying to strategically place the high-amplitude oscillations in each channel at the right horizontal positions so that when all three are vertically stacked, the combined waveforms visually spell out letters. To help with this, I added a crosshair that shows across all three channels to help align them. For example, to draw an "M", the top and bottom channels contribute the outer peaks while the middle channel fills the central "V" shapped valley.</p>
 
         <h2>Technical Implementation</h2>
-        <p>Built entirely with Matplotlib's interactive widgets and mouse event callbacks (<code>button_press_event</code>, <code>motion_notify_event</code>) to capture freehand drawing. Points are stored as coordinate tuples with a boolean flag indicating letter and baseline modes. I also added an interpolation engine to help smooth my bad mouse handwriting input into continuous paths.
+        <p>Built entirely with Matplotlib's interactive widgets and mouse event callbacks (<code>button_press_event</code>, <code>motion_notify_event</code>) to capture freehand drawing. Points are stored as coordinate tuples with a boolean flag indicating letter and baseline modes. I also added a point interpolation engine to help smooth my bad mouse handwriting input into continuous paths.
         <br><br>
         The preview panel aggregates all three channels in real-time, offsetting each by 1 unit vertically to allow the different channels to stich together as seemlessly as I could. I impleented export functions to make PNGs and animated GIFs using Matplotlib's PillowWriter module.</p>
           <div class="projectThumbnail img">
@@ -929,7 +923,7 @@
           <img src="images/Projects.gif">
         </div>
         <h2>Design Challenges & Workarounds</h2>
-        <p>The original vision involved OpenCV edge detection to automatically decompose letters into channel contributions, though time constraints derailed this, but manual drawing proved way more effective once muscle memory developed for common letter patterns. The trickiest part was honestly figuring out how I can stitch together vertical letter elements without there being sloppy gaps (as it's all just generated with a waveform). I found that it's most effective to have a "rectangular" waveform region where the wave quickly jumps between the tops and bottoms of the vertical letter element with pulldowns to baseline activity that flank either space to cleanly represent the letter column.
+        <p>The original vision involved OpenCV edge detection to automatically decompose letters into channel contributions, though time constraints derailed this, but manual drawing proved way more effective once muscle memory developed for common letter patterns.
         <br><br>
         There is also a save/load system using JSON to preserve design sessions that stores all points and oscillation parameters for later adjustment.</p>
 
