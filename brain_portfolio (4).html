@@ -113,9 +113,9 @@
 
   <div id="sec-projects" class="section">
     <h2>Projects</h2><div class="section-rule"></div>
-    <div class="project-row" data-detail="detail-bci"><span class="proj-num">01</span><div><h4>DIY EEG &amp; Brain-Computer Interface</h4><p>Homemade RC-circuit EEG passion project with a 4-stage Python BCI pipeline spanning from analog signal acquisition through real-time motor imagery decoding built for under $100.</p></div></div>
+    <div class="project-row" data-detail="detail-bci"><span class="proj-num">01</span><div><h4>DIY EEG &amp; Brain-Computer Interface</h4><p>Homemade RC-circuit EEG with a 4-stage Python BCI pipeline — from analog signal acquisition through real-time motor imagery decoding — built for under $100.</p></div></div>
     <div class="project-row" data-detail="detail-touchscreen"><span class="proj-num">02</span><div><h4>Behavioral Coupling of EEG &amp; Touchscreen Operant Task</h4><p>Prototyped non-shielding acrylic platforms and TTL integration to pair wireless EEG telemetry with Bussey-Saksida touchscreen chambers.</p></div></div>
-    <div class="project-row" data-detail="detail-erp"><span class="proj-num">03</span><div><h4>Event-Related Potentials Analysis Pipeline</h4><p>Robust Python pipeline for extracting AEPs and VEPs from rodent EEG recordings</p></div></div>
+    <div class="project-row" data-detail="detail-erp"><span class="proj-num">03</span><div><h4>Event-Related Potentials Analysis Pipeline</h4><p>Python pipeline for extracting AEPs and VEPs from rodent EEG recordings — handles noisy analog stim channels via thresholded binarization and logs every event-drop pathway so nothing fails silently.</p></div></div>
   </div>
 
   <div id="detail-bci" class="section project-detail">
@@ -138,7 +138,7 @@
 
   <div id="detail-touchscreen" class="section project-detail">
     <button class="detail-back" data-return="sec-projects">← all projects</button>
-    <h2>EEG-Touchscreen Operant Coupling</h2><div class="section-rule"></div>
+    <h2>EEG × Touchscreen Operant Coupling</h2><div class="section-rule"></div>
     <div class="project-meta"><strong>Completed:</strong> September 2025 · <strong>Type:</strong> Work Project</div>
     <div class="project-tags"><span class="tag">Prototyping</span><span class="tag">Signal Acquisition</span><span class="tag">Electrical Fundamentals</span></div>
     <p>Overcoming historical hurdles for implementing wireless EEG behavioral assays in a touchscreen learning task. I prototyped non-shielding platforms, identified ideal wiring layouts, and established directions for near-future experimental plans.</p>
@@ -162,7 +162,7 @@
     </ul>
     <div class="proj-images"><img src="images/bnc_apart.jpg" alt="BNC stripped" loading="lazy"><img src="images/example_pinout.jpg" alt="Pinout" loading="lazy"><img src="images/platform_test.jpg" alt="Platform test" loading="lazy"></div>
     <h3>Next Steps</h3>
-    <p>Currently in the process of conducting a touchscreen EEG cohort to identify event-related EEG waveform potentials with respect to behavioral metrics, allowing us to observe waveform evolution as animals learn the task.</p>
+    <p>Currently beginning a touchscreen EEG cohort. I propose "Behavioral Evoked Potentials" — identifying event-related EEG waveform potentials with respect to behavioral metrics, allowing us to observe waveform evolution as animals learn the task.</p>
   </div>
 
   <div id="detail-erp" class="section project-detail">
@@ -170,38 +170,41 @@
     <h2>Event-Related Potentials Analysis Pipeline</h2><div class="section-rule"></div>
     <div class="project-meta"><strong>Date:</strong> May 2025 – Present · <strong>Role:</strong> Sole Developer · <strong>Context:</strong> Silverman Lab, UC Davis Health</div>
     <div class="project-tags"><span class="tag">Python</span><span class="tag">MNE</span><span class="tag">EEG Analysis</span><span class="tag">Signal Processing</span><span class="tag">In Active Use</span></div>
-    <p>A Python pipeline for extracting event-related potentials (auditory and visual evoked potentials) from rodent EEG telemetry recordings. Robust and capable of analyzing historically noisy and current analog stim channels into clean event timestamps to epoch  around those events. The pipeline is evolving and currently contributing to multiple manuscripts currently in preparation at the lab.</p>
+    <p>A Python pipeline for extracting event-related potentials (auditory and visual evoked potentials — AEPs/VEPs) from rodent EEG telemetry recordings. It does the unglamorous-but-essential work of turning noisy analog stim channels into clean event timestamps, epoching the EEG around those events, and writing out everything a downstream user would need to audit the result. The pipeline underpins ongoing analyses for multiple manuscripts currently in preparation at the lab.</p>
 
     <h3>The Problem</h3>
-    <p>Our DSI PhysioTel telemetry system records an analog stim channel alongside the EEG, and the channel carries square wave signals marking when a stimulus was presented to the animal. In a clean recording this is fine: MNE's <code>find_events</code> picks up the rising edges and you have your event timestamps. Historically, the BNC-aux cable essental in our set up for pairing the tools faced a poor adapter for grounding the signal, producing AEP datasets with much noise contamination in the stim channel signal, resulting in <code>find_events</code> to miss real stims and pick up false events during the duration of the study.</p>
+    <p>Our DSI PhysioTel telemetry system records an analog stim channel alongside the EEG — the channel carries voltage pulses marking when a stimulus was presented to the animal. In a clean recording this is fine: MNE's <code>find_events</code> picks up the rising edges and you have your event timestamps. In practice, the analog channel is often noisy at the start of recordings (ripple from the amplifier warming up), and the pulse shapes themselves drift in amplitude across long recordings. The result is that <code>find_events</code> either misses real stims, picks up phantom events during the startup transient, or both — and downstream analyses silently lose trials without anyone noticing.</p>
+    <p>The fix needed to be deterministic, reproducible, and auditable. Not "tweak the parameters until the numbers look right" — every event drop should be logged with a reason.</p>
 
     <h3>How It Works</h3>
-    <p>The pipeline does a two-pass detection on the stim channel. The first pass runs <code>find_events</code> with <code>min_duration=0.002</code> to filter out the TTL starting ripple while keeping all real trials and excluding the noisy half-signals from the analog signal. Then, for prior lab data with noisy AEP stimulus channels, an amplitude-thresholded binarization rewrites the stim channel as clean square pulses (<code>1</code> above threshold, <code>0</code> elsewhere) which gets injected directly back into the MNE raw object via <code>raw._data[stim_idx]</code>. A second <code>find_events</code> pass on the binarized channel produces the final event list.</p>
-    <p>A <code>USE_BINARIZE</code> flag lets you skip the rewrite for clean recordings where the raw analog channel is already usable and as a debug comparator/validation that the binarized stage doesn't influence the final data analysis.</p>
-    <div class="proj-images"><img src="images/stimchannel.png" alt="Stim channel before and after binarization" loading="lazy"><img src="images/evoked_beforeafter.png" alt="ERP comparison between groups" loading="lazy"></div>
+    <p>The pipeline does a two-pass detection on the stim channel. The first pass runs <code>find_events</code> with <code>min_duration=0.002</code> to filter out the startup ripple — this catches all real trials while excluding the noisy half-signals from analog warm-up. Then, for files flagged as faulty, an amplitude-thresholded binarization rewrites the stim channel as clean square pulses (<code>1</code> above threshold, <code>0</code> elsewhere) which gets injected directly back into the MNE raw object via <code>raw._data[stim_idx]</code>. A second <code>find_events</code> pass on the binarized channel produces the final event list.</p>
+    <p>One implementation detail worth noting: the <code>min_duration</code> trick that works pre-binarization actually breaks after binarization (the pulse widths become uniform, so the duration filter starts dropping real events). The second pass deliberately drops the parameter. This kind of "works in one regime, not the other" gotcha is exactly the thing that bites you six months later if it isn't documented in the code.</p>
+    <p>A <code>USE_BINARIZE</code> flag lets you skip the rewrite for clean recordings where the raw analog channel is already usable.</p>
+    <div class="proj-images single"><img src="images/stimchannel.png" alt="Stim channel before and after binarization" loading="lazy"></div>
 
     <h3>Auditability</h3>
-    For every file, the pipeline writes:</p>
+    <p>From the lab's perspective, the most useful part of this pipeline is honestly not the signal processing — it's the CSV output. For every file, the pipeline writes:</p>
     <ul>
       <li>The total event count before and after binarization, so you can immediately see whether binarization changed the detected events</li>
       <li>The exact sample timestamps, event IDs, and stim channel values at the first few events in each pass, so you can spot-check whether the pulses look right</li>
       <li>How many events were dropped during <code>mne.Epochs()</code> construction (these are events too close to the recording boundaries to fit a full epoch window)</li>
       <li>How many epochs were dropped by the amplitude rejection threshold (currently 500 µV, which catches movement artifacts and electrode pops)</li>
     </ul>
+    <p>It also saves diagnostic figures for every file — the stim channel before and after binarization, the epoch image plot showing trial-by-trial EEG response, and the averaged evoked waveform. Combined with the CSV, anyone in the lab can audit exactly what the pipeline did to their data and why a given trial count came out the way it did.</p>
     <div class="proj-images"><img src="images/evoked.png" alt="Averaged evoked waveform" loading="lazy"><img src="images/iterevoked.png" alt="Trial-by-trial evoked responses" loading="lazy"></div>
 
     <h3>What This Gets You</h3>
-    <p>Once the pipeline is run across a cohort, the outputs come together into an analyzable grand-mean evoked waveforms across animals, and direct comparisons between genotypes or experimental groups.</p>
-    <div class="proj-images single"><img src="images/grand_mean_ERP.png" alt="Grand mean ERP across cohort" loading="lazy"></div>
+    <p>Once the pipeline is run across a cohort, the outputs come together into something analyzable — grand-mean evoked waveforms across animals, and direct comparisons between genotypes or experimental groups. This is what the manuscripts are ultimately built on.</p>
+    <div class="proj-images"><img src="images/grand_mean_ERP.png" alt="Grand mean ERP across cohort" loading="lazy"><img src="images/erpcomparison.png" alt="ERP comparison between groups" loading="lazy"></div>
 
     <h3>What's Next</h3>
-    <p>The current state is a working script that processes a folder of EDFs and produces all outputs in one go. The next step is finalizing the GUI implementation for the rest of the lab.</p>
-    <p>I'm also planning to extend the epoching window logic to support the touchscreen EEG project, as the data management process is highly conserved between the two experiments, and only requires generalizing the event-id logic.</p>
+    <p>The current state is a working script that processes a folder of EDFs and produces all outputs in one go. The next step is wrapping this in a GUI for the rest of the lab — drag-and-drop file selection, a slider for the binarization threshold with live preview of the stim channel, toggles for which ERP type to extract (AEP vs VEP), and a results browser for the generated figures. The goal is one-click analysis so the lab can stop manually QC'ing every file.</p>
+    <p>I'm also planning to extend the epoching window logic to support what I've been calling "Behavioral Evoked Potentials" — event timestamps that come from the touchscreen task TTL pulses instead of sensory stims, so we can look at EEG responses time-locked to the moment an animal makes a correct or incorrect choice. This pipeline already has all the plumbing to handle it; it's mostly a matter of generalizing the event-id logic.</p>
   </div>
 
   <div id="sec-about" class="section">
     <h2>About</h2><div class="section-rule"></div>
-    <p>Welcome! I'm Sean, a junior specialist in neuroscience with a passion for understanding the brain and identifying behavior-associated biomarkers in EEG.</p>
+    <p>Welcome! I'm Sean, a junior specialist in neuroscience and biotech enthusiast with a passion for understanding the brain and identifying behavior-associated biomarkers in EEG.</p>
     <p>After acquiring my Associates degree in Natural Science at 18 in high school, I continued my education at UC Davis where I earned my B.S. at 20 in Neurobiology, Physiology, and Behavior. Now, at Dr. Jill Silverman's lab at UC Davis Health, my work investigates mouse models of neurodevelopmental disorders and characterizes electrophysiological trends in EEG with respect to measurable behavior metrics. I'm heavily involved in experimental design, behavioral experiments, craniotomy and brain surgery procedures, <em>in vivo</em>/<em>in vitro</em> neurophysiology classification, data processing, and manuscript preparation — though I'm mostly known by my lab coworkers as the "computer wizard guy".</p>
     <p>I'm also working on a personal project where I'm self-collecting my own EEG dataset from an RC circuit device I built from scratch for developing a DIY brain-computer interface.</p>
     <p>Outside of work, it's easiest to find me at the mountains hiking/rock climbing, or at the beach surfing/fortifying my sand castle. Unless I'm tired, in which case I'm usually at my computer.</p>
@@ -212,12 +215,13 @@
   <div id="sec-publications" class="section" style="counter-reset: pub;">
     <h2>Publications</h2><div class="section-rule"></div>
     <p>The following publications were drafted by my PI, Dr. Jill Silverman, and myself regarding projects I've been involved in at the lab. Many are in their mid to late stages of completion.</p>
-    <div class="pub-entry"><h4>Novel Gain of Function Mouse Model of KCNT1-Related Epilepsy.</h4><p class="authors">Olguin SL, Davis D, Rehman A,<strong>Berg SW</strong>, Sahagun E, Oswalt PS, Patil M, Sullivan PDM, Zhang B, Bryda E, Ben-Shalom R, Silverman JL. · <em>Brain</em>, In Review (2025)</p></div>
-    <div class="pub-entry"><h4>Assessment of mouse electrophysiological cortical recordings during a touchscreen-based cognitive assay as a learning biomarker</h4><p class="authors"><strong>Berg SW</strong>, Vaughan N, Alidaee A, Olguin S,and Silverman JL. · <em>Mol. Psychiatry</em>, In preparation (2026)</p></div>
+    <div class="pub-entry"><h4>Translational Outcomes in a Novel Variant Mouse Model G288S of KCNT1-Related Epilepsy.</h4><p class="authors">Olguin SL, Davis D, <strong>Berg SW</strong>, Rehman A, Sahagun E, Oswalt PS, Patil M, Sullivan PDM, Zhang B, Bryda E, Ben-Shalom R, Silverman JL. · <em>Brain</em>, In Review (2025)</p></div>
+    <div class="pub-entry"><h4>Aberrant <em>in vivo</em> neurophysiological outcomes and <em>in vitro</em> electrophysiological neuronal indices in preclinical models of KCNT1-Related Epilepsy.</h4><p class="authors"><strong>Berg SW</strong>, Roy D, Monsen ER, Haouchine OY, Olguin SL, Patil M, Ben Shalom R, and Silverman JL. · <em>J. Neuroscience</em>, In prep. (2025)</p></div>
     <div class="pub-entry"><h4>Electrophysiological Biomarkers during Positive Operant Behavioral Assessment in preclinical models of KCNT1-Related Epilepsy.</h4><p class="authors"><strong>Berg SW</strong>, Vaughan N, Silverman JL. · <em>J. Neuroscience</em>, In prep. (2026)</p></div>
     <div class="pub-entry"><h4>Leveraging Sensory Evoked Potentials as a Translational Biomarker in Preclinical Genetic Models of Neurodevelopmental Disorders.</h4><p class="authors">Monsen ER, Haouchine OY, <strong>Berg SW</strong>, Olguin SL and Silverman JL. · <em>Mol. Autism</em>, In Preparation (2025)</p></div>
     <div class="pub-entry"><h4>Loss of CDKL5 produces hyperexcitable neurophysiological signatures, dysfunctional quality and quantity of sleep and aberrant imaging by magnetic resonance.</h4><p class="authors">Haouchine OY, Monsen ER, <strong>Berg SW</strong> and Silverman JL. · <em>J. Clinical Investigation</em>, In preparation (2026)</p></div>
     <div class="pub-entry"><h4>Neurophysiological biomarkers of aberrant gait dimensions: Leveraging time synchronous cortical EEG and function dimensions to inform translational biomarkers in genetic neurodevelopmental disorders.</h4><p class="authors">Monsen ER, Haouchine OY, <strong>Berg SW</strong>, Olguin SL and Silverman JL. · <em>Mol. Autism</em>, In preparation (2026)</p></div>
+    <div class="pub-entry"><h4>A novel model of Ube3a overexpression provides interstitial and isodicentric preclinical models of Dup15q Syndrome by disease relevant behavior and neurophysiological phenotypes.</h4><p class="authors">Monsen ER, Haouchine OY, Yotova AY, <strong>Berg SW</strong>, Olguin SL, Huie EZ, Petkova SP, Yasui D, LaSalle JM and Silverman JL. · <em>Mol. Psychiatry</em>, In preparation (2026)</p></div>
   </div>
 </div></div>
 
