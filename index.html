@@ -8,100 +8,166 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" as="script" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    /* Two families, swapped here and nowhere else. */
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Newsreader', Georgia, serif;
+    /* Reserved for inline code and file/path names only. */
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+    --accent: #922b2b;
+    --accent-ink: #fff;
+
+    --bg: #fff;
+    --ink: #1a1816;
+    --ink-body: #47423d;
+    --ink-meta: #6b6460;
+    --ink-faint: #8a847b;
+    --rule: #e6e3df;
+    --fill: #f5f5f4;
+
+    /* Body copy measure. 52ch measures out to ~66 characters in Newsreader
+       (its "0" is narrower than its average glyph); retune if --font-body changes. */
+    --measure: 52ch;
+    --rail-w: 232px;
+    --grid-gap: 64px;
+
+    --space-2xs: 6px;
+    --space-xs: 10px;
+    --space-s: 16px;
+    --space-m: 26px;
+    --space-l: 40px;
+    --space-xl: 56px;
+    --space-2xl: 76px;
+    --space-3xl: 96px;
+  }
+
   html, body { height: 100%; overflow: hidden; }
-  ::selection { background: #922b2b; color: #fff; }
-  body { background: #fff; font-family: 'Cormorant Garamond', Georgia, serif; color: #1a1816; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  body { background: var(--bg); font-family: var(--font-display); color: var(--ink); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
   #scene { position: fixed; inset: 0; z-index: 1; cursor: grab; }
   #scene:active { cursor: grabbing; }
 
-  #ui { position: fixed; bottom: 0; left: 0; right: 0; z-index: 10; text-align: center; padding: 0 20px 48px; pointer-events: none; transition: opacity .6s, transform .6s; }
+  #ui { position: fixed; bottom: 0; left: 0; right: 0; z-index: 10; text-align: center; padding: 0 20px 48px; pointer-events: none; transition: opacity .35s, transform .35s; }
   #ui.hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
-  #ui h1 { font-size: clamp(28px, 5vw, 52px); font-weight: 600; letter-spacing: -.02em; margin-bottom: 4px; line-height: 1.1; }
-  #ui .subtitle { font-family: 'IBM Plex Mono', monospace; font-size: clamp(10px, 1.5vw, 13px); color: #8a847b; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 32px; }
+  #ui h1 { font-size: clamp(28px, 5vw, 52px); font-weight: 600; letter-spacing: -.02em; margin-bottom: var(--space-2xs); line-height: 1.1; }
+  #ui .subtitle { font-family: var(--font-body); font-size: clamp(13px, 1.6vw, 15px); color: var(--ink-faint); margin-bottom: 32px; }
   #nav { display: flex; justify-content: center; gap: 6px; pointer-events: auto; flex-wrap: wrap; }
-  #nav button { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(15px, 2.2vw, 20px); font-weight: 500; background: none; border: none; color: #47423d; padding: 10px 22px; cursor: pointer; position: relative; transition: color .2s; }
-  #nav button::after { content: ''; position: absolute; bottom: 6px; left: 22px; right: 22px; height: 1px; background: #922b2b; transform: scaleX(0); transition: transform .25s; transform-origin: center; }
-  #nav button:hover { color: #1a1816; }
+  #nav button { font-family: var(--font-display); font-size: clamp(15px, 2.2vw, 20px); font-weight: 500; background: none; border: none; color: var(--ink-body); padding: 10px 22px; cursor: pointer; position: relative; transition: color .2s; }
+  #nav button::after { content: ''; position: absolute; bottom: 6px; left: 22px; right: 22px; height: 1px; background: var(--accent); transform: scaleX(0); transition: transform .25s; transform-origin: center; }
+  #nav button:hover { color: var(--ink); }
   #nav button:hover::after { transform: scaleX(1); }
-  #nav button + button::before { content: '·'; position: absolute; left: -6px; top: 50%; transform: translateY(-50%); color: #cdc6be; font-size: 18px; pointer-events: none; }
+  #nav button + button::before { content: '·'; position: absolute; left: -6px; top: 50%; transform: translateY(-50%); color: var(--rule); font-size: 18px; pointer-events: none; }
 
-  #hint { position: fixed; top: 24px; left: 0; right: 0; z-index: 10; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #b5afa8; letter-spacing: .04em; opacity: 0; transition: opacity 1.5s; pointer-events: none; }
+  #hint { position: fixed; top: 24px; left: 0; right: 0; z-index: 10; text-align: center; font-family: var(--font-body); font-size: 13px; color: var(--ink-faint); opacity: 0; transition: opacity 1.5s; pointer-events: none; }
   #hint.show { opacity: 1; }
   #hint.hide { opacity: 0; transition: opacity .5s; }
 
-  #content { position: fixed; inset: 0; z-index: 20; background: #f6f4f0; overflow-y: auto; opacity: 0; visibility: hidden; transition: opacity .5s ease, visibility 0s .5s; }
-  #content.visible { opacity: 1; visibility: visible; transition: opacity .5s ease, visibility 0s 0s; }
-  #content-inner { max-width: 740px; margin: 0 auto; padding: 56px 28px 80px; }
-  #back-btn { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #8a847b; background: none; border: none; cursor: pointer; padding: 0; margin-bottom: 32px; transition: color .15s; display: inline-block; }
-  #back-btn:hover { color: #922b2b; }
+  #content { position: fixed; inset: 0; z-index: 20; background: var(--bg); overflow-y: auto; opacity: 0; visibility: hidden; transition: opacity .12s ease, visibility 0s .12s; }
+  #content.visible { opacity: 1; visibility: visible; transition: opacity .25s ease, visibility 0s 0s; }
+  #content-inner { max-width: 940px; margin: 0 auto; padding: 56px 32px var(--space-3xl); }
+  #back-btn { font-family: var(--font-body); font-size: 14px; color: var(--ink-meta); background: none; border: none; cursor: pointer; padding: 0; margin-bottom: var(--space-l); transition: color .15s; display: inline-block; }
+  #back-btn:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 
   .section { display: none; }
   .section.active { display: block; }
-  .section h2 { font-size: 34px; font-weight: 600; margin-bottom: 6px; letter-spacing: -.015em; }
-  .section .section-rule { width: 40px; height: 2px; background: #922b2b; margin-bottom: 24px; }
-  .section p, .section li { font-family: 'Newsreader', Georgia, serif; font-size: 15.5px; line-height: 1.72; color: #47423d; margin-bottom: 12px; }
-  .section a { color: #922b2b; text-decoration-color: rgba(146,43,43,.3); text-underline-offset: 3px; }
-  .section a:hover { text-decoration-color: #922b2b; }
-  .section h3 { font-size: 19px; font-weight: 600; margin: 24px 0 8px; color: #1a1816; padding-bottom: 5px; border-bottom: 1px solid #e8e4df; }
-  .section ul, .section ol { margin: 8px 0 12px 22px; color: #47423d; }
-  .section li { margin-bottom: 8px; padding-left: 2px; }
-  .section li::marker { color: #b5afa8; }
-  .section li strong { color: #1d1b19; }
-  .section code { font-family: 'IBM Plex Mono', monospace; font-size: .87em; background: #eae6e1; padding: 1px 4px; border: 1px solid #d8d3cc; }
+  .section h2 { font-size: 34px; font-weight: 600; margin-bottom: var(--space-m); letter-spacing: -.015em; }
+  .section p, .section li { font-family: var(--font-body); font-size: 15.5px; line-height: 1.72; color: var(--ink-body); }
+  .section > p, .col-main > p { max-width: var(--measure); margin-bottom: var(--space-s); }
+  .section a { color: var(--accent); text-decoration: none; }
+  .section a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .section h3 { font-size: 19px; font-weight: 600; color: var(--ink); margin: var(--space-xl) 0 var(--space-xs); }
+  .section h3:first-of-type { margin-top: var(--space-l); }
+  .section ul, .section ol { margin: var(--space-xs) 0 var(--space-s) 22px; max-width: var(--measure); }
+  .section li { margin-bottom: var(--space-xs); }
+  .section li::marker { color: var(--ink-faint); }
+  .section li strong { color: var(--ink); }
+  .section code { font-family: var(--font-mono); font-size: .85em; background: var(--fill); padding: 1px 5px; border: 1px solid var(--rule); }
+  .section .lead { font-size: 17px; line-height: 1.66; color: var(--ink-body); margin-bottom: var(--space-l); }
 
-  .project-row { display: flex; gap: 14px; align-items: start; padding: 16px 0; border-bottom: 1px solid #e8e4df; cursor: pointer; transition: background .1s; margin: 0 -8px; padding-left: 8px; padding-right: 8px; }
-  .project-row:last-child { border-bottom: none; }
-  .project-row:hover { background: rgba(0,0,0,.015); }
-  .project-row .proj-num { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #b5afa8; min-width: 22px; padding-top: 4px; }
-  .project-row h4 { font-size: 18px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; transition: color .1s; }
-  .project-row:hover h4 { color: #922b2b; }
-  .project-row p { font-size: 13.5px; margin: 0; }
+  /* Divider reserved for major page sections only. */
+  .section-break { border: 0; border-top: 1px solid var(--rule); margin: var(--space-2xl) 0 var(--space-xl); max-width: 720px; }
+  .section .section-break + h3 { margin-top: 0; }
+
+  .section .placeholder-note { font-style: italic; color: var(--ink-faint); }
+
+  /* Asymmetric grid: wide content left, metadata rail right. */
+  .page-grid { display: grid; grid-template-columns: minmax(0, 1fr) var(--rail-w); gap: 0 var(--grid-gap); align-items: start; }
+  .rail { font-family: var(--font-body); }
+  .rail-block + .rail-block { margin-top: var(--space-m); }
+  .rail .rail-label { font-family: var(--font-body); font-size: 12.5px; font-weight: 400; line-height: 1.4; color: var(--ink-faint); margin-bottom: var(--space-2xs); }
+  .rail .rail-value { font-family: var(--font-body); font-size: 14px; line-height: 1.55; color: var(--ink-meta); }
+  .rail .rail-value + .rail-value { margin-top: 3px; }
+  .rail-links { display: flex; flex-direction: column; gap: 4px; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag { font-family: var(--font-body); font-size: 12px; color: var(--ink-meta); padding: 2px 8px; border: 1px solid var(--rule); }
+
+  /* Figure slot. The placeholder holds the intended ratio until a real figure lands. */
+  figure { margin: 0; }
+  .fig-support { max-width: 560px; margin: var(--space-xl) 0; }
+  .fig-slot { background: var(--fill); border: 1px dashed var(--rule); display: flex; align-items: center; justify-content: center; }
+  .fig-support .fig-slot { aspect-ratio: 4 / 3; }
+  .fig-slot span { font-family: var(--font-body); font-size: 13px; color: var(--ink-faint); }
+  figcaption { font-family: var(--font-body); font-size: 13.5px; line-height: 1.6; color: var(--ink-meta); margin-top: var(--space-xs); max-width: var(--measure); }
+
+  /* Rows separated by space, not rules. */
+  .project-row { display: block; cursor: pointer; padding: var(--space-s) 12px; margin: 0 -12px var(--space-xs); transition: background .12s; }
+  .project-row:hover { background: var(--fill); }
+  .project-row h4 { font-size: 19px; font-weight: 600; line-height: 1.3; margin-bottom: var(--space-2xs); transition: color .12s; }
+  .project-row:hover h4 { color: var(--accent); }
+  .project-row p { font-size: 14.5px; max-width: var(--measure); }
 
   .project-detail { display: none; }
   .project-detail.active { display: block; }
-  .project-detail h2 { font-size: 28px; margin-bottom: 6px; }
-  .detail-back { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #8a847b; background: none; border: none; cursor: pointer; padding: 0; margin-bottom: 24px; transition: color .15s; display: inline-block; }
-  .detail-back:hover { color: #922b2b; }
-  .project-meta { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #6b6460; margin-bottom: 12px; padding: 9px 12px; background: #eee9e3; border-left: 2px solid #922b2b; line-height: 1.65; }
-  .project-tags { display: flex; flex-wrap: wrap; gap: 5px; margin: 10px 0 18px; }
-  .tag { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: #8a847b; padding: 2px 7px; border: 1px solid #d8d3cc; letter-spacing: .03em; text-transform: uppercase; }
+  .project-detail h2 { font-size: 30px; margin-bottom: var(--space-m); }
 
-  .proj-images { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 18px; }
-  .proj-images img { max-width: 100%; height: auto; border: 1px solid #e3dfd9; display: block; flex: 1 1 calc(50% - 6px); min-width: 180px; max-height: 340px; object-fit: contain; background: #fff; }
+  .proj-images { display: flex; flex-wrap: wrap; gap: 10px; margin: var(--space-l) 0 var(--space-xl); }
+  .proj-images img { max-width: 100%; height: auto; border: 1px solid var(--rule); display: block; flex: 1 1 calc(50% - 6px); min-width: 180px; max-height: 340px; object-fit: contain; background: var(--bg); }
   .proj-images.single img { flex: 1 1 100%; max-width: 600px; }
   .proj-images.thirds img { flex: 1 1 calc(33% - 8px); min-width: 140px; max-height: 260px; }
 
-  .pub-entry { padding: 14px 0 14px 28px; border-bottom: 1px solid #e8e4df; position: relative; counter-increment: pub; }
-  .pub-entry:last-child { border-bottom: none; }
-  .pub-entry::before { content: counter(pub) "."; position: absolute; left: 0; top: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #b5afa8; }
-  .pub-entry h4 { font-size: 14.5px; font-weight: 600; line-height: 1.45; margin-bottom: 3px; }
-  .pub-entry .authors { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6b6460; line-height: 1.5; }
-  .pub-entry .authors strong { color: #922b2b; font-weight: 600; }
+  /* Citation rows: title line, then one author line carrying venue and status. */
+  .pub-list { max-width: 720px; margin-top: var(--space-l); }
+  .pub-entry { position: relative; padding-left: 24px; margin-bottom: var(--space-m); counter-increment: pub; }
+  .pub-entry::before { content: counter(pub) "."; position: absolute; left: 0; top: 0; font-family: var(--font-body); font-size: 13px; line-height: 1.5; color: var(--ink-faint); }
+  .pub-entry h4 { font-size: 14.5px; font-weight: 600; line-height: 1.5; margin-bottom: 1px; }
+  .pub-entry .authors { font-family: var(--font-body); font-size: 13px; color: var(--ink-meta); line-height: 1.5; }
+  .pub-entry .authors strong { color: var(--accent); font-weight: 600; }
 
-  .about-photos { display: flex; gap: 12px; margin: 18px 0; }
-  .about-photos img { flex: 1 1 calc(50% - 6px); max-width: 50%; height: auto; border: 1px solid #e3dfd9; object-fit: cover; }
-  .social-row { display: flex; gap: 16px; margin-top: 24px; padding-top: 16px; border-top: 1px solid #e8e4df; }
-  .social-row a { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #8a847b; text-decoration: none; transition: color .12s; }
-  .social-row a:hover { color: #922b2b; }
+  .about-photos { display: flex; gap: 10px; margin: var(--space-l) 0 10px; max-width: 600px; }
+  /* Consecutive rows read as one photo group, not separate sections. */
+  .about-photos + .about-photos { margin-top: 10px; }
+  /* min-width:0 lets three-up rows shrink; without it max-width sets a floor and the row overflows. */
+  .about-photos img { flex: 1 1 0; min-width: 0; max-width: 50%; height: auto; border: 1px solid var(--rule); object-fit: cover; }
+  .social-row { display: flex; gap: 20px; max-width: 720px; margin-top: var(--space-xl); padding-top: var(--space-s); border-top: 1px solid var(--rule); }
+  .social-row a { font-family: var(--font-body); font-size: 14px; color: var(--ink-meta); text-decoration: none; transition: color .12s; }
+  .social-row a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 
-  #loading { position: fixed; inset: 0; z-index: 100; background: #fff; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; transition: opacity .4s; }
-  #loading.done { opacity: 0; pointer-events: none; }
-  #loading .spinner { width: 20px; height: 20px; border: 1.5px solid #e3dfd9; border-top-color: #922b2b; border-radius: 50%; animation: spin .8s linear infinite; }
-  #loading span { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #b5afa8; letter-spacing: .05em; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @media (max-width: 600px) { #content-inner { padding: 40px 18px 60px; } .proj-images img { flex: 1 1 100%; min-width: 0; } .about-photos { flex-direction: column; } .about-photos img { max-width: 100%; } }
+  @media (max-width: 900px) {
+    :root { --grid-gap: 0px; }
+    .page-grid { grid-template-columns: 1fr; }
+    .rail { margin-top: var(--space-l); }
+  }
+  @media (max-width: 600px) {
+    #content-inner { padding: 40px 18px var(--space-2xl); }
+    .proj-images img { flex: 1 1 100%; min-width: 0; }
+    .about-photos { flex-direction: column; }
+    .about-photos img { max-width: 100%; }
+  }
 </style>
 </head>
 <body>
-<div id="loading"><div class="spinner"></div><span>ASSEMBLING</span></div>
 <canvas id="scene"></canvas>
-<div id="hint">drag to rotate</div>
+<div id="hint"></div>
 <div id="ui">
   <h1>Sean Berg</h1>
-  <p class="subtitle">Neuroengineer · Behavioral Neuroscientist · UC Davis Health</p>
+  <p class="subtitle">Neural Engineering • Electrophysiologist • Carnegie Mellon BME</p>
   <nav id="nav">
     <button data-section="projects">Projects</button>
     <button data-section="about">About</button>
@@ -112,112 +178,235 @@
   <button id="back-btn">← back</button>
 
   <div id="sec-projects" class="section">
-    <h2>Projects</h2><div class="section-rule"></div>
-    <div class="project-row" data-detail="detail-bci"><span class="proj-num">01</span><div><h4>DIY EEG &amp; Brain-Computer Interface</h4><p>Homemade RC-circuit EEG passion project with a 4-stage Python BCI pipeline spanning from analog signal acquisition through real-time motor imagery decoding built for under $100.</p></div></div>
-    <div class="project-row" data-detail="detail-touchscreen"><span class="proj-num">02</span><div><h4>Behavioral Coupling of EEG &amp; Touchscreen Operant Task</h4><p>Prototyped non-shielding acrylic platforms and TTL integration to pair wireless EEG telemetry with Bussey-Saksida touchscreen chambers.</p></div></div>
-    <div class="project-row" data-detail="detail-erp"><span class="proj-num">03</span><div><h4>Event-Related Potentials Analysis Pipeline</h4><p>Robust Python pipeline for extracting AEPs and VEPs from rodent EEG recordings</p></div></div>
-  </div>
-
-  <div id="detail-bci" class="section project-detail">
-    <button class="detail-back" data-return="sec-projects">← all projects</button>
-    <h2>Homemade EEG and BCI</h2><div class="section-rule"></div>
-    <div class="project-meta"><strong>Date:</strong> July 2025 - Present · <strong>Role:</strong> Personal Project Lead</div>
-    <div class="project-tags"><span class="tag">BCI</span><span class="tag">Machine Learning</span><span class="tag">Signal Processing</span><span class="tag">Python</span></div>
-    <p>I am building a real-time brain-computer interface to detect motor imagery (imagined muscle clenching) from self-recorded EEG data to translate my EEG signals into keyboard commands in real time.</p>
-    <h3>Background &amp; Motivation</h3>
-    <p><a href="https://shop.openbci.com/products/all-in-one-eeg-electrode-cap-bundle" target="_blank">Hobbyist BCI toolkits can be costly</a>, so I opted to build my own EEG recording RC device for its lower entry cost and educational opportunity to hone circuit theory fundamentals.</p>
-    <h3>Technical Implementation</h3>
-    <p>I utilized the medical grade instrumentation amplifier AD620 with electrodes computing the difference between them, amplified by a controllable gain multiplier. The signal passes through a 60Hz notch filter, 7Hz HPF, 31Hz LPF, 1Hz HPF, gain stage, and a second 60Hz notch via TL0884CN op-amps. I built a 1-channel EEG cap with 2 electrodes (1 mastoid reference, 1 active site) using hot glue, electric tape, and a ski mask.</p>
-    <p>Four Python modules form the BCI pipeline: real-time circular-buffer visualization, a PsychoPy task presenting pseudo-randomized "CLENCH" vs "REST" cues with synchronized 3-second EEG recordings (80 trials/session), preprocessing that downsamples from 48kHz to 250Hz with 8–30Hz bandpass, and a Stratified k-fold (k=5) logistic regression classifier from scikit-learn.</p>
-    <div class="proj-images"><img src="images/eeg_breadboard.jpg" alt="EEG breadboard circuit" loading="lazy"><img src="images/cap.jpg" alt="DIY EEG cap" loading="lazy"><img src="images/training.jpg" alt="Training session" loading="lazy"></div>
-    <h3>Results &amp; Performance</h3>
-    <p>Initial confusion matrices showed the logistic regression model identified true pos./neg. cases more often than erroneous false pos./neg. (F1 = .512). The live-decoder successfully outputs keyboard input "a" on imagined left fist clenching, though cross-transfer capabilities across varied environmental/brain states need improvement.</p>
-    <h3>To Do</h3>
-    <p>Main next steps: more training data, additional AD620s for more electrodes, migrating from breadboard to protoboard, and incorporating SVM for more robust classification.</p>
+    <h2>Projects</h2>
+    <div class="project-row" data-detail="detail-touchscreen"><h4>Behavioral Coupling of EEG &amp; Touchscreen Operant Task</h4><p>Prototyped non-shielding acrylic platforms and TTL integration to pair wireless EEG telemetry with Bussey-Saksida touchscreen chambers.</p></div>
+    <div class="project-row" data-detail="detail-erp"><h4>Event-Related Potentials Analysis Pipeline</h4><p>Robust Python pipeline for extracting AEPs and VEPs from rodent EEG recordings</p></div>
+    <div class="project-row" data-detail="detail-bci"><h4>DIY EEG &amp; Brain-Computer Interface</h4><p>Homemade RC-circuit EEG passion project with a 4-stage Python BCI pipeline spanning from analog signal acquisition through real-time motor imagery decoding built for under $100.</p></div>
   </div>
 
   <div id="detail-touchscreen" class="section project-detail">
-    <button class="detail-back" data-return="sec-projects">← all projects</button>
-    <h2>EEG-Touchscreen Operant Coupling</h2><div class="section-rule"></div>
-    <div class="project-meta"><strong>Completed:</strong> September 2025 · <strong>Type:</strong> Work Project</div>
-    <div class="project-tags"><span class="tag">Prototyping</span><span class="tag">Signal Acquisition</span><span class="tag">Electrical Fundamentals</span></div>
-    <p>Overcoming historical hurdles for implementing wireless EEG behavioral assays in a touchscreen learning task. I prototyped non-shielding platforms, identified ideal wiring layouts, and established directions for near-future experimental plans.</p>
-    <h3>Problem Items</h3>
-    <ul>
-      <li><strong>Shielding:</strong> Metal ABET II chambers blocked wireless EEG signal transmission entirely.</li>
-      <li><strong>Digital IO:</strong> Required additional PCI card configuration for real-time digital output.</li>
-      <li><strong>Wiring:</strong> Routing digital output lines from PCI card to DSI EEG system.</li>
-    </ul>
-    <h3>Solutions</h3>
-    <ul>
-      <li><strong>Shielding:</strong> Replaced metal platforms with CNC-machined acrylic parts I designed in SolidWorks. Assembled with Acrylic Weld On solvent bonding.</li>
-    </ul>
-    <div class="proj-images thirds"><img src="images/wireframe_dxf.jpg" alt="DXF wireframe" loading="lazy"><img src="images/cnc.jpg" alt="CNC machining" loading="lazy"><img src="images/cnc_done.jpg" alt="CNC parts" loading="lazy"><img src="images/deburring.jpg" alt="Deburring" loading="lazy"><img src="images/acrylic_platforms.jpg" alt="Acrylic platforms" loading="lazy"><img src="images/before.jpg" alt="Before" loading="lazy"><img src="images/after.jpg" alt="After" loading="lazy"></div>
-    <ul>
-      <li><strong>Digital IO:</strong> Stereotyped TTL pulses per behavioral event — 2 pulses for correct, 3 for incorrect, 5 for reward collection.</li>
-    </ul>
-    <div class="proj-images single"><img src="images/eeg_paired.jpg" alt="EEG paired output" loading="lazy"></div>
-    <ul>
-      <li><strong>Wiring:</strong> Stripped BNC coaxial wire and routed signal/ground to breakbox channel. My DIY BCI experience provided the critical insights.</li>
-    </ul>
-    <div class="proj-images"><img src="images/bnc_apart.jpg" alt="BNC stripped" loading="lazy"><img src="images/example_pinout.jpg" alt="Pinout" loading="lazy"><img src="images/platform_test.jpg" alt="Platform test" loading="lazy"></div>
-    <h3>Next Steps</h3>
-    <p>Currently in the process of conducting a touchscreen EEG cohort to identify event-related EEG waveform potentials with respect to behavioral metrics, allowing us to observe waveform evolution as animals learn the task.</p>
+    <h2>EEG-Touchscreen Operant Coupling</h2>
+    <div class="page-grid">
+      <div class="col-main">
+        <p class="lead">Overcoming historical hurdles for implementing wireless EEG behavioral assays in a touchscreen learning task. I prototyped non-shielding platforms, identified ideal wiring layouts, and established directions for near-future experimental plans.</p>
+        <h3>Problem Items</h3>
+        <ul>
+          <li><strong>Shielding:</strong> Metal ABET II chambers blocked wireless EEG signal transmission entirely.</li>
+          <li><strong>Digital IO:</strong> Required additional PCI card configuration for real-time digital output.</li>
+          <li><strong>Wiring:</strong> Routing digital output lines from PCI card to DSI EEG system.</li>
+        </ul>
+        <h3>Solutions</h3>
+        <ul>
+          <li><strong>Shielding:</strong> Replaced metal platforms with CNC-machined acrylic parts I designed in SolidWorks. Assembled with Acrylic Weld On solvent bonding.</li>
+        </ul>
+        <div class="proj-images thirds"><img src="images/wireframe_dxf.jpg" alt="DXF wireframe" loading="lazy"><img src="images/cnc.jpg" alt="CNC machining" loading="lazy"><img src="images/cnc_done.jpg" alt="CNC parts" loading="lazy"><img src="images/deburring.jpg" alt="Deburring" loading="lazy"><img src="images/acrylic_platforms.jpg" alt="Acrylic platforms" loading="lazy"><img src="images/before.jpg" alt="Before" loading="lazy"><img src="images/after.jpg" alt="After" loading="lazy"></div>
+        <ul>
+          <li><strong>Digital IO:</strong> Set custom TTL pulse counts that encoded for animal behavioral performance during the task - 3 pulses for correct, 4 for incorrect, 5 for reward collection.</li>
+        </ul>
+        <div class="proj-images single"><img src="images/eeg_paired.jpg" alt="EEG paired output" loading="lazy"></div>
+        <ul>
+          <li><strong>Wiring:</strong> Stripped BNC coaxial wire and routed signal/ground to breakbox channel that connected to our DSI telemer system via a BNC-in cable.</li>
+        </ul>
+        <div class="proj-images"><img src="images/bnc_apart.jpg" alt="BNC stripped" loading="lazy"><img src="images/example_pinout.jpg" alt="Pinout" loading="lazy"><img src="images/platform_test.jpg" alt="Platform test" loading="lazy"></div>
+        <h3>Decoding &amp; Analysis Pipeline</h3>
+        <p>The touchscreen chamber writes no event markers into the EDF. Every behavioral event instead arrives as a burst of TTL pulses on an analog channel recorded alongside the EEG, where the event's identity is the pair of pulse width and pulse count. <code>decode_ts_channel</code> reverses that in four steps: threshold at 4 V into a binary trace, discard pulses under 20 ms as electrical noise rather than TTL, then look up each (width, count) pair in a per-stage event dictionary with six events for punish incorrect and ten for discrimination (including correct trial specific event encoders). Reversal learning reuses the discrimination dictionary and analysis scripts since only the rewarded image changes and the databases accomodate the paradigm shift in data storage location. Decoding runs before filtering so the band-pass can't smear the pulse edges, and the channel is then retyped as a stim channel so its multi-volt swings don't trip amplitude rejection as the EEG channel and 'TS' channel operate at different voltage scales (uV and V).</p>
+        <p>Epochs are cut around each event occurrence using per-event windows that are baseline corrected against the pre-event window and rejected at 500 uV peak-to-peak. The decoded sequence is separately walked to rebuild each trial as image onset to touch to reward, which supplies the touch and reward latencies and lets a labeling pass tag each trial with its own and the preceding trial's outcome to build the post-error 2x2 condition, counting only free trials as predecessors so correction trials never stand in as the previous trial.</p>
+        <p>There are three analysis stages with different metrics of investigation:</p>
+        <ul>
+          <li><strong>Per-session and grand mean (subject):</strong> evoked waveforms, peaks taken as the most prominent local extremum in a-priori evoked waveform components (very ERP-esque) as well as Morlet ERSP and ITPC. Grand means use a hierarchical bootstrap that resamples subjects and then trials within subject.</li>
+          <li><strong>Longitudinal (across sessions):</strong> per-subject OLS slopes, mixed models over session index, cluster permutation on the change waveform and time-frequency map, and coupling to behavioral metrics (animal performance in touchscreen task) as derived from the 'TS' channel.</li>
+          <li><strong>Trial level (trial):</strong> per-trial peak, mean amplitude, and band power in dB, modeled with a per-subject random slope first or a fall back to random intercept and then pooled OLS, with the fallback recorded in the output so it can't be mistaken for a proper mixed fit. ITPC has no trial-level counterpart, as it is a resultant vector length across trials and no per-trial value exists.</li>
+        </ul>
+        <p>Results are assembled in <code>metrics_long.csv</code> aggregated to session means, <code>trials_long.csv</code> left at one row per kept epoch. Keeping the second unaggregated is what makes the trial as N analysis possible since measuring peaks on trial-averaged evokeds per session leaves no per-trial value anywhere downstream.</p>
+        <h3>Analysis &amp; Results</h3>
+        <p>Across three task stages (a punish incorrect control and reminder stage, a discrimination stage for task learning, and a reversal of learning stage) totaling more than 50,000 trials in up to seven mice over a 2 month span of 5-6 sessions/week, I modeled single-trial EEG features with mixed-effects regression, treating each trial as an observation while accounting for animal identity. Right around the moment when the mouse chose between the correct and incorrect image (+/- 1 second), alpha power was consistenty lower on error trials compared to correct ones by roughly 4 dB across both learning stages (q&lt;0.001) and in the same direction in every animal. The same pattern held in the beta and gamma frequency bands, though not in the theta band. The animal's performance and behaviors relating to learning were apparent when sorting on trial performance, with errors having a lower latency than correct responses and slower, more deliberate choices predicted being correct.</p>
+        <p>Lower alpha and beta power generally marks a more engaged and aroused cortex, which lines up with a known human effect where alpha drops following task errors tied to a post-error arousal response. This observation coupled with the lower-latency errors suggests that these B6J mice were more predisposed to act 'impulsively', and it's interesting to consider how this effect may differ in the several other rare neurodevelopmental disorder mouse models that the Silverman lab studies, as arousal, hyperexcitability, and cognitive deficits are all axis of interest in those animal models.</p>
+        <figure class="fig-support">
+          <!-- Replace .fig-slot with <img src="..." alt="..."> when the real figure is ready. -->
+                  <div class="proj-images"><img src="images/evolution_ersp_correct.gif" alt="Grand event related spectral perturbation of correct animal performance (on -0.2-0.8s)" loading="lazy"><img src="images/evolution_ersp_incorrect.gif" alt="Grand event related spectral perturbation of incorrect animal performance (on -0.2-0.8s)" loading="lazy"></div>
+
+        </figure>
+        <h3>Next Steps</h3>
+        <p>Currently in the process of wrapping up the analysis stages and finishing the implementation of linear mixed-effects regression and conversing with field experts on interpretting the preliminary findings before aiming for literature submission (journal selection pending).</p>
+      </div>
+      <aside class="rail">
+        <div class="rail-block">
+          <p class="rail-label">Near Completion</p>
+          <p class="rail-value">September 2025-July 2026</p>
+        </div>
+        <div class="rail-block">
+          <p class="rail-label">Type</p>
+          <p class="rail-value">Work project</p>
+        </div>
+        <div class="rail-block">
+          <p class="rail-label">Tools</p>
+          <div class="project-tags"><span class="tag">Prototyping</span><span class="tag">Signal Acquisition</span><span class="tag">Electrical Fundamentals</span></div>
+        </div>
+      </aside>
+    </div>
   </div>
 
   <div id="detail-erp" class="section project-detail">
-    <button class="detail-back" data-return="sec-projects">← all projects</button>
-    <h2>Event-Related Potentials Analysis Pipeline</h2><div class="section-rule"></div>
-    <div class="project-meta"><strong>Date:</strong> May 2025 - Present · <strong>Role:</strong> Sole Developer · <strong>Context:</strong> Silverman Lab, UC Davis Health</div>
-    <div class="project-tags"><span class="tag">Python</span><span class="tag">MNE</span><span class="tag">EEG Analysis</span><span class="tag">Signal Processing</span><span class="tag">In Active Use</span></div>
-    <p>A Python pipeline for extracting event-related potentials (auditory and visual evoked potentials) from rodent EEG telemetry recordings. Robust and capable of analyzing historically noisy and current analog stim channels into clean event timestamps to epoch  around those events. The pipeline is evolving and currently contributing to multiple manuscripts currently in preparation at the lab.</p>
+    <h2>Event-Related Potentials Analysis Pipeline</h2>
+    <div class="page-grid">
+      <div class="col-main">
+        <p class="lead">A Python pipeline for extracting event-related potentials (auditory and visual evoked potentials) from rodent EEG telemetry recordings. Robust and capable of analyzing historically noisy and current analog stim channels into clean event timestamps to epoch  around those events. The pipeline is nearly finished and is currently contributing to multiple manuscripts currently in preparation at the lab.</p>
 
-    <h3>The Problem</h3>
-    <p>Our DSI PhysioTel telemetry system records an analog stim channel alongside the EEG, and the channel carries square wave signals marking when a stimulus was presented to the animal. In a clean recording this is fine: MNE's <code>find_events</code> picks up the rising edges and you have your event timestamps. Historically, the BNC-aux cable essental in our set up for pairing the tools faced a poor adapter for grounding the signal, producing AEP datasets with much noise contamination in the stim channel signal, resulting in <code>find_events</code> to miss real stims and pick up false events during the duration of the study.</p>
+        <h3>The Problem</h3>
+        <p>Our DSI PhysioTel telemetry system records an analog stim channel alongside the EEG, and the channel carries square wave signals marking when a stimulus was presented to the animal. In a clean recording this is fine: MNE's <code>find_events</code> picks up the rising edges and you have your event timestamps. Historically, the BNC-aux cable essental in our set up for pairing the tools faced a poor adapter for grounding the signal, producing AEP datasets with much noise contamination in the stim channel signal, resulting in <code>find_events</code> to miss real stims and pick up false events during the duration of the study.</p>
 
-    <h3>How It Works</h3>
-    <p>The pipeline does a two-pass detection on the stim channel. The first pass runs <code>find_events</code> with <code>min_duration=0.002</code> to filter out the TTL starting ripple while keeping all real trials and excluding the noisy half-signals from the analog signal. Then, for prior lab data with noisy AEP stimulus channels, an amplitude-thresholded binarization rewrites the stim channel as clean square pulses (<code>1</code> above threshold, <code>0</code> elsewhere) which gets injected directly back into the MNE raw object via <code>raw._data[stim_idx]</code>. A second <code>find_events</code> pass on the binarized channel produces the final event list.</p>
-    <p>A <code>USE_BINARIZE</code> flag lets you skip the rewrite for clean recordings where the raw analog channel is already usable and as a debug comparator/validation that the binarized stage doesn't influence the final data analysis.</p>
-    <div class="proj-images"><img src="images/stimchannel.png" alt="Stim channel before and after binarization" loading="lazy"><img src="images/evoked_beforeafter.png" alt="ERP comparison between groups" loading="lazy"></div>
+        <h3>How It Works</h3>
+        <p>The pipeline does a two-pass detection on the stim channel. The first pass runs <code>find_events</code> with <code>min_duration=0.002</code> to filter out the TTL starting ripple while keeping all real trials and excluding the noisy half-signals from the analog signal. Then, for prior lab data with noisy AEP stimulus channels, an amplitude-thresholded binarization rewrites the stim channel as clean square pulses (<code>1</code> above threshold, <code>0</code> elsewhere) which gets injected directly back into the MNE raw object via <code>raw._data[stim_idx]</code>. A second <code>find_events</code> pass on the binarized channel produces the final event list.</p>
+        <p>A <code>USE_BINARIZE</code> flag lets you skip the rewrite for clean recordings where the raw analog channel is already usable and as a debug comparator/validation that the binarized stage doesn't influence the final data analysis.</p>
+        <p>Before any of that, each file is reduced to the EEG channel and the stim channel, with the stim channel retyped as MNE's <code>stim</code> type so its volt-scale swings are never judged against a µV amplitude threshold. Epochs then run from 100 ms before each event out to the paradigm's tmax, baseline corrected on the pre-stimulus window, and artifact rejected at 500 µV peak-to-peak (above expected electrophysiological range for mouse EEG). Every subject has two associated figures: an ERP image stacking all epochs above the evoked average, and the evoked waveform with a 95% inter-trial confidence band, both marked with dashed lines at stimulus onset.</p>
+        <div class="proj-images"><img src="images/stimchannel.png" alt="Stim channel before and after binarization" loading="lazy"><img src="images/evoked_beforeafter.png" alt="ERP comparison between groups" loading="lazy"></div>
 
-    <h3>Auditability</h3>
-    For every file, the pipeline writes:</p>
-    <ul>
-      <li>The total event count before and after binarization, so you can immediately see whether binarization changed the detected events</li>
-      <li>The exact sample timestamps, event IDs, and stim channel values at the first few events in each pass, so you can spot-check whether the pulses look right</li>
-      <li>How many events were dropped during <code>mne.Epochs()</code> construction (these are events too close to the recording boundaries to fit a full epoch window)</li>
-      <li>How many epochs were dropped by the amplitude rejection threshold (currently 500 µV, which catches movement artifacts and electrode pops)</li>
-    </ul>
-    <div class="proj-images"><img src="images/evoked.png" alt="Averaged evoked waveform" loading="lazy"><img src="images/iterevoked.png" alt="Trial-by-trial evoked responses" loading="lazy"></div>
+        <p>The same pipeline handles auditory and visual evoked potentials, and a Tk front end switches between them. Picking a paradigm rewrites the expected stim channel name, sets the epoch length (1 s for AEP, 0.5 s for VEP), and swaps which advanced control is on screen (AEP has the ISI debug search range and VEP has the stim channel first/last detected flash-count removers for VEP [the equipment we used in lab had a noisy start and stop contribution in the stim channel we didn't want]). Component windows for P1, N1, and P2 are entered in milliseconds with a polarity each.</p>
+        <p>The AEP paradigm delivers two tones per trial (to measure and assess auditory sensory gating). <code>define_target_events</code> keeps only events that have a paired TTL pulse inside the ISI search window (0.3-0.7 s by default) and the measured lags are logged per subject as a median, standard deviation, and range. T2 components are then found by shifting each search window forward by that subject's median ISI and subtracting the offset back out, so the reported latency stays relative to T2's own onset. Workbook columns are prefixed <code>T1_</code> and <code>T2_</code>, with the pair count and ISI spread carried alongside them - that jitter matters, since T2 is measured off a single per-subject median rather than per-trial lags.</p>
+        <p>VEP needs no pairing and epochs come straight off the event array, but the light gun emits startup and shutdown noise, so the first event and the last three are discarded.</p>
 
-    <h3>What This Gets You</h3>
-    <p>Once the pipeline is run across a cohort, the outputs come together into an analyzable grand-mean evoked waveforms across animals, and direct comparisons between genotypes or experimental groups.</p>
-    <div class="proj-images single"><img src="images/grand_mean_ERP.png" alt="Grand mean ERP across cohort" loading="lazy"></div>
+        <h3>Measuring the Components</h3>
+        <p>The field's traditional measure is a windowed local peak. <code>find_local_peak</code> checks the found epochs to the evoked component windows and takes the most prominent local peak. Where no local peak exists at all, it falls back to the window extremum and records a <code>no_local_peak</code> value.</p>
+        <p>Group values are never peak-picked off the grand average, because the peak of the mean is not the mean of the peaks (since a simple average of all the subject trials in a grand mean waveform would discard much important phase-encoding dynamics of the dataset). Each component's group value is the across-subject mean of the per-subject peak measures; the grand average is still computed, but only for the figure.</p>
 
-    <h3>What's Next</h3>
-    <p>The next step is finalizing the GUI implementation for the rest of the lab.</p>
-    <p>I'm also planning to extend the epoching window logic to support the touchscreen EEG project, as the data management process is highly conserved between the two experiments, and only requires generalizing the event-id logic.</p>
+        <p>On top of the classic peaks, the pipeline implements Steven Luck's recommended analysis of 50% fractional area/peak latency., which are far less biased by noise and trial count. Each component window yields:</p>
+        <ul>
+          <li><strong>Mean amplitude</strong> - the plain mean voltage across the window and the 'amplitude' measure, since it doesn't chase the noisiest sample the way peak amplitude does</li>
+          <li><strong>Pre-window mean</strong> - the mean of the 10 ms immediately before the window, computed independently of window validity as a local drift and baseline check</li>
+          <li><strong>50% fractional area latency</strong> - where cumulative rectified area reaches half the window total, linearly interpolated between samples</li>
+          <li><strong>50% fractional peak latency</strong> - found by walking left from the peak until amplitude drops below half its value, a better onset estimate than the peak itself</li>
+          <li><strong>Peak latency</strong> - the conventional window extremum, kept for comparison</li>
+        </ul>
+
+        <p>For every file, the pipeline writes:</p>
+        <ul>
+          <li>The total event count before and after binarization, so you can immediately see whether binarization changed the detected events</li>
+          <li>The exact sample timestamps, event IDs, and stim channel values at the first few events in each pass, so you can spot-check whether the pulses look right</li>
+          <li>How many events were dropped during <code>mne.Epochs()</code> construction (these are events too close to the recording boundaries to fit a full epoch window)</li>
+          <li>How many epochs were dropped by the amplitude rejection threshold (currently 500 µV)</li>
+          <li>The stim channel trace itself, before and after binarization, as a figure per file to debug and see comparison</li>
+          <li>Long-format tables of every peak and windowed measure with its status flag attached, so each window can be traced back to the subject and component it came from</li>
+        </ul>
+        <div class="proj-images"><img src="images/evoked.png" alt="Averaged evoked waveform" loading="lazy"><img src="images/iterevoked.png" alt="Trial-by-trial evoked responses" loading="lazy"></div>
+
+        <h3>What This Gets You</h3>
+        <p>Once the pipeline is run across a cohort, the outputs come together into an analyzable grand-mean evoked waveforms across animals, and direct comparisons between genotypes or experimental groups. Each run leaves per-subject ERP images and evoked figures, a grand-mean figure, and two workbooks - one for the classic peaks, one for the noise-robust measures and its windows sheet - each a row per subject with a bolded grand-mean row last.</p>
+        <div class="proj-images single"><img src="images/grand_mean_ERP.png" alt="Grand mean ERP across cohort" loading="lazy"></div>
+
+        <h3>What's Next</h3>
+        <p>Finalize literature review and initial report on the potential that event related potential research possesses in the several rare neurodevelopmental disorders the Silverman Lab studies.</p>
+      </div>
+      <aside class="rail">
+        <div class="rail-block">
+          <p class="rail-label">Date</p>
+          <p class="rail-value">May 2025 - July 2026</p>
+        </div>
+        <div class="rail-block">
+          <p class="rail-label">Role</p>
+          <p class="rail-value">Sole developer</p>
+        </div>
+        <div class="rail-block">
+          <p class="rail-label">Context</p>
+          <p class="rail-value">Silverman Lab, UC Davis Health</p>
+        </div>
+        <div class="rail-block">
+          <p class="rail-label">Tools</p>
+          <div class="project-tags"><span class="tag">Python</span><span class="tag">MNE</span><span class="tag">EEG Analysis</span><span class="tag">Signal Processing</span></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div id="detail-bci" class="section project-detail">
+    <h2>Homemade EEG and BCI</h2>
+    <div class="page-grid">
+      <div class="col-main">
+        <p class="lead">I am building a real-time brain-computer interface to detect motor imagery (imagined muscle clenching) from self-recorded EEG data to translate my EEG signals into keyboard commands in real time.</p>
+        <h3>Background &amp; Motivation</h3>
+        <p><a href="https://shop.openbci.com/products/all-in-one-eeg-electrode-cap-bundle" target="_blank">Hobbyist BCI toolkits can be costly</a>, so I opted to build my own EEG recording RC device for its lower entry cost and educational opportunity to hone circuit theory fundamentals.</p>
+        <h3>Technical Implementation</h3>
+        <p>I utilized the medical grade instrumentation amplifier AD620 with electrodes computing the difference between them, amplified by a controllable gain multiplier. The signal passes through a 60Hz notch filter, 7Hz HPF, 31Hz LPF, 1Hz HPF, gain stage, and a second 60Hz notch via TL0884CN op-amps. I built a 1-channel EEG cap with 2 electrodes (1 mastoid reference, 1 active site) using hot glue, electric tape, and a ski mask.</p>
+        <p>Four Python modules form the BCI pipeline: real-time circular-buffer visualization, a PsychoPy task presenting pseudo-randomized "CLENCH" vs "REST" cues with synchronized 3-second EEG recordings (80 trials/session), preprocessing that downsamples from 48kHz to 250Hz with 8-30Hz bandpass, and a Stratified k-fold (k=5) logistic regression classifier from scikit-learn.</p>
+        <div class="proj-images"><img src="images/eeg_breadboard.jpg" alt="EEG breadboard circuit" loading="lazy"><img src="images/cap.jpg" alt="DIY EEG cap" loading="lazy"><img src="images/training.jpg" alt="Training session" loading="lazy"></div>
+        <h3>Results &amp; Performance</h3>
+        <p>The system runs end to end in real time: the decoder classifies incoming epochs and emits a keystroke on a left-fist imagery call. Classification is currently at chance (F1 = 0.512, stratified k-fold), so the keystroke is not yet reliably driven by the intended imagery.</p>
+        <p>There are two large contributing factors I believe that might be resulting in this performance. All recordings were collected through the laptop's audio input, and that machine has an intermittent fault audible across wired output, microphone capture, and Bluetooth alike, which places it upstream of the analog codec. If samples were dropped during acquisition, cue alignment in the training set may be compromised.</p>
+        <P>Separately, this is a single-electrode setup. Motor imagery decoding depends on a spatial contrast between sensorimotor cortex and surrounding sites, and one channel provides nothing to contrast against. Posterior alpha occupies the same band at higher amplitude, so the discriminative signal is mixed into a larger one that no filtering on a single channel can separate.</P>
+        
+        <h3>To Do</h3>
+        <p>an external USB interface to remove the suspect audio path, and additional AD620 stages for a three-electrode montage at C3, Cz, and C4 with a Laplacian on the center site. Modeling changes come after, since more training data and stronger classifiers cannot recover a signal the front end never captured. SVM once the input is trustworthy.</p>
+      </div>
+      <aside class="rail">
+        <div class="rail-block">
+          <p class="rail-label">Date</p>
+          <p class="rail-value">July 2025 - Present</p>
+        </div>
+        <div class="rail-block">
+          <p class="rail-label">Role</p>
+          <p class="rail-value">Personal project lead</p>
+        </div>
+        <div class="rail-block">
+          <p class="rail-label">Tools</p>
+          <div class="project-tags"><span class="tag">BCI</span><span class="tag">Machine Learning</span><span class="tag">Signal Processing</span><span class="tag">Python</span></div>
+        </div>
+      </aside>
+    </div>
   </div>
 
   <div id="sec-about" class="section">
-    <h2>About</h2><div class="section-rule"></div>
-    <p>Welcome! I'm Sean, a junior specialist in neuroscience with a passion for understanding the brain and identifying behavior-associated biomarkers in EEG.</p>
-    <p>After acquiring my Associates degree in Natural Science at 18 in high school, I continued my education at UC Davis where I earned my B.S. at 20 in Neurobiology, Physiology, and Behavior. Now, at Dr. Jill Silverman's lab at UC Davis Health, my work investigates mouse models of neurodevelopmental disorders and characterizes electrophysiological trends in EEG with respect to measurable behavior metrics. I'm heavily involved in experimental design, behavioral experiments, craniotomy and brain surgery procedures, <em>in vivo</em>/<em>in vitro</em> neurophysiology classification, data processing, and manuscript preparation — though I'm mostly known by my lab coworkers as the "computer wizard guy".</p>
-    <p>I'm also working on a personal project where I'm self-collecting my own EEG dataset from an RC circuit device I built from scratch for developing a DIY brain-computer interface.</p>
-    <p>Outside of work, it's easiest to find me at the mountains hiking/rock climbing, or at the beach. Unless I'm tired, in which case I'm usually at my computer.</p>
-    <div class="about-photos"><img src="images/sean_crab.jpg" alt="Sean with a crab at Stinson Beach" loading="lazy"><img src="images/yosemite.jpg" alt="Yosemite trip" loading="lazy"></div>
-    <div class="social-row"><a href="Berg_Sean_Resume_May2026.pdf" target="_blank">Resume ↗</a><a href="https://www.linkedin.com/in/seanwberg/" target="_blank">LinkedIn ↗</a><a href="https://github.com/seanbug" target="_blank">GitHub ↗</a></div>
+    <h2>About</h2>
+    <p class="lead">Welcome! I'm Sean, an M.S. student in biomedical engineering at Carnegie Mellon University with a concentration in artificial intelligence and biomedical engineering with a research interest in ML applications in neural decoding and brain-computer interfaces.</p>
+    <p>Previously, I earned my B.S. in Neurobiology, Physiology, and Behavior at UC Davis in 2024 and worked in the Silverman Translational Neuroscience Lab at UC Davis Health until 2026 where we studied mouse models of neurodevelopmental disorders and investigated electrophysiological signatures in EEG compared to observable and measurable animal behavioral phenotypes. My involvement there included experimental design, stereotaxic surgery and EEG implantation, in vivo and in vitro electrophysiology, Python analytical pipeline development, and manuscript preparation, though I was most commonly referred to as the 'computer wizard guy' from my colleagues.</p>
+  <p>As a passion project on the side, I built an EEG amplifier from individual RC components, wrote a PsychoPy task for myself to cue and timestamp motor imagery trials, and used it to collect my own dataset to train a logistic regression decoder evaluated with stratified k-fold cross-validation. More info in the Projects section.</p>
+    
+  <p>Outside of work, it's easiest to find me at the mountains hiking/rock climbing, or at the beach. Unless I'm tired, in which case I'm usually at my computer.</p>
+    <div class="about-photos"><img src="images/sean_crab.jpg" alt="Sean with a crab at Stinson Beach" loading="lazy"><img src="images/yosemite.jpg" alt="Yosemite trip" loading="lazy"><img src="images/climbing.jpg" alt="Rock climbing" loading="lazy"></div>
+    <hr class="section-break">
+    <p>I also like hands-on creative hobbies like wood working and pewter casting. Here's some miscellaneous fun project's I've worked on over the past few years when time permits.</p>
+    <div class="about-photos"><img src="images/gocut.jpg" alt="cnc cutting go board" loading="lazy"><img src="images/epoxy.jpg" alt="epoxy backfill" loading="lazy"></div>
+    <div class="about-photos"><img src="images/sanding.jpg" alt="sanding go board" loading="lazy"><img src="images/polished.jpg" alt="polished board" loading="lazy"></div>
+    <div class="about-photos"><img src="images/goboard.jpg" alt="almost finished go board" loading="lazy"></div>
+    <hr class="section-break">
+    <div class="about-photos"><img src="images/geese.jpg" alt="garlic geese" loading="lazy"><img src="images/geesepewter.jpg" alt="pewter geese" loading="lazy"></div>
+    <div class="about-photos"><img src="images/hk.jpg" alt="hollow knight clay" loading="lazy"><img src="images/hkmold.jpg" alt="the knights mold" loading="lazy"></div>
+    <div class="about-photos"><img src="images/hkpewter.jpg" alt="the knight in pewter" loading="lazy"></div>
+
+    
+    <div class="social-row"><a href="Berg_Sean_Resume_Aug2026.pdf" target="_blank">Resume</a><a href="https://www.linkedin.com/in/seanwberg/" target="_blank">LinkedIn</a><a href="https://github.com/seanbug" target="_blank">GitHub</a></div>
   </div>
 
   <div id="sec-publications" class="section" style="counter-reset: pub;">
-    <h2>Publications</h2><div class="section-rule"></div>
-    <p>The following publications were drafted by my PI, Dr. Jill Silverman, and myself regarding projects I've been involved in at the lab. Many are in their mid to late stages of completion.</p>
-    <div class="pub-entry"><h4>Novel Gain of Function Mouse Model of KCNT1-Related Epilepsy.</h4><p class="authors">Olguin SL, Davis D, Rehman A,<strong>Berg SW</strong>, Sahagun E, Oswalt PS, Patil M, Sullivan PDM, Zhang B, Bryda E, Ben-Shalom R, Silverman JL. · <em>Brain</em>, In Review (2025)</p></div>
-    <div class="pub-entry"><h4>Assessment of mouse electrophysiological cortical recordings during a touchscreen-based cognitive assay as a learning biomarker</h4><p class="authors"><strong>Berg SW</strong>, Vaughan N, Alidaee A, Olguin S,and Silverman JL. · <em>Mol. Psychiatry</em>, In preparation (2026)</p></div>
-    <div class="pub-entry"><h4>Electrophysiological Biomarkers during Positive Operant Behavioral Assessment in preclinical models of KCNT1-Related Epilepsy.</h4><p class="authors"><strong>Berg SW</strong>, Vaughan N, Silverman JL. · <em>J. Neuroscience</em>, In prep. (2026)</p></div>
-    <div class="pub-entry"><h4>Leveraging Sensory Evoked Potentials as a Translational Biomarker in Preclinical Genetic Models of Neurodevelopmental Disorders.</h4><p class="authors">Monsen ER, Haouchine OY, <strong>Berg SW</strong>, Olguin SL and Silverman JL. · <em>Mol. Autism</em>, In Preparation (2025)</p></div>
-    <div class="pub-entry"><h4>Loss of CDKL5 produces hyperexcitable neurophysiological signatures, dysfunctional quality and quantity of sleep and aberrant imaging by magnetic resonance.</h4><p class="authors">Haouchine OY, Monsen ER, <strong>Berg SW</strong> and Silverman JL. · <em>J. Clinical Investigation</em>, In preparation (2026)</p></div>
-    <div class="pub-entry"><h4>Neurophysiological biomarkers of aberrant gait dimensions: Leveraging time synchronous cortical EEG and function dimensions to inform translational biomarkers in genetic neurodevelopmental disorders.</h4><p class="authors">Monsen ER, Haouchine OY, <strong>Berg SW</strong>, Olguin SL and Silverman JL. · <em>Mol. Autism</em>, In preparation (2026)</p></div>
+    <h2>Publications</h2>
+    <p class="lead">The following publications were drafted by my PI, Dr. Jill Silverman, and myself regarding projects I've been involved in at the lab. Many are in their mid to late stages of completion, and updates to this page will be regularly made.</p>
+    <p>Last updated: 8-14-2026</p>
+    <div class="pub-list">
+      <div class="pub-entry">
+        <h4>Novel Gain of Function Mouse Model of KCNT1-Related Epilepsy.</h4>
+        <p class="authors">Olguin SL, Davis D, Rehman A, <strong>Berg SW</strong>, Sahagun E, Oswalt PS, Patil M, Sullivan PDM, Zhang B, Bryda E, Ben-Shalom R, Silverman JL. · <em>Brain</em>, In Revision (2025)</p>
+        <p>https://www.biorxiv.org/content/10.1101/2025.07.22.666003v2</p>
+      </div>
+      <div class="pub-entry">
+        <h4>Translational Outcomes in an Experimental Mouse Model  with a Complete Loss of Shank3: Advancing Translation for Phelan McDermid Syndrome</h4>
+        <p class="authors">Olguin SL, <strong>Berg SW</strong>, Monsen ER, Gavornik J, Levin AR, Buxbaum JD, and Silverman JL, <em>Mol. Psychiatry</em>, In preparation (2026)</p>
+        <p>Biorxiv and it's clinical companion paper will be available soon!</p>
+      </div>
+      <div class="pub-entry">
+        <h4>Assessment of Mouse Electrophysiological Cortical Recordings during a Touchscreen-based Cognitive Assay as a Learning Biomarker</h4>
+        <p class="authors"><strong>Berg SW</strong>, Vaughan N, Silverman JL, In preparation (2026)</p>
+      </div>
+      <div class="pub-entry">
+        <h4>Leveraging Sensory Evoked Potentials as a Translational Biomarker in Preclinical Genetic Models of Neurodevelopmental Disorders.</h4>
+        <p class="authors"><strong>Berg SW</strong>, Monsen ER, Haouchine OY, Olguin SL and Silverman JL, In Preparation (2026)</p>
+      </div>
+      <div class="pub-entry">
+        <h4>Loss of CDKL5 produces hyperexcitable neurophysiological signatures, dysfunctional quality and quantity of sleep and aberrant imaging by magnetic resonance.</h4>
+        <p class="authors">Haouchine OY, Monsen ER, <strong>Berg SW</strong> and Silverman JL, <em>J. Clinical Investigation</em>, In preparation (2026)</p>
+      </div>
+      <div class="pub-entry">
+        <h4>Neurophysiological biomarkers of aberrant gait dimensions: Leveraging time synchronous cortical EEG and function dimensions to inform translational biomarkers in genetic neurodevelopmental disorders.</h4>
+        <p class="authors">Monsen ER, Haouchine OY, <strong>Berg SW</strong>, Olguin SL and Silverman JL, <em>Mol. Autism</em>, In preparation (2026)</p>
+      </div>
+    </div>
   </div>
 </div></div>
 
@@ -278,16 +467,16 @@ shadow.position.set(0, -1.69, -0.4);
 scene.add(shadow);
 
 
-// Brain parts: 4 ellipsoids — two hemispheres, cerebellum, brainstem.
+// Brain parts: 4 ellipsoids - two hemispheres, cerebellum, brainstem.
 // Flatter top-to-bottom, narrower side-to-side, longer front-to-back.
 var BRAIN_PARTS = [
   // left hemisphere
   { sx: 0.54, sy: 0.62, sz: 0.98, px: -0.30, py: 0.10, pz: 0.0,   weight: 0.40 },
   // right hemisphere
   { sx: 0.54, sy: 0.62, sz: 0.98, px:  0.30, py: 0.10, pz: 0.0,   weight: 0.40 },
-  // cerebellum — distinct mass under the back of the hemispheres
+  // cerebellum - distinct mass under the back of the hemispheres
   { sx: 0.36, sy: 0.26, sz: 0.34, px:  0.0,  py: -0.50, pz: -0.55, weight: 0.14 },
-  // brainstem — shorter, rooted into the cerebellum/midbrain
+  // brainstem - shorter, rooted into the cerebellum/midbrain
   { sx: 0.11, sy: 0.18, sz: 0.13, px:  0.0,  py: -0.62, pz: -0.30, weight: 0.06 }
 ];
 
@@ -491,6 +680,15 @@ function startGather() {
   state = 'gathering';
   transitionStart = clock.getElapsedTime();
   document.getElementById('content').classList.remove('visible');
+  document.getElementById('ui').classList.remove('hidden');
+  // Snap the particles home on the click itself; only opacity animates back in,
+  // so leaving a page costs no flight time.
+  for (var g = 0; g < groups.length; g++) {
+    var posAttr = groups[g].points.geometry.attributes.position;
+    var orig = groups[g].originals;
+    for (var i = 0; i < orig.length; i++) posAttr.array[i] = orig[i];
+    posAttr.needsUpdate = true;
+  }
 }
 
 function showContent() {
@@ -500,6 +698,14 @@ function showContent() {
   if (sec) sec.classList.add('active');
   document.getElementById('content').classList.add('visible');
   document.getElementById('content').scrollTop = 0;
+  updateBackBtn();
+}
+
+// One back button for the whole content layer: on a project page it returns to
+// the projects list, everywhere else it returns to the hero.
+function updateBackBtn() {
+  var onDetail = !!document.querySelector('.project-detail.active');
+  document.getElementById('back-btn').textContent = onDetail ? '← all projects' : '← back';
 }
 
 function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
@@ -513,6 +719,14 @@ for (var i = 0; i < navButtons.length; i++) {
 }
 
 document.getElementById('back-btn').addEventListener('click', function() {
+  var detail = document.querySelector('.project-detail.active');
+  if (detail) {
+    detail.classList.remove('active');
+    document.getElementById('sec-projects').classList.add('active');
+    document.getElementById('content').scrollTop = 0;
+    updateBackBtn();
+    return;
+  }
   if (state === 'scattered') startGather();
 });
 
@@ -525,21 +739,9 @@ for (var i = 0; i < projectRows.length; i++) {
       var detail = document.getElementById(row.dataset.detail);
       if (detail) detail.classList.add('active');
       document.getElementById('content').scrollTop = 0;
+      updateBackBtn();
     });
   })(projectRows[i]);
-}
-
-var detailBacks = document.querySelectorAll('.detail-back');
-for (var i = 0; i < detailBacks.length; i++) {
-  (function(btn) {
-    btn.addEventListener('click', function() {
-      var allSections = document.querySelectorAll('.section');
-      for (var j = 0; j < allSections.length; j++) allSections[j].classList.remove('active');
-      var sec = document.getElementById(btn.dataset.return);
-      if (sec) sec.classList.add('active');
-      document.getElementById('content').scrollTop = 0;
-    });
-  })(detailBacks[i]);
 }
 
 
@@ -547,12 +749,12 @@ function animate() {
   requestAnimationFrame(animate);
   var t = clock.getElapsedTime();
 
+  // The content layer is opaque and covers the scene: nothing to draw, and the
+  // freed frame budget is what makes the back button respond instantly.
+  if (state === 'scattered') return;
+
   if (state === 'intro') {
-    if (introStart === 0) {
-      introStart = t;
-      // hide loading spinner as soon as particles start animating
-      document.getElementById('loading').classList.add('done');
-    }
+    if (introStart === 0) introStart = t;
     var progress = Math.min(1, (t - introStart) / 1.4);
     var e = easeOut(progress);
     for (var g = 0; g < groups.length; g++) {
@@ -576,7 +778,7 @@ function animate() {
   }
 
   if (state === 'scattering') {
-    var progress = Math.min(1, (t - transitionStart) / 1.2);
+    var progress = Math.min(1, (t - transitionStart) / 0.5);
     var e = easeOut(progress);
     for (var g = 0; g < groups.length; g++) {
       var posAttr = groups[g].points.geometry.attributes.position;
@@ -591,27 +793,11 @@ function animate() {
   }
 
   if (state === 'gathering') {
-    var progress = Math.min(1, (t - transitionStart) / 0.95);
+    var progress = Math.min(1, (t - transitionStart) / 0.25);
     var e = easeOut(progress);
-    for (var g = 0; g < groups.length; g++) {
-      var posAttr = groups[g].points.geometry.attributes.position;
-      var orig = groups[g].originals;
-      var vel = groups[g].velocities;
-      for (var i = 0; i < orig.length; i++) posAttr.array[i] = (orig[i] + vel[i]) - vel[i] * e;
-      posAttr.needsUpdate = true;
-      groups[g].points.material.opacity = e;
-    }
+    for (var g = 0; g < groups.length; g++) groups[g].points.material.opacity = e;
     shadow.material.opacity = e;
-    if (progress >= 1) {
-      for (var g = 0; g < groups.length; g++) {
-        var posAttr = groups[g].points.geometry.attributes.position;
-        var orig = groups[g].originals;
-        for (var i = 0; i < orig.length; i++) posAttr.array[i] = orig[i];
-        posAttr.needsUpdate = true;
-      }
-      state = 'idle';
-      document.getElementById('ui').classList.remove('hidden');
-    }
+    if (progress >= 1) state = 'idle';
   }
 
   if (!isDragging) {
